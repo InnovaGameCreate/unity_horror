@@ -6,13 +6,14 @@ using UnityEngine;
 public class heromove : MonoBehaviour
 {
 
-    public float speed = 0.1f;
+    private float speed;
     public float jump = 100;
     public float gravity = -50;
     public Camera my_camera;
     public float runbuttondelay = 30;
     public float normalspeed = 0.1f;
     public float runspeed = 0.2f;
+  
 
     private Animator anime;
     private Rigidbody body;
@@ -25,6 +26,13 @@ public class heromove : MonoBehaviour
     private int rundir=0;
 
     private RaycastHit wall;
+
+    private float freeze = 0;
+    public int zoomouttime = 2;
+    public float zoomspeed = 0.3f;
+    public float zoomin_z = -10;
+    public float zoomout_z = -20;
+
     private enum RunButton
     {
         Firstpush,
@@ -70,6 +78,17 @@ public class heromove : MonoBehaviour
 
     void Move(float x, float z, bool j)
     {
+        if (x != 0)
+        {
+            freeze = 0;
+            cameraZoomIn();
+        }
+        else
+        {
+            freeze += Time.deltaTime;
+            if (freeze > zoomouttime)
+                cameraZoomOut();
+        }
         //向きを設定
         this.face = x > 0 ? -1 : (x < 0 ? 1 : face);
         this.transform.rotation = Quaternion.Euler(0, (this.face + 1) * 90, this.transform.rotation.z);
@@ -106,9 +125,8 @@ public class heromove : MonoBehaviour
 
         //ユニティちゃんを移動
         Vector3 p = this.transform.position;
-        p = this.transform.position = new Vector3(p.x + x * this.speed, p.y, p.z + z * this.speed);
-        p.z = p.z > 5 ? 5 : (p.z < 0 ? 0 : p.z);    //Z=0以上かつ5未満の範囲でZ軸移動できる
-
+        p = this.transform.position = new Vector3(p.x + x * this.speed* Time.deltaTime, p.y, 0);
+     
         //カメラの位置を設定
         this.transform.position = p;
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, this.my_camera.transform.position.z);
@@ -197,12 +215,26 @@ public class heromove : MonoBehaviour
 
         //ユニティちゃんを移動
         Vector3 p = this.transform.position;
-        p = this.transform.position = new Vector3(p.x, p.y + y * 0.2f, p.z);
+        p = this.transform.position = new Vector3(p.x, p.y + y * normalspeed* Time.deltaTime, p.z);
         p.y = p.y < under ? under : p.y;    //Z=0以上かつ5未満の範囲でZ軸移動できる
                                                     //カメラの位置を設定
         this.transform.position = p;
     
     }
+
+    void cameraZoomOut()
+    {
+        Vector3 p = this.transform.position;
+        float z = (this.my_camera.transform.position.z <= zoomout_z)? zoomout_z : this.my_camera.transform.position.z - zoomspeed;
+        this.my_camera.transform.position = new Vector3(p.x, p.y + 2, z);
+    }
+    void cameraZoomIn()
+    {
+        Vector3 p = this.transform.position;
+        float z = (this.my_camera.transform.position.z >= zoomin_z) ? zoomin_z : this.my_camera.transform.position.z + zoomspeed;
+        this.my_camera.transform.position = new Vector3(p.x, p.y + 2, z);
+    }
+
 
     void OnCollisionEnter(Collision collision)
     {
