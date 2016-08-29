@@ -136,14 +136,26 @@ public class heromove : MonoBehaviour
         this.anime.SetBool("isGround", this.is_ground);
 
         //ジャンプ判定
-        if (j&& this.is_ground)
+        if (j&& this.is_ground && Mathf.Abs(body.velocity.y)<=5)
         {
+
             this.anime.SetTrigger("Jump");
             this.body.AddForce(Vector3.up * this.jump);
             this.is_ground = false;
         }
     }
 
+    public bool get_is_ground()
+    {
+  
+        return is_ground;
+    }
+
+    public void set_is_ground(bool set)
+    {
+
+        is_ground = set;
+    }
     //走る
     void runMove(float x)
     {
@@ -236,19 +248,7 @@ public class heromove : MonoBehaviour
     }
 
 
-    void OnCollisionEnter(Collision collision)
-    {
-        
-   
-        
-        if (!this.is_ground )
-        {
-            //衝突したのが地形(Terrain)だったら接地したと判断
-            this.is_ground = true;
-            this.anime.SetBool("isGround", this.is_ground);
-        }
-    }
-    
+  
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Ladder")&& (Input.GetKey(KeyCode.UpArrow)||Input.GetKey(KeyCode.DownArrow)))
