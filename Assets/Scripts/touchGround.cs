@@ -17,16 +17,16 @@ public class touchGround : MonoBehaviour {
     // オブジェクトと接触した時に呼ばれるコールバック
     void OnTriggerEnter(Collider other)
     {
-        if(!other.CompareTag("Player"))
-        if (!move.get_is_ground())
+
+
+        if (!move.get_is_ground() && other.CompareTag("Ground"))
         {
    
             //衝突したのが地形(Terrain)だったら接地したと判断
             move.set_is_ground(true);
             transform.root.gameObject.GetComponent<Animator>().SetBool("isGround", move.get_is_ground());
-            Debug.Log("aaaaaaaaa");
+        
         }
     }
-   
-
-}
+  
+    }

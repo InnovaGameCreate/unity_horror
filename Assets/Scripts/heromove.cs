@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class heromove : MonoBehaviour
 {
+    public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
 
     private float speed;
     public float jump = 100;
@@ -33,6 +34,7 @@ public class heromove : MonoBehaviour
     public float zoomin_z = -10;
     public float zoomout_z = -20;
 
+    RaycastHit hit;
     private enum RunButton
     {
         Firstpush,
@@ -72,7 +74,7 @@ public class heromove : MonoBehaviour
         {
             this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
             this.runMove(Input.GetAxis("Horizontal"));
-         
+            ray_To_Enemy();
         }
     }
 
@@ -136,15 +138,28 @@ public class heromove : MonoBehaviour
         this.anime.SetBool("isGround", this.is_ground);
 
         //ジャンプ判定
-        if (j&& this.is_ground && Mathf.Abs(body.velocity.y)<=5)
+        if (j&& this.is_ground )
         {
 
+           
             this.anime.SetTrigger("Jump");
+            this.body.velocity = new Vector3(0,0,0);
             this.body.AddForce(Vector3.up * this.jump);
             this.is_ground = false;
         }
     }
 
+    public void ray_To_Enemy()
+    {
+        if (Physics.Raycast(transform.position, this.face<0?Vector3.right: Vector3.left, out hit, 5))
+
+        {
+            if (hit.collider.tag == "Enemy")
+            {
+                sanText.san ++;
+            }
+        }
+    }
     public bool get_is_ground()
     {
   

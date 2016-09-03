@@ -10,14 +10,12 @@ public class jump : MonoBehaviour
     public bool Jump;
 
 
-    GameObject player;
 
     void Update()
     {
 
 
 
-        player = GameObject.Find("Player");
 
     }
 
@@ -26,13 +24,10 @@ public class jump : MonoBehaviour
 
         if (collision.gameObject.tag == "Player")
         {
-
+           collision.gameObject.GetComponent<Rigidbody>(). velocity = new Vector3(0, 0, 0);
             collision.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * this.Player_JumpPower);
-
+            collision.gameObject.GetComponent<heromove>().set_is_ground(false);
         }
     }
-    void OnCollisionExit(Collision collision)
-    {
-        collision.gameObject.GetComponent<heromove>().set_is_ground(false);
-    }
 }
+   
