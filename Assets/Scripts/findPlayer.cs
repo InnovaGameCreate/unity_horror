@@ -3,19 +3,23 @@ using System.Collections;
 
 public class findPlayer : MonoBehaviour
 {
-
-	// Use this for initialization
-	void Start () {
+    public heromove state_info;
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
-    void OnTriggerEnter(Collider other)
+        
+    }
+    void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             transform.root.gameObject.GetComponent<Enemymove>().findPlayer = true;
+            if (state_info.get_state() == heromove.State.Invincible)
+                transform.root.gameObject.GetComponent<Enemymove>().findPlayer = false;
+        }
     }
 }

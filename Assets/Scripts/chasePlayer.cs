@@ -18,8 +18,11 @@ public class chasePlayer : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && transform.root.gameObject.GetComponent<Enemymove>().findPlayer == true)
+     
+        if (other.CompareTag("Player") )
+            if(transform.root.gameObject.GetComponent<Enemymove>().findPlayer == true)
             transform.root.gameObject.GetComponent<Enemymove>().chasePlayer(other);
+    
     }
   
 

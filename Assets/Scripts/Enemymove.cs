@@ -20,7 +20,7 @@ public class Enemymove : MonoBehaviour {
     {
         //ユニティちゃんに向かって敵が移動
         Vector3 p = this.transform.position;
-        int dir= (player.transform.position.x > this.transform.position.x)?1: (player.transform.position.x < this.transform.position.x)? - 1:0;
+        int dir= (player.transform.position.x > this.transform.position.x+0.3f)?1: (player.transform.position.x < this.transform.position.x - 0.3f) ? - 1:0;
         p = this.transform.position = new Vector3(p.x + dir*this.speed, p.y, p.z);
 
         this.transform.position = p;

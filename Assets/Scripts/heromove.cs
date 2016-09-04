@@ -44,7 +44,7 @@ public class heromove : MonoBehaviour
         Secondpush,
         None
     }
-    private enum State
+    public enum State
     {
         Normal,
         Damaged,
@@ -70,7 +70,7 @@ public class heromove : MonoBehaviour
     void Update()
     {
 
-        if (this.state != State.Damaged)
+        if (this.state != State.Damaged&& this.state != State.Invincible)
         {
             this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
             this.runMove(Input.GetAxis("Horizontal"));
@@ -78,6 +78,7 @@ public class heromove : MonoBehaviour
         }
     }
 
+    //移動
     void Move(float x, float z, bool j)
     {
         if (x != 0)
@@ -101,7 +102,7 @@ public class heromove : MonoBehaviour
         {   //前方
             if (Physics.Raycast(this.transform.position, this.face > 0 ? Vector3.left : Vector3.right,out wall, RAY_LENGTH))
             {
-                if (wall.collider.tag != "Enemy")
+                if (wall.collider.tag == "Ground")
                 {
                     this.wallx = this.wallx == 0 ? this.transform.position.x : this.wallx;  //まだ壁を検出していなければ位置を保存
                     x = 0;  //これ以上は前に進みません
@@ -127,7 +128,7 @@ public class heromove : MonoBehaviour
 
         //ユニティちゃんを移動
         Vector3 p = this.transform.position;
-        p = this.transform.position = new Vector3(p.x + x * this.speed* Time.deltaTime, p.y, 0);
+        p = this.transform.position = new Vector3(p.x + x * this.speed* Time.deltaTime, p.y, p.z);
      
         //カメラの位置を設定
         this.transform.position = p;
@@ -149,10 +150,11 @@ public class heromove : MonoBehaviour
         }
     }
 
+    //プレイヤーの敵への目線
     public void ray_To_Enemy()
     {
-        if (Physics.Raycast(transform.position, this.face<0?Vector3.right: Vector3.left, out hit, 5))
-
+        if (Physics.Raycast(transform.position, this.face>0?Vector3.left: Vector3.right, out hit, 5))
+           
         {
             if (hit.collider.tag == "Enemy")
             {
@@ -168,9 +170,9 @@ public class heromove : MonoBehaviour
 
     public void set_is_ground(bool set)
     {
-
         is_ground = set;
     }
+
     //走る
     void runMove(float x)
     {
@@ -237,24 +239,28 @@ public class heromove : MonoBehaviour
         }
     }
 
+    //はしご移動
   public void upMove(float y,float under)
     {
 
         //ユニティちゃんを移動
         Vector3 p = this.transform.position;
         p = this.transform.position = new Vector3(p.x, p.y + y * normalspeed* Time.deltaTime, p.z);
-        p.y = p.y < under ? under : p.y;    //Z=0以上かつ5未満の範囲でZ軸移動できる
+        p.y = p.y < under ? under : p.y;    
                                                     //カメラの位置を設定
         this.transform.position = p;
     
     }
 
+    //カメラズーム(キャラ移動放置時)
     void cameraZoomOut()
     {
         Vector3 p = this.transform.position;
         float z = (this.my_camera.transform.position.z <= zoomout_z)? zoomout_z : this.my_camera.transform.position.z - zoomspeed;
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, z);
     }
+
+    //カメラズームアウト(キャラ移動時)
     void cameraZoomIn()
     {
         Vector3 p = this.transform.position;
@@ -272,8 +278,10 @@ public class heromove : MonoBehaviour
             GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY);
           
         }
+        if (other.CompareTag("Enemy")&&this.state!=State.Invincible)
+           sanText.san++ ;
 
-   
+
     }
 
     void OnTriggerExit(Collider other)
@@ -281,7 +289,16 @@ public class heromove : MonoBehaviour
         GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ);
       
     }
-    void OnFinishedInvincibleMode()
+
+    public State get_state()
+    {
+        return this.state;
+    }
+    public void InvincibleMode()
+    {
+        this.state = State.Invincible;
+    }
+    public void OnFinishedInvincibleMode()
     {
         this.state = State.Normal;
     }
