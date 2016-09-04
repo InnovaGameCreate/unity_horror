@@ -5,35 +5,35 @@ using UnityEngine.UI;
 
 public class sanValueText : MonoBehaviour
 {
-    public int san;     //san値
+    public int san=100;     //san値
     public int sanmax = 100;  //san最大値
-    public int san_addspeed = 4;   //san値増加抑制量
-    public float san_minusspeed = 0.3f;   //san値減少時間間隔
+    public int san_minusspeed = 4;   //san値減少抑制量
+    public float san_plustime = 0.3f;   //san値増加時間間隔
 
     private float timeElapsed;
     // Use this for initialization
     void Start()
     {
-        sanmax *= san_addspeed;
-
+        sanmax *= san_minusspeed;
+        san = sanmax;
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.GetComponent<Text>().text = "SAN値：" + (san / san_addspeed).ToString();
+        this.GetComponent<Text>().text = "SAN値：" + (san / san_minusspeed).ToString();
 
         timeElapsed += Time.deltaTime;
 
-        if (timeElapsed >= san_minusspeed)
+        if (timeElapsed >= san_plustime)
         {
 
-            san = san > 0 ? san - 1 : 0;
+            san = san < sanmax ? san + 1 : sanmax;
             timeElapsed = 0.0f;
         }
 
-        if (san > sanmax)
-            san = sanmax;
+        if (san < 0)
+            san = 0;
 
 
     }

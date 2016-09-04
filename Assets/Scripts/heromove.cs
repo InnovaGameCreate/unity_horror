@@ -7,14 +7,16 @@ public class heromove : MonoBehaviour
 {
     public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
 
-    private float speed;
-    public float jump = 100;
-    public float gravity = -50;
-    public Camera my_camera;
-    public float runbuttondelay = 30;
-    public float normalspeed = 0.1f;
-    public float runspeed = 0.2f;
-  
+    private float speed;     
+               
+    public float jump = 100;            //ジャンプ力
+    public float gravity = -50;         //重力
+    public Camera my_camera;         
+    public float runbuttondelay = 30;   //走る操作を認識する間隔
+    public float normalspeed = 0.1f;   //歩くスピード
+    public float runspeed = 0.2f;      //走るスピード
+    public int ray_length = 8;        //SAN値が削られる敵との視認距離
+    public LayerMask mask;              //レイキャスト用マスク
 
     private Animator anime;
     private Rigidbody body;
@@ -49,6 +51,7 @@ public class heromove : MonoBehaviour
         Normal,
         Damaged,
         Invincible,
+        Upping
     }
 
   
@@ -139,7 +142,7 @@ public class heromove : MonoBehaviour
         this.anime.SetBool("isGround", this.is_ground);
 
         //ジャンプ判定
-        if (j&& this.is_ground )
+        if (j&& this.is_ground&&this.state!=State.Upping )
         {
 
            
@@ -153,18 +156,20 @@ public class heromove : MonoBehaviour
     //プレイヤーの敵への目線
     public void ray_To_Enemy()
     {
-        if (Physics.Raycast(transform.position, this.face>0?Vector3.left: Vector3.right, out hit, 5))
+
+        Ray ray = new Ray(transform.position, this.face > 0 ? Vector3.left : Vector3.right);
+   
+        if (Physics.Raycast(ray, out hit, 10.0f, mask)) 
            
         {
             if (hit.collider.tag == "Enemy")
             {
-                sanText.san ++;
+                sanText.san --;
             }
         }
     }
     public bool get_is_ground()
     {
-  
         return is_ground;
     }
 
@@ -239,18 +244,7 @@ public class heromove : MonoBehaviour
         }
     }
 
-    //はしご移動
-  public void upMove(float y,float under)
-    {
-
-        //ユニティちゃんを移動
-        Vector3 p = this.transform.position;
-        p = this.transform.position = new Vector3(p.x, p.y + y * normalspeed* Time.deltaTime, p.z);
-        p.y = p.y < under ? under : p.y;    
-                                                    //カメラの位置を設定
-        this.transform.position = p;
-    
-    }
+ 
 
     //カメラズーム(キャラ移動放置時)
     void cameraZoomOut()
@@ -272,14 +266,9 @@ public class heromove : MonoBehaviour
   
     void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Ladder")&& (Input.GetKey(KeyCode.UpArrow)||Input.GetKey(KeyCode.DownArrow)))
-        {
-            upMove(Input.GetAxis("Vertical"), other.transform.position.y- other.transform.localScale.y+1.5f);
-            GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY);
-          
-        }
+      
         if (other.CompareTag("Enemy")&&this.state!=State.Invincible)
-           sanText.san++ ;
+           sanText.san-- ;
 
 
     }
@@ -294,6 +283,11 @@ public class heromove : MonoBehaviour
     {
         return this.state;
     }
+    public void set_state(State nextstate)
+    {
+        this.state = nextstate;
+    }
+
     public void InvincibleMode()
     {
         this.state = State.Invincible;
