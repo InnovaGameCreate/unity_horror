@@ -12,6 +12,6 @@ public class sanGauge : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        GetComponent<Slider>().value = (float)sanText.san / sanText.sanmax;
+        GetComponent<Slider>().value = (float)sanText.get_san() / sanText.get_sanmax();
     }
 }

@@ -68,6 +68,8 @@ public class heromove : MonoBehaviour
         this.anime = this.GetComponent<Animator>();
         this.body = this.GetComponent<Rigidbody>();
         Physics.gravity = new Vector3(0, this.gravity, 0);
+
+        this.face = -1;
     }
 
     void Update()
@@ -164,7 +166,7 @@ public class heromove : MonoBehaviour
         {
             if (hit.collider.tag == "Enemy")
             {
-                sanText.san --;
+                sanText.minus_san();
             }
         }
     }
@@ -268,7 +270,7 @@ public class heromove : MonoBehaviour
     {
       
         if (other.CompareTag("Enemy")&&this.state!=State.Invincible)
-           sanText.san-- ;
+           sanText.minus_san() ;
 
 
     }
