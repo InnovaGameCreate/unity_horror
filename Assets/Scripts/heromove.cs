@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Animator), typeof(Rigidbody), typeof(BoxCollider))]
 
 public class heromove : MonoBehaviour
 {
     public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
+
 
     private float speed;     
                
@@ -77,9 +79,12 @@ public class heromove : MonoBehaviour
 
         if (this.state != State.Damaged&& this.state != State.Invincible)
         {
-            this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
-            this.runMove(Input.GetAxis("Horizontal"));
-            ray_To_Enemy();
+            if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false)
+            {
+                this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
+                this.runMove(Input.GetAxis("Horizontal"));
+            }
+                ray_To_Enemy();
         }
     }
 
