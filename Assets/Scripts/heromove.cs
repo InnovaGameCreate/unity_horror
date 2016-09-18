@@ -15,8 +15,8 @@ public class heromove : MonoBehaviour
     public float gravity = -50;         //重力
     public Camera my_camera;         
     public float runbuttondelay = 30;   //走る操作を認識する間隔
-    public float normalspeed = 0.1f;   //歩くスピード
-    public float runspeed = 0.2f;      //走るスピード
+    public float normalspeed =7;   //歩くスピード
+    public float runspeed = 14;      //走るスピード
     public int ray_length = 8;        //SAN値が削られる敵との視認距離
     public LayerMask mask;              //レイキャスト用マスク
 
@@ -32,13 +32,15 @@ public class heromove : MonoBehaviour
 
     private RaycastHit wall;
 
-    private float freeze = 0;
-    public int zoomouttime = 2;
-    public float zoomspeed = 0.3f;
-    public float zoomin_z = -10;
-    public float zoomout_z = -20;
+    private float freeze = 0;               //どれくらい止まってるかのカウント
+    public int zoomouttime = 2;             //ズームアウトするまでの時間
+    public float zoomspeed = 0.3f;          //カメラのズームスピード
+    public float zoomin_z = -10;            //ズームの大きさ
+    public float zoomout_z = -20;           //ズームアウトの大きさ
 
     RaycastHit hit;
+
+    //走るボタン　2連打したかの状態分岐
     private enum RunButton
     {
         Firstpush,
@@ -48,6 +50,8 @@ public class heromove : MonoBehaviour
         Secondpush,
         None
     }
+
+    //プレイヤーの状態
     public enum State
     {
         Normal,
@@ -139,7 +143,6 @@ public class heromove : MonoBehaviour
         //ユニティちゃんを移動
         Vector3 p = this.transform.position;
         p = this.transform.position = new Vector3(p.x + x * this.speed* Time.deltaTime, p.y, p.z);
-     
         //カメラの位置を設定
         this.transform.position = p;
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, this.my_camera.transform.position.z);
@@ -175,6 +178,8 @@ public class heromove : MonoBehaviour
             }
         }
     }
+
+    //地面の接地関連
     public bool get_is_ground()
     {
         return is_ground;
@@ -273,7 +278,7 @@ public class heromove : MonoBehaviour
   
     void OnTriggerStay(Collider other)
     {
-      
+      //敵と接触時
         if (other.CompareTag("Enemy")&&this.state!=State.Invincible)
            sanText.minus_san() ;
 
@@ -282,23 +287,28 @@ public class heromove : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
+        //はしご系から離れた時の物理処理の初期化
         GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ);
       
     }
 
+
+    //状態の取得
     public State get_state()
     {
         return this.state;
     }
+    //状態の設定
     public void set_state(State nextstate)
     {
         this.state = nextstate;
     }
-
+    //隠れた状態に移行
     public void InvincibleMode()
     {
         this.state = State.Invincible;
     }
+    //普通の状態に移行
     public void OnFinishedInvincibleMode()
     {
         this.state = State.Normal;

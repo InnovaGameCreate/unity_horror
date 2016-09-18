@@ -10,7 +10,8 @@ public class sanGauge : MonoBehaviour {
 	
 	}
 	
-	// Update is called once per frame
+
+	//sanゲージの割合計算
 	void Update () {
         GetComponent<Slider>().value = (float)sanText.get_san() / sanText.get_sanmax();
     }

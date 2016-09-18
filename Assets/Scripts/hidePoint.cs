@@ -17,6 +17,7 @@ public class hidePoint : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player")){
+            //隠れる
             if (is_hiding==false&&Input.GetKeyDown(KeyCode.UpArrow))
             {
 
@@ -27,6 +28,7 @@ public class hidePoint : MonoBehaviour {
                 other.gameObject.transform.position = p;
                 other.gameObject.GetComponent<Animator>().SetFloat("Horizontal",0);
             }
+            //表に出る
             else if(is_hiding == true&&Input.GetKeyDown(KeyCode.UpArrow))
             {
                 is_hiding =false;

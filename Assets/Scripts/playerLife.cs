@@ -24,12 +24,9 @@ public class playerLife : MonoBehaviour {
  	
  	}
 
+    //ライフの減少とそれに伴うシーン処理
 public void minus_life()
     {
-       
-          
-       
-        
         if (--lifevalue < 1)
             ;//ゲームオーバーシーンへ
         else       

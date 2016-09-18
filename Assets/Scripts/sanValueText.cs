@@ -53,6 +53,14 @@ private int san=100;     //san値
         }
 
     }
+    
+    //即死
+    public void kill_san()
+    {
+        san = 0;
+        life_info.minus_life();
+        san = sanmax;
+    }
 
 
     public int get_san()

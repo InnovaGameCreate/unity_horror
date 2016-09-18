@@ -14,6 +14,7 @@ public class play_exitmenu : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //escメニューの選択
         if (selecting < maxselect - 1&& Input.GetKeyDown(KeyCode.DownArrow)) {
 
             Vector2 pos = GetComponent<RectTransform>().anchoredPosition;
@@ -38,6 +39,7 @@ public class play_exitmenu : MonoBehaviour {
 
 
     }
+    //どれを選択してるか
    public int get_selecting()
     {
         return selecting;

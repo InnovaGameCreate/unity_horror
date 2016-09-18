@@ -11,6 +11,7 @@ public class buttoned_exit : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //プレイ画面中のescボタンからのメニュー表示
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false)          

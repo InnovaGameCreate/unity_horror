@@ -18,7 +18,7 @@ public class jump : MonoBehaviour
 
 
     }
-
+    //接触したらプレイヤーに上方向の力を与える
     void OnCollisionEnter(Collision collision)
     {
 
