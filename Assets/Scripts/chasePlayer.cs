@@ -20,18 +20,32 @@ public class chasePlayer : MonoBehaviour
     //追跡範囲内 ※Updateと OnTriggerStay関連ではフレームレートが異なる
     void OnTriggerStay(Collider other)
     {
-     
-        if (other.CompareTag("Player") )
-            if(transform.root.gameObject.GetComponent<Enemymove>().get_findPlayer() == true)
-            transform.root.gameObject.GetComponent<Enemymove>().chasePlayer(other);
-    
+
+        if (other.CompareTag("Player"))
+        {
+            if (transform.root.gameObject.GetComponent<groundEnemy>() != null)
+            {
+                if (transform.root.gameObject.GetComponent<groundEnemy>().get_findPlayer() == true)
+                    transform.root.gameObject.GetComponent<groundEnemy>().chasePlayer(other);
+            }
+            else if (transform.root.gameObject.GetComponent<flyEnemy>().get_findPlayer() == true)
+                transform.root.gameObject.GetComponent<flyEnemy>().chasePlayer(other);
+        }
+
     }
 
     //追跡範囲外
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
-            transform.root.gameObject.GetComponent<Enemymove>().set_findPlayer(false);
+        {
+            if (transform.root.gameObject.GetComponent<groundEnemy>() != null)
+            
+                transform.root.gameObject.GetComponent<groundEnemy>().set_findPlayer(false);
+            else
+
+                transform.root.gameObject.GetComponent<flyEnemy>().set_findPlayer(false);
+        }
     }
 
 }

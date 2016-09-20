@@ -19,9 +19,17 @@ public class findPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            transform.root.gameObject.GetComponent<Enemymove>().set_findPlayer(true);
-            if (state_info.get_state() == heromove.State.Invincible)
-                transform.root.gameObject.GetComponent<Enemymove>().set_findPlayer(false);
+            if (transform.root.gameObject.GetComponent<groundEnemy>() != null)
+            {
+                transform.root.gameObject.GetComponent<groundEnemy>().set_findPlayer(true);
+                if (state_info.get_state() == heromove.State.Invincible)
+                    transform.root.gameObject.GetComponent<groundEnemy>().set_findPlayer(false);
+            }else
+            {
+                transform.root.gameObject.GetComponent<flyEnemy>().set_findPlayer(true);
+                if (state_info.get_state() == heromove.State.Invincible)
+                    transform.root.gameObject.GetComponent<flyEnemy>().set_findPlayer(false);
+            }
         }
     }
 }

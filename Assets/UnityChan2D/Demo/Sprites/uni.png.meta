@@ -1,7 +1,10 @@
 fileFormatVersion: 2
 guid: 15eb62b8c0b6c406abbfc0df4beffd81
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: uni_0
+    21300002: uni_1
+    21300004: uni_2
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -44,6 +47,7 @@ TextureImporter:
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spritePixelsToUnits: 32
   alphaIsTransparency: 1
+  spriteTessellationDetail: -1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
@@ -61,6 +65,7 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      tessellationDetail: -1
     - serializedVersion: 2
       name: uni_1
       rect:
@@ -73,6 +78,7 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      tessellationDetail: -1
     - serializedVersion: 2
       name: uni_2
       rect:
@@ -85,6 +91,7 @@ TextureImporter:
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
+      tessellationDetail: -1
     outline: []
   spritePackingTag: 
   userData: 
