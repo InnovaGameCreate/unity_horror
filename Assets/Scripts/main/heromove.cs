@@ -9,8 +9,8 @@ public class heromove : MonoBehaviour
     public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
 
 
-    private float speed;     
-               
+    private float speed;
+    public int attacked_power = 15;     //プレイヤーのSAN値減少量           
     public float jump = 100;            //ジャンプ力
     public float gravity = -50;         //重力
     public Camera my_camera;         
@@ -174,7 +174,7 @@ public class heromove : MonoBehaviour
         {
             if (hit.collider.tag == "Enemy")
             {
-                sanText.minus_san();
+                sanText.minus_san((float)attacked_power/4*3*Time.deltaTime);
             }
         }
     }
@@ -274,13 +274,17 @@ public class heromove : MonoBehaviour
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, z);
     }
 
+    public void attacked(int minus)
+    {
+        sanText.minus_san(minus);
 
+    }
   
     void OnTriggerStay(Collider other)
     {
       //敵と接触時
         if (other.CompareTag("Enemy")&&this.state!=State.Invincible)
-           sanText.minus_san() ;
+           sanText.minus_san(attacked_power* Time.deltaTime) ;
 
 
     }

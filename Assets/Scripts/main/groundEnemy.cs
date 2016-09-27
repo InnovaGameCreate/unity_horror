@@ -52,6 +52,19 @@ public class groundEnemy : enemyBase
         p = this.transform.position = new Vector3(p.x + dir * this.speed * Time.deltaTime * 0.9f, p.y, p.z);
 
         this.transform.position = p;
+
+        if (attack)
+        {
+            //プレイヤーとの距離差
+            Vector2 position_sa;
+            position_sa.x = player.transform.position.x - this.transform.position.x;
+            position_sa.y = player.transform.position.y - this.transform.position.y;
+
+            float radi = Mathf.Atan2(position_sa.y, position_sa.x);
+            base.set_bulletradi(radi);
+            if (!get_attackfinish_flag())
+                StartCoroutine("Sample", radi);
+        }
     }
 
 }
