@@ -23,13 +23,13 @@ public class chasePlayer : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            if (transform.root.gameObject.GetComponent<groundEnemy>() != null)
+            if (transform.parent.gameObject.GetComponent<groundEnemy>() != null)
             {
-                if (transform.root.gameObject.GetComponent<groundEnemy>().get_findPlayer() == true)
-                    transform.root.gameObject.GetComponent<groundEnemy>().chasePlayer(other);
+                if (transform.parent.gameObject.GetComponent<groundEnemy>().get_findPlayer() == true)
+                    transform.parent.gameObject.GetComponent<groundEnemy>().chasePlayer(other);
             }
-            else if (transform.root.gameObject.GetComponent<flyEnemy>().get_findPlayer() == true)
-                transform.root.gameObject.GetComponent<flyEnemy>().chasePlayer(other);
+            else if (transform.parent.gameObject.GetComponent<flyEnemy>().get_findPlayer() == true)
+                transform.parent.gameObject.GetComponent<flyEnemy>().chasePlayer(other);
         }
 
     }
@@ -39,12 +39,12 @@ public class chasePlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (transform.root.gameObject.GetComponent<groundEnemy>() != null)
+            if (transform.parent.gameObject.GetComponent<groundEnemy>() != null)
             
-                transform.root.gameObject.GetComponent<groundEnemy>().set_findPlayer(false);
+                transform.parent.gameObject.GetComponent<groundEnemy>().set_findPlayer(false);
             else
 
-                transform.root.gameObject.GetComponent<flyEnemy>().set_findPlayer(false);
+                transform.parent.gameObject.GetComponent<flyEnemy>().set_findPlayer(false);
         }
     }
 

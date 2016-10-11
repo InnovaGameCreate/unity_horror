@@ -13,7 +13,7 @@ public class deleteObject : MonoBehaviour {
 	void Update () {
 	
 	}
-    void OnTriggerEnter(Collider other)
+    void OnTriggerStay(Collider other)
     {
         //プレイヤーならライフ減少
         if (other.CompareTag("Player"))
