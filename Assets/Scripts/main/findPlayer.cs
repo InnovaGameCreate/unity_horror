@@ -18,18 +18,13 @@ public class findPlayer : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
-        {
-            if (transform.parent.gameObject.GetComponent<groundEnemy>() != null)
+            if (transform.parent.gameObject.GetComponent<enemyBase>().chaseplayer == true)
             {
-                transform.parent.gameObject.GetComponent<groundEnemy>().set_findPlayer(true);
+       
+                transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(true);
                 if (state_info.get_state() == heromove.State.Invincible)
-                    transform.parent.gameObject.GetComponent<groundEnemy>().set_findPlayer(false);
-            }else
-            {
-                transform.parent.gameObject.GetComponent<flyEnemy>().set_findPlayer(true);
-                if (state_info.get_state() == heromove.State.Invincible)
-                    transform.parent.gameObject.GetComponent<flyEnemy>().set_findPlayer(false);
-            }
+                    transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);
+           
         }
     }
 }

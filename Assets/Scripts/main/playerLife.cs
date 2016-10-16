@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class playerLife : MonoBehaviour {
 
-    private static int lifevalue=3;
+    private int lifevalue=3;
 
     // Use this for initialization
     void Start () {

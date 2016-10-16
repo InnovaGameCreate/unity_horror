@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class LoadingController : MonoBehaviour
 {
@@ -10,6 +11,6 @@ public class LoadingController : MonoBehaviour
     {
         yield return new WaitForSeconds(3);
 
-        Application.LoadLevel(nextLevel);
+        SceneManager.LoadScene(nextLevel);
     }
 }

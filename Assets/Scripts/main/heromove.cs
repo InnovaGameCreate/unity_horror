@@ -110,7 +110,7 @@ public class heromove : MonoBehaviour
         this.face = x > 0 ? -1 : (x < 0 ? 1 : face);
         this.transform.rotation = Quaternion.Euler(0, (this.face + 1) * 90, this.transform.rotation.z);
         this.anime.SetFloat("Horizontal", x != 0 ? x : (z != 0 ? this.face : 0));
-
+       
         //進行方向の壁を調べる
         if (Mathf.Abs(x) > 0)
         {   //前方
@@ -316,6 +316,12 @@ public class heromove : MonoBehaviour
     public void OnFinishedInvincibleMode()
     {
         this.state = State.Normal;
+    }
+
+    //プレイヤーの向き(反転)の取得
+   public float get_face()
+    {
+        return this.face;
     }
 
 
