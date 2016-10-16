@@ -72,9 +72,6 @@ public class flyEnemy : enemyBase
 
     public override void chasePlayer(Collider player)
     {
-   
-        //ユニティちゃんに向かって敵が移動
-        Vector3 p = this.transform.position;
         //プレイヤーとの距離差
         Vector2 position_sa;
         position_sa.x = player.transform.position.x - this.transform.position.x;

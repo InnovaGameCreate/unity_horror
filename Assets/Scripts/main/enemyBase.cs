@@ -9,6 +9,7 @@ public class enemyBase : MonoBehaviour {
     public float nextautomovetime = 1;   //次にオート移動するまでの時間
     public float automovecount;        //オート移動カウント
     public float autodir;                //オート移動の方向
+    public bool chaseplayer = true;     //プレイヤーを追跡する（見つける）かどうか
     public bool findPlayer = false;    //プレイヤーを見つけたかどうか
     public float widehalf_range = 5;         //移動範囲(右・左半分）
     public Vector2 wide_rangemiddle;    //移動範囲の中心点
