@@ -10,13 +10,16 @@ public class groundEnemy : enemyBase
         base.wide_rangemiddle.y = transform.position.y;
 
         base.autodir = Random.Range(-1, 2);
+
+        set_spRenderer(GetComponent<SpriteRenderer>());
     }
 
 
     void Update()
     {
+        disappear_Chara();
         automovecount += Time.deltaTime;
-        if (findPlayer == false)
+        if (get_findPlayer() == false && !get_disappear_flag())
             autoMove();
 
     }
@@ -63,7 +66,7 @@ public class groundEnemy : enemyBase
             float radi = Mathf.Atan2(position_sa.y, position_sa.x);
             base.set_bulletradi(radi);
             if (!get_attackfinish_flag())
-                StartCoroutine("Sample", radi);
+                StartCoroutine("attackFunc", radi);
         }
     }
 

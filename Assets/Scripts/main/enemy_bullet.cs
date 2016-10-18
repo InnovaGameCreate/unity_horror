@@ -3,7 +3,6 @@ using System.Collections;
 
 public class enemy_bullet : MonoBehaviour {
 
-    public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
     public int speed =10;        //速さ
     public int atk=1;             //SAN値減少量
     private int count;

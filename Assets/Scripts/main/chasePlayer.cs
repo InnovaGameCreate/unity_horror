@@ -23,13 +23,8 @@ public class chasePlayer : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-            if (transform.parent.gameObject.GetComponent<groundEnemy>() != null)
-            {
-                if (transform.parent.gameObject.GetComponent<groundEnemy>().get_findPlayer() == true)
-                    transform.parent.gameObject.GetComponent<groundEnemy>().chasePlayer(other);
-            }
-            else if (transform.parent.gameObject.GetComponent<flyEnemy>().get_findPlayer() == true)
-                transform.parent.gameObject.GetComponent<flyEnemy>().chasePlayer(other);
+          if (transform.parent.gameObject.GetComponent<enemyBase>().get_findPlayer() == true)
+                transform.parent.gameObject.GetComponent<enemyBase>().chasePlayer(other);
         }
 
     }
@@ -39,12 +34,8 @@ public class chasePlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (transform.parent.gameObject.GetComponent<groundEnemy>() != null)
-            
-                transform.parent.gameObject.GetComponent<groundEnemy>().set_findPlayer(false);
-            else
 
-                transform.parent.gameObject.GetComponent<flyEnemy>().set_findPlayer(false);
+                transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);
         }
     }
 

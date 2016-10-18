@@ -20,7 +20,7 @@ public class findPlayer : MonoBehaviour
         if (other.CompareTag("Player"))
             if (transform.parent.gameObject.GetComponent<enemyBase>().chaseplayer == true)
             {
-       
+        if(transform.parent.GetComponent<enemyBase>().get_disappear_flag()==false)
                 transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(true);
                 if (state_info.get_state() == heromove.State.Invincible)
                     transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);

@@ -19,15 +19,16 @@ public class flyEnemy : enemyBase
 
         base.autodir = Random.Range(-1, 2);
 
-    
+        set_spRenderer(GetComponent<SpriteRenderer>());
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        disappear_Chara();
         automovecount += Time.deltaTime;
-        if (findPlayer == false)
+        if (get_findPlayer() == false)
             autoMove();
    
     }
@@ -81,7 +82,7 @@ public class flyEnemy : enemyBase
         transform.Translate(Mathf.Cos(radi) * Time.deltaTime * base.speed, Mathf.Sin(radi) * Time.deltaTime * base.speed, 0);
         base.set_bulletradi(radi);
         if (attack && !get_attackfinish_flag())          
-            StartCoroutine("Sample", radi);
+            StartCoroutine("attackFunc", radi);
         
     }
 }
