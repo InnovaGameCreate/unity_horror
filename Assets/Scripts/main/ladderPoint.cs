@@ -40,7 +40,7 @@ public class ladderPoint : MonoBehaviour
             
             if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
             {
-                upMove(Input.GetAxis("Vertical"), this.transform.position.y + (float)this.transform.localScale.y, this.transform.position.y - (float)this.transform.localScale.y );
+                upMove(Input.GetAxis("Vertical"), this.transform.position.y + (float)this.transform.localScale.y, this.transform.position.y - (float)this.transform.localScale.y+1.5f );
                 //  はしごに接触してる間物理処理に制限をかける
                 player.GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY);
                 //はしごから離れたらプレイヤーの状態を上る状態に
