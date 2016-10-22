@@ -87,6 +87,11 @@ public class heromove : MonoBehaviour
             {
                 this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
                 this.runMove(Input.GetAxis("Horizontal"));
+            }else
+            {
+                this.Move(0, 0,false);
+                this.runMove(0);
+
             }
                 ray_To_Enemy();
         }
