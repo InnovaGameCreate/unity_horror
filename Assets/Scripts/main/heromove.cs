@@ -115,11 +115,18 @@ public class heromove : MonoBehaviour
         this.face = x > 0 ? -1 : (x < 0 ? 1 : face);
         this.transform.rotation = Quaternion.Euler(0, (this.face + 1) * 90, this.transform.rotation.z);
         this.anime.SetFloat("Horizontal", x != 0 ? x : (z != 0 ? this.face : 0));
-       
+
+   
         //進行方向の壁を調べる
         if (Mathf.Abs(x) > 0)
         {   //前方
-            if (Physics.Raycast(this.transform.position, this.face > 0 ? Vector3.left : Vector3.right,out wall, RAY_LENGTH))
+            if (Physics.Raycast(this.transform.position, this.face > 0 ? Vector3.left : Vector3.right,out wall, RAY_LENGTH)||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 20f) * Vector3.left : Quaternion.Euler(0f, 0f, 20f)* Vector3.right, out wall, RAY_LENGTH) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -20f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f) * Vector3.right, out wall, RAY_LENGTH) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 40f) * Vector3.left : Quaternion.Euler(0f, 0f, 40f) * Vector3.right, out wall, RAY_LENGTH*1.1f) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f) * Vector3.right, out wall, RAY_LENGTH*1.1f) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 60f) * Vector3.left : Quaternion.Euler(0f, 0f, 60f) * Vector3.right, out wall, RAY_LENGTH*1.5f)||
+                 Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -60f) * Vector3.left : Quaternion.Euler(0f, 0f, -60f) * Vector3.right, out wall, RAY_LENGTH*1.5f))
             {
                 if (wall.collider.tag == "Ground")
                 {

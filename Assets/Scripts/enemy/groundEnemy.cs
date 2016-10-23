@@ -3,6 +3,7 @@ using System.Collections;
 
 public class groundEnemy : enemyBase
 {
+    private Animator anime;
     void Start()
     {
         //オート移動の中心点の初期化
@@ -12,6 +13,22 @@ public class groundEnemy : enemyBase
         base.autodir = Random.Range(-1, 2);
 
         set_spRenderer(GetComponent<SpriteRenderer>());
+
+        anime = GetComponent<Animator>();
+
+        if (anime != null)
+            switch ((int)base.autodir)
+            {
+                case 0:
+                    this.anime.SetTrigger("normal");
+                    break;
+                case -1:
+                    this.anime.SetTrigger("left");
+                    break;
+                case 1:
+                    this.anime.SetTrigger("right");
+                    break;
+            }
     }
 
 
@@ -28,10 +45,22 @@ public class groundEnemy : enemyBase
     {
         Vector3 p = this.transform.position;
         //オート移動範囲外なら初期座標に戻る
+        //左
         if (p.x > base.wide_rangemiddle.x + widehalf_range)
+        {
             transform.Translate(-1 * this.speed * Time.deltaTime, 0, 0);
+            if (anime != null)
+                this.anime.SetTrigger("left");
+        
+        }
+        //右
         else if (p.x < base.wide_rangemiddle.x - widehalf_range)
+        {
             transform.Translate(1 * this.speed * Time.deltaTime, 0, 0);
+            if (anime != null)
+                this.anime.SetTrigger("right");
+        
+        }
         //オート移動範囲内
         else
         {
@@ -39,11 +68,37 @@ public class groundEnemy : enemyBase
             {
                 base.autodir = Random.Range(-1, 2);
                 base.automovecount = 0;
+
+
             }
+
             p = new Vector3(p.x + base.autodir * this.speed * Time.deltaTime, p.y, p.z);
 
             p.x = (p.x > base.wide_rangemiddle.x + widehalf_range) ? base.wide_rangemiddle.x + widehalf_range : (p.x < base.wide_rangemiddle.x - widehalf_range) ? base.wide_rangemiddle.x - widehalf_range : p.x;
+
+            if (anime != null)
+            {
+                if (p.x == base.wide_rangemiddle.x + widehalf_range || p.x == base.wide_rangemiddle.x - widehalf_range)
+                    this.anime.SetTrigger("normal");
+
+                else
+                    switch ((int)base.autodir)
+                    {
+                        case 0:
+                            this.anime.SetTrigger("normal");
+                            break;
+                        case -1:
+                            this.anime.SetTrigger("left");
+                            break;
+                        case 1:
+                            this.anime.SetTrigger("right");
+                            break;
+                    }
+            }
+
             this.transform.position = p;
+
+
         }
     }
 
@@ -53,6 +108,18 @@ public class groundEnemy : enemyBase
         Vector3 p = this.transform.position;
         int dir = (player.transform.position.x > this.transform.position.x + 0.3f) ? 1 : (player.transform.position.x < this.transform.position.x - 0.3f) ? -1 : 0;
         p = this.transform.position = new Vector3(p.x + dir * this.speed * Time.deltaTime * 0.9f, p.y, p.z);
+
+
+        if (anime != null)
+            switch ((int)dir)
+            {
+                case -1:
+                    this.anime.SetTrigger("left");
+                    break;
+                case 1:
+                    this.anime.SetTrigger("right");
+                    break;
+            }
 
         this.transform.position = p;
 
