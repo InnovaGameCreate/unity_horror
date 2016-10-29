@@ -35,6 +35,14 @@ public class play_exitmenu : MonoBehaviour {
                     SceneManager.UnloadScene("main_escmenu");
                     Resources.UnloadUnusedAssets();
                     break;
+                case 1:
+                    SceneManager.UnloadScene("main_escmenu");
+                    SceneManager.LoadScene("main"); 
+                    Resources.UnloadUnusedAssets();
+                    break;
+                case 2:
+                    Application.Quit();
+                    break;
             }
 
 

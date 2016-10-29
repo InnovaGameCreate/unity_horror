@@ -26,8 +26,10 @@ public class Slide_elevator : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
+            if(other.gameObject.GetComponent<heromove>()!=null)
         {
-                other.gameObject.GetComponent<Transform>().Translate((other.gameObject.GetComponent<heromove>().get_face()>0?-1:1)*dir * speed*Time.deltaTime,0, 0);
+            float face = other.gameObject.GetComponent<heromove>().get_face();
+                other.gameObject.GetComponent<Transform>().Translate((face > 0?-1:1)*dir * speed*Time.deltaTime,0, 0);
         }
     }
 }

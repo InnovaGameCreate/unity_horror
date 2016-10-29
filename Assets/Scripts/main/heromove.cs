@@ -205,6 +205,9 @@ public class heromove : MonoBehaviour
     //走る
     void runMove(float x)
     {
+       
+         speed = (Input.GetKey(KeyCode.LeftShift))?runspeed:normalspeed;
+        /* 方向きー2回押しver
         if (runcount>0)
             runcount--;
   
@@ -264,11 +267,12 @@ public class heromove : MonoBehaviour
                 //Debug.Log(" RunButton.Secondpush");
                 break;
 
-
+   
         }
+         */
     }
 
- 
+
 
     //カメラズーム(キャラ移動放置時)
     void cameraZoomOut()
