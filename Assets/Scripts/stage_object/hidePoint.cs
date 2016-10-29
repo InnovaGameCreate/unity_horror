@@ -23,26 +23,29 @@ public class hidePoint : MonoBehaviour
 
     void inputhid()
     {
-        //隠れる
-        if (is_hiding == false && Input.GetKeyUp(KeyCode.UpArrow))
+        if (samp.gameObject.GetComponent<heromove>() != null)
         {
+            //隠れる
+            if (is_hiding == false && Input.GetKeyUp(KeyCode.UpArrow))
+            {
 
-            is_hiding = true;
-            samp.gameObject.GetComponent<heromove>().InvincibleMode();
-            Vector3 p = samp.gameObject.transform.position;
-            p = new Vector3(p.x, p.y, 1.5f);
-            samp.gameObject.transform.position = p;
-            samp.gameObject.GetComponent<Animator>().SetFloat("Horizontal", 0);
-        }
-        //表に出る
-        else if (is_hiding == true && Input.GetKeyUp(KeyCode.UpArrow))
-        {
-            is_hiding = false;
-            samp.gameObject.GetComponent<heromove>().OnFinishedInvincibleMode();
-            Vector3 q = samp.gameObject.transform.position;
-            q = new Vector3(q.x, q.y, 0);
-            samp.gameObject.transform.position = q;
+                is_hiding = true;
+                samp.gameObject.GetComponent<heromove>().InvincibleMode();
+                Vector3 p = samp.gameObject.transform.position;
+                p = new Vector3(p.x, p.y, 3);
+                samp.gameObject.transform.position = p;
+                samp.gameObject.GetComponent<Animator>().SetFloat("Horizontal", 0);
+            }
+            //表に出る
+            else if (is_hiding == true && Input.GetKeyUp(KeyCode.UpArrow))
+            {
+                is_hiding = false;
+                samp.gameObject.GetComponent<heromove>().OnFinishedInvincibleMode();
+                Vector3 q = samp.gameObject.transform.position;
+                q = new Vector3(q.x, q.y, 0);
+                samp.gameObject.transform.position = q;
 
+            }
         }
     }
 
