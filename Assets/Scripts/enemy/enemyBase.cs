@@ -26,6 +26,19 @@ public class enemyBase : MonoBehaviour {
     private bool disappear_flag;
     private SpriteRenderer spRenderer;
 
+    private GameObject targetplayer;        //狙っているプレイヤーのオブジェクト
+
+    //プレイヤーセットゲット
+    public void set_targetplayer(GameObject taplayer)
+    {
+        targetplayer = taplayer;
+    }
+    public GameObject get_targetplayer()
+    {
+        return targetplayer;
+    }
+
+
     public bool get_findPlayer()
     {
         return findPlayer;
@@ -67,6 +80,7 @@ public class enemyBase : MonoBehaviour {
             color.a = 0.5f;
             spRenderer.color = color;
             disappear_count = 0;
+        
 
         }
         else if(disappear_flag&& disappear_time < disappear_count)
@@ -87,7 +101,6 @@ public class enemyBase : MonoBehaviour {
     //攻撃
     IEnumerator attackFunc()
     {
-
         attackfinish_flag = true;
         while (findPlayer)
         {
@@ -95,7 +108,8 @@ public class enemyBase : MonoBehaviour {
             rotation.eulerAngles = new Vector3(0, 0, bulletradi * Mathf.Rad2Deg - 90);
 
             // 弾をプレイヤーと同じ位置/角度で作成
-            Instantiate(bullet, transform.position, rotation);
+            GameObject newbullet = Instantiate(bullet, transform.position, rotation) as GameObject;
+            newbullet.GetComponent<enemy_bullet>().set_player(get_targetplayer());
     
             yield return new WaitForSeconds(attack_timing);
         }

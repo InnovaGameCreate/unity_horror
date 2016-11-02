@@ -12,7 +12,7 @@ public class sanValueText : MonoBehaviour
     public float san_plustime = 0.5f;   //san値増加時間間隔
 
     public playerLife life_info;
-
+    public bool debugmode;   //死なない状態にするかどうか
     private float timeElapsed;
 
     private float sanautocount = 0;
@@ -53,9 +53,12 @@ public class sanValueText : MonoBehaviour
     //san値の減少
     public void minus_san(float minus)
     {
+        if (debugmode)
+            return;
+
         sanautocount = sanautocountmax;
         san = san > 0 ? san - minus : 0;
-        if (san <= 0)
+        if (san < 1)
         {
             life_info.minus_life();
             san = sanmax;
