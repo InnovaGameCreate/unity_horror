@@ -32,6 +32,8 @@ public class heromove : MonoBehaviour
 
     private RaycastHit wall;
     private RaycastHit hitwall;
+    private float sety;            //着地時のy座標
+    private bool jumpjumpflag;
 
     private float freeze = 0;               //どれくらい止まってるかのカウント
     public int zoomouttime = 2;             //ズームアウトするまでの時間
@@ -142,7 +144,7 @@ public class heromove : MonoBehaviour
 
                 this.wallx = 0; //壁はなかった
             }
-      
+
         }
 
         if (Mathf.Abs(z) > 0)
@@ -169,6 +171,7 @@ public class heromove : MonoBehaviour
         this.anime.SetFloat("Vertical", this.body.velocity.y);
         this.anime.SetBool("isGround", this.is_ground);
 
+
         //ジャンプ判定
         if (j && this.is_ground && this.state != State.Upping)
         {
@@ -176,8 +179,25 @@ public class heromove : MonoBehaviour
             this.body.velocity = new Vector3(0, 0, 0);
             this.body.AddForce(Vector3.up * this.jump);
             this.is_ground = false;
+            sety = GetComponent<Transform>().position.y;
+            jumpjumpflag = false;
         }
-    
+
+        //壁ジャンプ
+        if (Physics.Raycast(this.transform.position, this.face > 0 ? Vector3.left : Vector3.right, out hitwall, RAY_LENGTH + 1) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 20f) * Vector3.left : Quaternion.Euler(0f, 0f, 20f) * Vector3.right, out hitwall, RAY_LENGTH+1) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -20f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f) * Vector3.right, out hitwall, RAY_LENGTH+1) )
+        {
+            if (hitwall.collider.tag == "Ground")
+                if (j && this.is_ground == false&&sety+2 < GetComponent<Transform>().position.y && !jumpjumpflag)
+                {
+                    jumpjumpflag = true;
+                    this.body.velocity = new Vector3(0, 0, 0);
+                    this.body.AddForce(Vector3.up * this.jump);
+
+                }
+        }
+
     }
 
     //プレイヤーの敵への目線
