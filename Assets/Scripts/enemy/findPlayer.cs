@@ -20,7 +20,10 @@ public class findPlayer : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            state_info = other.gameObject.GetComponent<heromove>();
+            //着地面にheromoveはアタッチされていないため
+           // if (other.gameObject.GetComponent<heromove>() != null)
+                state_info = other.gameObject.GetComponent<heromove>();
+
             transform.parent.GetComponent<enemyBase>().set_targetplayer(other.gameObject);
         }
     }
@@ -32,11 +35,15 @@ public class findPlayer : MonoBehaviour
 
             if (transform.parent.gameObject.GetComponent<enemyBase>().chaseplayer == true)
             {
-                if (transform.parent.GetComponent<enemyBase>().get_disappear_flag() == false)
+
+
+                if (state_info.get_state() == heromove.State.Invincible|| state_info.get_state() == heromove.State.InvincibleMove)
+                {
+                    transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);
+                }
+                else if (transform.parent.GetComponent<enemyBase>().get_disappear_flag() == false)
                     transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(true);
-                if (state_info != null)
-                    if (state_info.get_state() == heromove.State.Invincible)
-                        transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);
+
 
             }
         }

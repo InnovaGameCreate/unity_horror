@@ -13,9 +13,9 @@ public class heromove : MonoBehaviour
     public int attacked_power = 15;     //プレイヤーのSAN値減少量           
     public float jump = 100;            //ジャンプ力
     public float gravity = -50;         //重力
-    public Camera my_camera;         
+    public Camera my_camera;
     public float runbuttondelay = 30;   //走る操作を認識する間隔
-    public float normalspeed =7;   //歩くスピード
+    public float normalspeed = 7;   //歩くスピード
     public float runspeed = 14;      //走るスピード
     public int ray_length = 8;        //SAN値が削られる敵との視認距離
     public LayerMask mask;              //レイキャスト用マスク
@@ -28,9 +28,10 @@ public class heromove : MonoBehaviour
     private float face = 1;
 
     private float runcount = 0;
-    private int rundir=0;
+    private int rundir = 0;
 
     private RaycastHit wall;
+    private RaycastHit hitwall;
 
     private float freeze = 0;               //どれくらい止まってるかのカウント
     public int zoomouttime = 2;             //ズームアウトするまでの時間
@@ -56,18 +57,19 @@ public class heromove : MonoBehaviour
     {
         Normal,
         Damaged,
-        Invincible,
+        Invincible,             //隠れて動けない状態
+        InvincibleMove,         //隠れつつ動ける状態
         Upping
     }
 
-  
+
     private State state = State.Normal;
     private RunButton runstate = RunButton.None;
 
     private const float RAY_LENGTH = 1.0f;
     private const string TERRAIN_NAME = "Terrain";
 
-  
+
 
     void Start()
     {
@@ -81,19 +83,20 @@ public class heromove : MonoBehaviour
     void Update()
     {
 
-        if (this.state != State.Damaged&& this.state != State.Invincible)
+        if (this.state != State.Damaged && this.state != State.Invincible)
         {
             if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false)
             {
                 this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
                 this.runMove(Input.GetAxis("Horizontal"));
-            }else
+            }
+            else
             {
-                this.Move(0, 0,false);
+                this.Move(0, 0, false);
                 this.runMove(0);
 
             }
-                ray_To_Enemy();
+            ray_To_Enemy();
         }
     }
 
@@ -116,17 +119,17 @@ public class heromove : MonoBehaviour
         this.transform.rotation = Quaternion.Euler(0, (this.face + 1) * 90, this.transform.rotation.z);
         this.anime.SetFloat("Horizontal", x != 0 ? x : (z != 0 ? this.face : 0));
 
-   
+
         //進行方向の壁を調べる
         if (Mathf.Abs(x) > 0)
         {   //前方
-            if (Physics.Raycast(this.transform.position, this.face > 0 ? Vector3.left : Vector3.right,out wall, RAY_LENGTH)||
-                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 20f) * Vector3.left : Quaternion.Euler(0f, 0f, 20f)* Vector3.right, out wall, RAY_LENGTH) ||
+            if (Physics.Raycast(this.transform.position, this.face > 0 ? Vector3.left : Vector3.right, out wall, RAY_LENGTH) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 20f) * Vector3.left : Quaternion.Euler(0f, 0f, 20f) * Vector3.right, out wall, RAY_LENGTH) ||
                 Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -20f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f) * Vector3.right, out wall, RAY_LENGTH) ||
-                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 40f) * Vector3.left : Quaternion.Euler(0f, 0f, 40f) * Vector3.right, out wall, RAY_LENGTH*1.1f) ||
-                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f) * Vector3.right, out wall, RAY_LENGTH*1.1f) ||
-                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 60f) * Vector3.left : Quaternion.Euler(0f, 0f, 60f) * Vector3.right, out wall, RAY_LENGTH*1.5f)||
-                 Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -60f) * Vector3.left : Quaternion.Euler(0f, 0f, -60f) * Vector3.right, out wall, RAY_LENGTH*1.5f))
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 40f) * Vector3.left : Quaternion.Euler(0f, 0f, 40f) * Vector3.right, out wall, RAY_LENGTH * 1.1f) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f) * Vector3.right, out wall, RAY_LENGTH * 1.1f) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 60f) * Vector3.left : Quaternion.Euler(0f, 0f, 60f) * Vector3.right, out wall, RAY_LENGTH * 1.5f) ||
+                 Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -60f) * Vector3.left : Quaternion.Euler(0f, 0f, -60f) * Vector3.right, out wall, RAY_LENGTH * 1.5f))
             {
                 if (wall.collider.tag == "Ground")
                 {
@@ -136,9 +139,12 @@ public class heromove : MonoBehaviour
             }
             else
             {
+
                 this.wallx = 0; //壁はなかった
             }
+      
         }
+
         if (Mathf.Abs(z) > 0)
         {   //手前もしくは奥
             if (Physics.Raycast(this.transform.position, z > 0 ? Vector3.forward : Vector3.back, RAY_LENGTH))
@@ -154,7 +160,7 @@ public class heromove : MonoBehaviour
 
         //ユニティちゃんを移動
         Vector3 p = this.transform.position;
-        p = this.transform.position = new Vector3(p.x + x * this.speed* Time.deltaTime, p.y, p.z);
+        p = this.transform.position = new Vector3(p.x + x * this.speed * Time.deltaTime, p.y, p.z);
         //カメラの位置を設定
         this.transform.position = p;
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, this.my_camera.transform.position.z);
@@ -164,15 +170,14 @@ public class heromove : MonoBehaviour
         this.anime.SetBool("isGround", this.is_ground);
 
         //ジャンプ判定
-        if (j&& this.is_ground&&this.state!=State.Upping )
+        if (j && this.is_ground && this.state != State.Upping)
         {
-
-           
             this.anime.SetTrigger("Jump");
-            this.body.velocity = new Vector3(0,0,0);
+            this.body.velocity = new Vector3(0, 0, 0);
             this.body.AddForce(Vector3.up * this.jump);
             this.is_ground = false;
         }
+    
     }
 
     //プレイヤーの敵への目線
@@ -180,13 +185,13 @@ public class heromove : MonoBehaviour
     {
 
         Ray ray = new Ray(transform.position, this.face > 0 ? Vector3.left : Vector3.right);
-   
-        if (Physics.Raycast(ray, out hit, 10.0f, mask)) 
-           
+
+        if (Physics.Raycast(ray, out hit, 10.0f, mask))
+
         {
             if (hit.collider.tag == "Enemy")
             {
-                sanText.minus_san((float)attacked_power/4*3*Time.deltaTime);
+                sanText.minus_san((float)attacked_power / 4 * 3 * Time.deltaTime);
             }
         }
     }
@@ -205,8 +210,8 @@ public class heromove : MonoBehaviour
     //走る
     void runMove(float x)
     {
-       
-         speed = (Input.GetKey(KeyCode.LeftShift))?runspeed:normalspeed;
+
+        speed = (Input.GetKey(KeyCode.LeftShift)) ? runspeed : normalspeed;
         /* 方向きー2回押しver
         if (runcount>0)
             runcount--;
@@ -278,7 +283,7 @@ public class heromove : MonoBehaviour
     void cameraZoomOut()
     {
         Vector3 p = this.transform.position;
-        float z = (this.my_camera.transform.position.z <= zoomout_z)? zoomout_z : this.my_camera.transform.position.z - zoomspeed;
+        float z = (this.my_camera.transform.position.z <= zoomout_z) ? zoomout_z : this.my_camera.transform.position.z - zoomspeed;
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, z);
     }
 
@@ -295,12 +300,12 @@ public class heromove : MonoBehaviour
         sanText.minus_san(minus);
 
     }
-  
+
     void OnTriggerStay(Collider other)
     {
-      //敵と接触時
-        if (other.CompareTag("Enemy")&&this.state!=State.Invincible)
-           sanText.minus_san(attacked_power* Time.deltaTime) ;
+        //敵と接触時
+        if (other.CompareTag("Enemy") && this.state != State.Invincible)
+            sanText.minus_san(attacked_power * Time.deltaTime);
 
 
     }
@@ -309,7 +314,7 @@ public class heromove : MonoBehaviour
     {
         //はしご系から離れた時の物理処理の初期化
         GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ);
-      
+
     }
 
 
@@ -333,15 +338,21 @@ public class heromove : MonoBehaviour
     {
         this.state = State.Normal;
     }
+    //隠れて動ける状態に移行
+    public void InvincibleMoveMode()
+    {
+        this.state = State.InvincibleMove;
+    }
+
 
     //プレイヤーの向き(反転)の取得
-   public float get_face()
+    public float get_face()
     {
         return this.face;
     }
 
 
-    
+
 
 }
 
