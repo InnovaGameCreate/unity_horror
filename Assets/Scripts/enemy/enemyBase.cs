@@ -15,6 +15,7 @@ public class enemyBase : MonoBehaviour {
     public Vector2 wide_rangemiddle;    //移動範囲の中心点
     public float disappear_time=0;      //（あたり判定が）消えてる時間 ※0なら消えるモード無効
     public float appear_time=0;      //（あたり判定が）現れてる時間 ※disappear_timeが有効なときのみ有効 ※0なら消えるモード無効
+    public bool lockplayer=false;             //プレイヤーに当たった時　プレイヤーを一定時間固定させるかどうか
     //攻撃関連
     public bool attack = false;           //攻撃するかどうか
     public GameObject bullet;             //攻撃弾のオブジェクト

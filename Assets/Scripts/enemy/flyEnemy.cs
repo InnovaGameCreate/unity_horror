@@ -69,18 +69,26 @@ public class flyEnemy : enemyBase
                 base.automovecount = 0;
             }
             p = new Vector3(p.x + Mathf.Cos(autodir) * this.speed * Time.deltaTime, p.y + Mathf.Sin(autodir) * this.speed * Time.deltaTime, p.z);
-
-            if (Mathf.Cos(autodir) * this.speed * Time.deltaTime > 0)
-                anime.SetTrigger("right");
-            else if (Mathf.Cos(autodir) * this.speed * Time.deltaTime < 0)
-                anime.SetTrigger("left");
-            else
-                anime.SetTrigger("normal");
-
             p.x = (p.x > base.wide_rangemiddle.x + widehalf_range) ? base.wide_rangemiddle.x + widehalf_range : (p.x < base.wide_rangemiddle.x - widehalf_range) ? base.wide_rangemiddle.x - widehalf_range : p.x;
             p.y = (p.y > base.wide_rangemiddle.y + heighthalf_range) ? base.wide_rangemiddle.y + heighthalf_range : (p.y < height_rangemiddle.y - heighthalf_range) ? base.wide_rangemiddle.y - heighthalf_range : p.y;
-
             this.transform.position = p;
+            if (anime != null)
+            {
+                if (p.x >= base.wide_rangemiddle.x + widehalf_range || p.x <= base.wide_rangemiddle.x - widehalf_range)
+                    this.anime.SetTrigger("normal");
+
+                else
+                {
+                    if (Mathf.Cos(autodir) * this.speed * Time.deltaTime > 0)
+                        anime.SetTrigger("right");
+                    else if (Mathf.Cos(autodir) * this.speed * Time.deltaTime < 0)
+                        anime.SetTrigger("left");
+                    else
+                        anime.SetTrigger("normal");
+                }
+            }
+
+        
         }
     }
 

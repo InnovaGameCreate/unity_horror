@@ -42,7 +42,8 @@ public class heromove : MonoBehaviour
     public float zoomout_z = -20;           //ズームアウトの大きさ
 
     RaycastHit hit;
-
+    private float Lockcount=0;               //動けない間のカウント
+    private float unlockcount = 0;          //麻痺解除から次の麻痺を食らうまでのカウント
     //走るボタン　2連打したかの状態分岐
     private enum RunButton
     {
@@ -61,7 +62,9 @@ public class heromove : MonoBehaviour
         Damaged,
         Invincible,             //隠れて動けない状態
         InvincibleMove,         //隠れつつ動ける状態
+        NotMove,                //幻覚で動けない状態
         Upping
+    
     }
 
 
@@ -87,7 +90,7 @@ public class heromove : MonoBehaviour
 
         if (this.state != State.Damaged && this.state != State.Invincible)
         {
-            if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false)
+            if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false&& Lockcount == 0)
             {
                 this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
                 this.runMove(Input.GetAxis("Horizontal"));
@@ -96,9 +99,28 @@ public class heromove : MonoBehaviour
             {
                 this.Move(0, 0, false);
                 this.runMove(0);
-
             }
             ray_To_Enemy();
+
+            if (unlockcount > 0)
+            {
+                unlockcount += Time.deltaTime;
+                //5秒後にプレイヤーの固定が解ける
+                if (unlockcount > 3)
+                {
+                    unlockcount = 0;
+                }
+            }
+            else if (Lockcount > 0)
+            {
+                Lockcount += Time.deltaTime;
+                //5秒後にプレイヤーの固定が解ける
+                if (Lockcount > 5)
+                {
+                    Lockcount = 0;
+                    unlockcount++;
+                }
+            }
         }
     }
 
@@ -325,7 +347,11 @@ public class heromove : MonoBehaviour
     {
         //敵と接触時
         if (other.CompareTag("Enemy") && this.state != State.Invincible)
+        {
             sanText.minus_san(attacked_power * Time.deltaTime);
+            if (other.gameObject.GetComponent<enemyBase>().lockplayer == true && Lockcount == 0&& unlockcount==0)
+                Lockcount++;
+        }
 
 
     }

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class TextController : MonoBehaviour
 {
+    [Multiline]
     public string[] scenarios;
     [SerializeField]
     Text uiText;
@@ -62,7 +63,8 @@ public class TextController : MonoBehaviour
 
     void SetNextLine()
     {
-        currentText = scenarios[currentLine];
+        for (int i = 0; i < scenarios[currentLine].Length; i++)
+            currentText = scenarios[currentLine];
         timeUntilDisplay = currentText.Length * intervalForCharacterDisplay;
         timeElapsed = Time.time;
         currentLine++;
