@@ -7,6 +7,7 @@ public class flyEnemy : enemyBase
     public Vector2 height_rangemiddle;    //縦移動範囲の中心点
 
     private Animator anime;
+
     void Start()
     {
         //オート移動の中心点の初期化
@@ -51,9 +52,9 @@ public class flyEnemy : enemyBase
 
             float radi = Mathf.Atan2(position_sa.y, position_sa.x);
             transform.Translate(Mathf.Cos(radi) * Time.deltaTime * base.speed, Mathf.Sin(radi) * Time.deltaTime * base.speed, 0);
-            if (Mathf.Cos(radi) * Time.deltaTime * base.speed > 0)
+            if (Mathf.Cos(radi)  > 0)
                 anime.SetTrigger("right");
-            else if(Mathf.Cos(radi) * Time.deltaTime * base.speed < 0)
+            else if(Mathf.Cos(radi) < 0)
                 anime.SetTrigger("left");
             else
                 anime.SetTrigger("normal");
@@ -62,6 +63,8 @@ public class flyEnemy : enemyBase
         //オート移動範囲内
         else
         {
+
+            float refix = 0.1f;
             if (base.automovecount > nextautomovetime)
             {
                 base.autodir = Random.Range(0, 361);
@@ -69,26 +72,29 @@ public class flyEnemy : enemyBase
                 base.automovecount = 0;
             }
             p = new Vector3(p.x + Mathf.Cos(autodir) * this.speed * Time.deltaTime, p.y + Mathf.Sin(autodir) * this.speed * Time.deltaTime, p.z);
-            p.x = (p.x > base.wide_rangemiddle.x + widehalf_range) ? base.wide_rangemiddle.x + widehalf_range : (p.x < base.wide_rangemiddle.x - widehalf_range) ? base.wide_rangemiddle.x - widehalf_range : p.x;
-            p.y = (p.y > base.wide_rangemiddle.y + heighthalf_range) ? base.wide_rangemiddle.y + heighthalf_range : (p.y < height_rangemiddle.y - heighthalf_range) ? base.wide_rangemiddle.y - heighthalf_range : p.y;
+            p.x = (p.x > base.wide_rangemiddle.x + widehalf_range- refix) ? base.wide_rangemiddle.x + widehalf_range- refix : (p.x < base.wide_rangemiddle.x - widehalf_range+ refix) ? base.wide_rangemiddle.x - widehalf_range+ refix : p.x;
+            p.y = (p.y > base.wide_rangemiddle.y + heighthalf_range- refix) ? base.wide_rangemiddle.y + heighthalf_range- refix : (p.y < height_rangemiddle.y - heighthalf_range+ refix) ? base.wide_rangemiddle.y - heighthalf_range + refix : p.y;
             this.transform.position = p;
+
             if (anime != null)
             {
-                if (p.x >= base.wide_rangemiddle.x + widehalf_range || p.x <= base.wide_rangemiddle.x - widehalf_range)
+                if (p.x >= base.wide_rangemiddle.x + widehalf_range- refix || p.x <= base.wide_rangemiddle.x - widehalf_range+ refix)
+                    this.anime.SetTrigger("normal");
+                else if (p.y >= height_rangemiddle.y + heighthalf_range - refix || p.y <= height_rangemiddle.y - heighthalf_range+ refix)
                     this.anime.SetTrigger("normal");
 
                 else
                 {
-                    if (Mathf.Cos(autodir) * this.speed * Time.deltaTime > 0)
+                    if (Mathf.Cos(autodir) > 0)
                         anime.SetTrigger("right");
-                    else if (Mathf.Cos(autodir) * this.speed * Time.deltaTime < 0)
+                    else if (Mathf.Cos(autodir) < 0)
                         anime.SetTrigger("left");
                     else
                         anime.SetTrigger("normal");
                 }
             }
 
-        
+
         }
     }
 

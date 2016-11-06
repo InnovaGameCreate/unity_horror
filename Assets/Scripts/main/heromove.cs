@@ -353,7 +353,6 @@ public class heromove : MonoBehaviour
                 Lockcount++;
         }
 
-
     }
 
     void OnTriggerExit(Collider other)
