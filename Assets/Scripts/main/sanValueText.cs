@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class sanValueText : MonoBehaviour
 {
@@ -47,6 +47,24 @@ public class sanValueText : MonoBehaviour
             }
         }
         this.GetComponent<Text>().text = "SAN値：" + ((int)san).ToString();
+
+   
+        if (san<sanmax/2)
+        {
+            if (SceneManager.GetSceneByName("danger").isLoaded == false)
+            {
+                SceneManager.LoadScene("danger", LoadSceneMode.Additive);
+            }
+
+        }
+        else
+        {
+            if (SceneManager.GetSceneByName("danger").isLoaded == true)
+            {
+                SceneManager.UnloadScene("danger");
+                Resources.UnloadUnusedAssets();
+            }
+        }
 
     }
 

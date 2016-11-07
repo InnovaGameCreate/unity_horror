@@ -59,7 +59,7 @@ public class fogcontroller : MonoBehaviour
             if (samp == null)
                 samp = other.gameObject;
        
-            RenderSettings.fogColor = Color.gray;
+            RenderSettings.fogColor = color;
 
         }
     }
