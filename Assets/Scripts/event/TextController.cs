@@ -19,6 +19,7 @@ public class TextController : MonoBehaviour
     private int currentLine = 0;
     private int lastUpdateCharacter = -1;
     private bool hitflag;              //接触フラグ
+    private heromove heroinfo;
 
     public GameObject textUIset;       //2次元UIのCanvasのテキストイベント用UIを指定
     // 文字の表示が完了しているかどうか
@@ -30,7 +31,10 @@ public class TextController : MonoBehaviour
 
     void Update()
     {
-        // 文字の表示が完了してるならクリック時に次の行を表示する
+        if (heroinfo == null)
+            return;
+
+        // 文字の表示が完了してるならエンター時に次の行を表示する
         if (IsCompleteDisplayText)
         {
             if (currentLine < scenarios.Length && Input.GetKeyDown(KeyCode.Return))
@@ -39,6 +43,7 @@ public class TextController : MonoBehaviour
             }
             else if (currentLine == scenarios.Length && Input.GetKeyDown(KeyCode.Return))
             {
+                heroinfo.set_eventstop(false);
                 textUIset.SetActive(false);
                 Destroy(this.gameObject);
             }
@@ -75,6 +80,8 @@ public class TextController : MonoBehaviour
     {
         if (other.CompareTag("Player") && !hitflag)
         {
+            heroinfo = other.GetComponent<heromove>();
+            heroinfo.set_eventstop(true);
             hitflag = true;
             SetNextLine();
             textUIset.SetActive(true);

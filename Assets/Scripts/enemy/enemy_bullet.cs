@@ -36,7 +36,7 @@ public class enemy_bullet : MonoBehaviour {
       
 	}
 
-    //角度調整
+    //角度調整　追尾
     IEnumerator attackFunc()
     {
         while (true)
@@ -52,11 +52,14 @@ public class enemy_bullet : MonoBehaviour {
 
                 Quaternion rotation = Quaternion.identity;
                 rotation.eulerAngles = new Vector3(0, 0, radi * Mathf.Rad2Deg - 90);
-
+           
                 transform.rotation = rotation;
 
                 GetComponent<Rigidbody>().velocity = transform.up.normalized * speed;
             }
+            if (player.GetComponent<heromove>().get_state() == heromove.State.Invincible ||
+                player.GetComponent<heromove>().get_state() == heromove.State.InvincibleMove)
+                break;
             yield return new WaitForSeconds(1);
         }
 

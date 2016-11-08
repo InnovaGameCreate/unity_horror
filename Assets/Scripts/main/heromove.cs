@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class heromove : MonoBehaviour
 {
     public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
-
+    public staminaGauge staminaText; //外部のstaminaオブジェクトを見えるよう定義
 
     private float speed;
     public int attacked_power = 15;     //プレイヤーのSAN値減少量           
@@ -42,8 +42,9 @@ public class heromove : MonoBehaviour
     public float zoomout_z = -20;           //ズームアウトの大きさ
 
     RaycastHit hit;
-    private float Lockcount=0;               //動けない間のカウント
+    private float Lockcount = 0;               //動けない間のカウント
     private float unlockcount = 0;          //麻痺解除から次の麻痺を食らうまでのカウント
+    private bool eventstop;        //イベント発生時の移動不可
     //走るボタン　2連打したかの状態分岐
     private enum RunButton
     {
@@ -64,7 +65,7 @@ public class heromove : MonoBehaviour
         InvincibleMove,         //隠れつつ動ける状態
         NotMove,                //幻覚で動けない状態
         Upping
-    
+
     }
 
 
@@ -90,7 +91,7 @@ public class heromove : MonoBehaviour
 
         if (this.state != State.Damaged && this.state != State.Invincible)
         {
-            if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false&& Lockcount == 0)
+            if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false && Lockcount == 0 && eventstop == false)
             {
                 this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
                 this.runMove(Input.GetAxis("Horizontal"));
@@ -207,11 +208,11 @@ public class heromove : MonoBehaviour
 
         //壁ジャンプ
         if (Physics.Raycast(this.transform.position, this.face > 0 ? Vector3.left : Vector3.right, out hitwall, RAY_LENGTH + 1) ||
-                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 20f) * Vector3.left : Quaternion.Euler(0f, 0f, 20f) * Vector3.right, out hitwall, RAY_LENGTH+1) ||
-                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -20f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f) * Vector3.right, out hitwall, RAY_LENGTH+1) )
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, 20f) * Vector3.left : Quaternion.Euler(0f, 0f, 20f) * Vector3.right, out hitwall, RAY_LENGTH + 1) ||
+                Physics.Raycast(this.transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -20f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f) * Vector3.right, out hitwall, RAY_LENGTH + 1))
         {
             if (hitwall.collider.tag == "Ground")
-                if (j && this.is_ground == false&&sety+2 < GetComponent<Transform>().position.y && !jumpjumpflag)
+                if (j && this.is_ground == false && sety + 2 < GetComponent<Transform>().position.y && !jumpjumpflag)
                 {
                     jumpjumpflag = true;
                     this.body.velocity = new Vector3(0, 0, 0);
@@ -226,16 +227,28 @@ public class heromove : MonoBehaviour
     public void ray_To_Enemy()
     {
 
-        Ray ray = new Ray(transform.position, this.face > 0 ? Vector3.left : Vector3.right);
+      
 
-        if (Physics.Raycast(ray, out hit, 10.0f, mask))
 
+       
+        for (int i = 0; i < 5; i++)
         {
-            if (hit.collider.tag == "Enemy")
-            {
-                sanText.minus_san((float)attacked_power / 4 * 3 * Time.deltaTime);
+ 
+           // Debug.DrawRay(this.transform.position, 10 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.right), Color.red, 0, false);
+
+            Ray ray = new Ray(transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.right);
+            if (Physics.Raycast(ray, out hit, 10.0f, mask))
+            {         
+                if (hit.collider.tag == "Enemy")
+                {
+                    sanText.minus_san((float)attacked_power / 4 * 3 * Time.deltaTime);
+
+                    break;
+                }
+            
             }
         }
+       
     }
 
     //地面の接地関連
@@ -252,8 +265,13 @@ public class heromove : MonoBehaviour
     //走る
     void runMove(float x)
     {
-
-        speed = (Input.GetKey(KeyCode.LeftShift)) ? runspeed : normalspeed;
+        if (x != 0 && Input.GetKey(KeyCode.LeftShift) && staminaText.get_stamina() > 0)
+        {
+            staminaText.minus_stamina(0.8f);
+            speed = runspeed;
+        }
+        else
+            speed = normalspeed;
         /* 方向きー2回押しver
         if (runcount>0)
             runcount--;
@@ -349,7 +367,7 @@ public class heromove : MonoBehaviour
         if (other.CompareTag("Enemy") && this.state != State.Invincible)
         {
             sanText.minus_san(attacked_power * Time.deltaTime);
-            if (other.gameObject.GetComponent<enemyBase>().lockplayer == true && Lockcount == 0&& unlockcount==0)
+            if (other.gameObject.GetComponent<enemyBase>().lockplayer == true && Lockcount == 0 && unlockcount == 0)
                 Lockcount++;
         }
 
@@ -396,7 +414,10 @@ public class heromove : MonoBehaviour
         return this.face;
     }
 
-
+    public void set_eventstop(bool next)
+    {
+        eventstop = next;
+    }
 
 
 }

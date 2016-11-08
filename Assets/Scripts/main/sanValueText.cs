@@ -8,7 +8,6 @@ public class sanValueText : MonoBehaviour
     private float san = 100;     //san値
     private float sanmax = 100;  //san最大値
 
-    public int san_minusspeed = 4;   //san値減少抑制量
     public float san_plustime = 0.5f;   //san値増加時間間隔
 
     public playerLife life_info;
@@ -30,6 +29,7 @@ public class sanValueText : MonoBehaviour
     void Update()
     {
 
+        //SAN値の自然回復
         if (sanautocount > 0)
         {
             sanautocount -= Time.deltaTime;
@@ -49,6 +49,7 @@ public class sanValueText : MonoBehaviour
         this.GetComponent<Text>().text = "SAN値：" + ((int)san).ToString();
 
    
+        //煙を焚く
         if (san<sanmax/2)
         {
             if (SceneManager.GetSceneByName("danger").isLoaded == false)
