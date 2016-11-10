@@ -29,6 +29,21 @@ public class enemyBase : MonoBehaviour {
 
     private GameObject targetplayer;        //狙っているプレイヤーのオブジェクト
 
+    private float face = 1;                //敵の向いてる方向 
+    public LayerMask mask;              //レイキャスト用マスク  groundとplayerを指定すること
+    public int raynum;            //視認レーザーの数 
+    public float rayangle;        //水平方向を中心とした視認範囲の角度
+    public float raylength;       //視認の長さ
+
+    public float get_face()
+    {
+        return face;
+    }
+    public void set_face(float next)
+    {
+        face=next;
+    }
+
     //プレイヤーセットゲット
     public void set_targetplayer(GameObject taplayer)
     {

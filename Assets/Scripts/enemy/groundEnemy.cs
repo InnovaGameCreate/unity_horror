@@ -11,10 +11,15 @@ public class groundEnemy : enemyBase
         base.wide_rangemiddle.y = transform.position.y;
 
         base.autodir = Random.Range(-1, 2);
-
+        set_face(base.autodir);
+      
         set_spRenderer(GetComponent<SpriteRenderer>());
 
         anime = GetComponent<Animator>();
+
+        if(anime==null)
+            set_face(0);
+
 
         if (anime != null)
             switch ((int)base.autodir)
@@ -36,6 +41,8 @@ public class groundEnemy : enemyBase
     {
         disappear_Chara();
         automovecount += Time.deltaTime;
+
+  
         if (get_findPlayer() == false && !get_disappear_flag())
             autoMove();
 
@@ -50,16 +57,20 @@ public class groundEnemy : enemyBase
         {
             transform.Translate(-1 * this.speed * Time.deltaTime, 0, 0);
             if (anime != null)
+            {
                 this.anime.SetTrigger("left");
-        
+                set_face(-1);
+            }
         }
         //右
         else if (p.x < base.wide_rangemiddle.x - widehalf_range)
         {
             transform.Translate(1 * this.speed * Time.deltaTime, 0, 0);
             if (anime != null)
+            {
                 this.anime.SetTrigger("right");
-        
+                set_face(1);
+            }
         }
         //オート移動範囲内
         else
@@ -68,8 +79,9 @@ public class groundEnemy : enemyBase
             {
                 base.autodir = Random.Range(-1, 2);
                 base.automovecount = 0;
-
-
+                if(anime!=null)
+                set_face(base.autodir);
+   
             }
 
             p = new Vector3(p.x + base.autodir * this.speed * Time.deltaTime, p.y, p.z);
@@ -79,8 +91,11 @@ public class groundEnemy : enemyBase
             if (anime != null)
             {
                 if (p.x == base.wide_rangemiddle.x + widehalf_range || p.x == base.wide_rangemiddle.x - widehalf_range)
+                {
                     this.anime.SetTrigger("normal");
+                    set_face(0);
 
+                }
                 else
                     switch ((int)base.autodir)
                     {
@@ -94,7 +109,8 @@ public class groundEnemy : enemyBase
                             this.anime.SetTrigger("right");
                             break;
                     }
-            }
+            }else
+                set_face(0);
 
             this.transform.position = p;
 
@@ -109,7 +125,7 @@ public class groundEnemy : enemyBase
         int dir = (player.transform.position.x > this.transform.position.x + 0.3f) ? 1 : (player.transform.position.x < this.transform.position.x - 0.3f) ? -1 : 0;
         p = this.transform.position = new Vector3(p.x + dir * this.speed * Time.deltaTime * 0.9f, p.y, p.z);
 
-
+        set_face(dir);
         if (anime != null)
             switch ((int)dir)
             {

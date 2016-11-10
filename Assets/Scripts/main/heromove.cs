@@ -226,27 +226,42 @@ public class heromove : MonoBehaviour
     //プレイヤーの敵への目線
     public void ray_To_Enemy()
     {
-
-      
-
-
-       
         for (int i = 0; i < 5; i++)
         {
- 
-           // Debug.DrawRay(this.transform.position, 10 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.right), Color.red, 0, false);
+           Debug.DrawRay(this.transform.position, 15 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -20f + i * 10.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f + i * 10.0f) * Vector3.right), Color.red, 0, false);
+          Ray ray = new Ray(transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.right);
+            if (Physics.Raycast(ray, out hit, 4.0f, mask))
+            {
+                if (hit.collider.tag == "Enemy")
+                {
+                    sanText.minusbig_san(10);
+                }
 
-            Ray ray = new Ray(transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.right);
-            if (Physics.Raycast(ray, out hit, 10.0f, mask))
+            }
+
+            if (Physics.Raycast(ray, out hit, 8.0f, mask))
             {         
                 if (hit.collider.tag == "Enemy")
                 {
-                    sanText.minus_san((float)attacked_power / 4 * 3 * Time.deltaTime);
+                    sanText.minus_san((float)attacked_power / 6 * Time.deltaTime);
 
-                    break;
+          
                 }
             
             }
+
+            if (Physics.Raycast(ray, out hit, 12.0f, mask))
+            {
+                if (hit.collider.tag == "Enemy")
+                {
+                    sanText.minus_san((float)attacked_power / 6  * Time.deltaTime);
+
+                    break;
+                }
+
+            }
+
+
         }
        
     }

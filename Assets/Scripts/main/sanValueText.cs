@@ -8,16 +8,17 @@ public class sanValueText : MonoBehaviour
     private float san = 100;     //san値
     private float sanmax = 100;  //san最大値
 
-    public float san_plustime = 0.5f;   //san値増加時間間隔
+    public float san_plustime = 0.07f;   //san値増加時間間隔
 
     public playerLife life_info;
     public bool debugmode;   //死なない状態にするかどうか
     private float timeElapsed;
 
     private float sanautocount = 0;
-    public float sanautocountmax = 3;     //攻撃を受けてから自然回復するまでの時間
+    public const float sanautocountmax = 3;     //攻撃を受けてから自然回復するまでの時間
 
-
+    private float nextbigminuscount=0;
+    private const float nextbigminussan = 2;    //大きくSAN値削れてから次に大きく削れるまでの時間
     // Use this for initialization
     void Start()
     {
@@ -46,6 +47,12 @@ public class sanValueText : MonoBehaviour
 
             }
         }
+
+        //SAN値が大きく削れるまでのカウント
+        if(nextbigminuscount>0)
+            nextbigminuscount -= Time.deltaTime;
+      
+
         this.GetComponent<Text>().text = "SAN値：" + ((int)san).ToString();
 
    
@@ -69,7 +76,7 @@ public class sanValueText : MonoBehaviour
 
     }
 
-    //san値の減少
+    //san値のじわじわ減少
     public void minus_san(float minus)
     {
         if (debugmode)
@@ -81,6 +88,25 @@ public class sanValueText : MonoBehaviour
         {
             life_info.minus_life();
             san = sanmax;
+        }
+
+    }
+
+    //san値が大きく減少
+    public void minusbig_san(float minus)
+    {
+        if (debugmode)
+            return;
+
+        if (nextbigminuscount <= 0)
+        {
+            san = san > 0 ? san - minus : 0;
+            nextbigminuscount = nextbigminussan;
+            if (san < 1)
+            {
+                life_info.minus_life();
+                san = sanmax;
+            }
         }
 
     }

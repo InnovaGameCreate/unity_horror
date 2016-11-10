@@ -7,11 +7,12 @@ public class chasePlayer : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (transform.parent.gameObject.GetComponent<enemyBase>().raylength > GetComponent<BoxCollider>().size.x / 2)
+            transform.parent.gameObject.GetComponent<enemyBase>().raylength = GetComponent<BoxCollider>().size.x / 2 - 1;
 
     }
-
     // Update is called once per frame
-    void Update()
+        void Update()
     {
 
     }
