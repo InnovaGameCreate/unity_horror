@@ -6,6 +6,8 @@ public class groundEnemy : enemyBase
     private Animator anime;
     void Start()
     {
+
+
         //オート移動の中心点の初期化
         base.wide_rangemiddle.x = transform.position.x;
         base.wide_rangemiddle.y = transform.position.y;
@@ -55,7 +57,7 @@ public class groundEnemy : enemyBase
         //左
         if (p.x > base.wide_rangemiddle.x + widehalf_range)
         {
-            transform.Translate(-1 * this.speed * Time.deltaTime, 0, 0);
+            transform.Translate(-1 * this.normalspeed * Time.deltaTime, 0, 0);
             if (anime != null)
             {
                 this.anime.SetTrigger("left");
@@ -65,7 +67,7 @@ public class groundEnemy : enemyBase
         //右
         else if (p.x < base.wide_rangemiddle.x - widehalf_range)
         {
-            transform.Translate(1 * this.speed * Time.deltaTime, 0, 0);
+            transform.Translate(1 * this.normalspeed * Time.deltaTime, 0, 0);
             if (anime != null)
             {
                 this.anime.SetTrigger("right");
@@ -84,7 +86,7 @@ public class groundEnemy : enemyBase
    
             }
 
-            p = new Vector3(p.x + base.autodir * this.speed * Time.deltaTime, p.y, p.z);
+            p = new Vector3(p.x + base.autodir * this.normalspeed * Time.deltaTime, p.y, p.z);
 
             p.x = (p.x > base.wide_rangemiddle.x + widehalf_range) ? base.wide_rangemiddle.x + widehalf_range : (p.x < base.wide_rangemiddle.x - widehalf_range) ? base.wide_rangemiddle.x - widehalf_range : p.x;
 
@@ -123,7 +125,7 @@ public class groundEnemy : enemyBase
         //ユニティちゃんに向かって敵が移動
         Vector3 p = this.transform.position;
         int dir = (player.transform.position.x > this.transform.position.x + 0.3f) ? 1 : (player.transform.position.x < this.transform.position.x - 0.3f) ? -1 : 0;
-        p = this.transform.position = new Vector3(p.x + dir * this.speed * Time.deltaTime * 0.9f, p.y, p.z);
+        p = this.transform.position = new Vector3(p.x + dir * this.runspeed * Time.deltaTime, p.y, p.z);
 
         set_face(dir);
         if (anime != null)

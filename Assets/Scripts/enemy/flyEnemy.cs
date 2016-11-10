@@ -73,7 +73,7 @@ public class flyEnemy : enemyBase
             position_sa.y = wide_rangemiddle.y - this.transform.position.y;
 
             float radi = Mathf.Atan2(position_sa.y, position_sa.x);
-            transform.Translate(Mathf.Cos(radi) * Time.deltaTime * base.speed, Mathf.Sin(radi) * Time.deltaTime * base.speed, 0);
+            transform.Translate(Mathf.Cos(radi) * Time.deltaTime * base.normalspeed, Mathf.Sin(radi) * Time.deltaTime * base.runspeed, 0);
 
            
             if (anime != null)
@@ -107,7 +107,7 @@ public class flyEnemy : enemyBase
                 base.autodir = base.autodir * Mathf.Deg2Rad;
                 base.automovecount = 0;
             }
-            p = new Vector3(p.x + Mathf.Cos(autodir) * this.speed * Time.deltaTime, p.y + Mathf.Sin(autodir) * this.speed * Time.deltaTime, p.z);
+            p = new Vector3(p.x + Mathf.Cos(autodir) * this.normalspeed * Time.deltaTime, p.y + Mathf.Sin(autodir) * this.runspeed * Time.deltaTime, p.z);
             p.x = (p.x > base.wide_rangemiddle.x + widehalf_range - refix) ? base.wide_rangemiddle.x + widehalf_range - refix : (p.x < base.wide_rangemiddle.x - widehalf_range + refix) ? base.wide_rangemiddle.x - widehalf_range + refix : p.x;
             p.y = (p.y > base.wide_rangemiddle.y + heighthalf_range - refix) ? base.wide_rangemiddle.y + heighthalf_range - refix : (p.y < wide_rangemiddle.y - heighthalf_range + refix) ? base.wide_rangemiddle.y - heighthalf_range + refix : p.y;
             this.transform.position = p;
@@ -157,16 +157,16 @@ public class flyEnemy : enemyBase
         position_sa.y = player.transform.position.y - this.transform.position.y;
 
         float radi = Mathf.Atan2(position_sa.y, position_sa.x);
-        transform.Translate(Mathf.Cos(radi) * Time.deltaTime * base.speed, Mathf.Sin(radi) * Time.deltaTime * base.speed, 0);
+        transform.Translate(Mathf.Cos(radi) * Time.deltaTime * base.runspeed, Mathf.Sin(radi) * Time.deltaTime * base.runspeed, 0);
 
         if (anime != null)
         {
-            if (Mathf.Cos(radi) * Time.deltaTime * base.speed > 0)
+            if (Mathf.Cos(radi) > 0)
             {
                 anime.SetTrigger("right");
                 set_face(1);
             }
-            else if (Mathf.Cos(radi) * Time.deltaTime * base.speed < 0)
+            else if (Mathf.Cos(radi) < 0)
             {
                 anime.SetTrigger("left");
                 set_face(-1);

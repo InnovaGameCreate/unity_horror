@@ -3,9 +3,11 @@ using System.Collections;
 
 public class enemyBase : MonoBehaviour {
 
+   
+    public float normalspeed = 7;            //追跡中移動速度
+    public float runspeed = 10;            //追跡中移動速度
+   
 
-    public float speed = 7;            //移動速度
- 
     public float nextautomovetime = 1;   //次にオート移動するまでの時間
     public float automovecount;        //オート移動カウント
     public float autodir;                //オート移動の方向
@@ -34,6 +36,7 @@ public class enemyBase : MonoBehaviour {
     public int raynum;            //視認レーザーの数 
     public float rayangle;        //水平方向を中心とした視認範囲の角度
     public float raylength;       //視認の長さ
+
 
     public float get_face()
     {
