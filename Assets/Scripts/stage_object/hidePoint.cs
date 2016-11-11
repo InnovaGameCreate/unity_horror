@@ -32,7 +32,7 @@ public class hidePoint : MonoBehaviour
                 is_hiding = true;
                 samp.gameObject.GetComponent<heromove>().InvincibleMode();
                 Vector3 p = samp.gameObject.transform.position;
-                p = new Vector3(p.x, p.y, 3);
+                p = new Vector3(this.transform.position.x-1, p.y, 3);
                 samp.gameObject.transform.position = p;
                 samp.gameObject.GetComponent<Animator>().SetFloat("Horizontal", 0);
             }
