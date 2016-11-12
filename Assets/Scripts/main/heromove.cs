@@ -86,9 +86,16 @@ public class heromove : MonoBehaviour
         this.face = -1;
     }
 
+    void FixedUpdate()
+    {
+        if (GetComponent<Rigidbody>().velocity.y > 40)
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 40, 0);
+    }
+
+
     void Update()
     {
-
+     
         if (this.state != State.Damaged && this.state != State.Invincible)
         {
             if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false && Lockcount == 0 && eventstop == false)
@@ -159,28 +166,15 @@ public class heromove : MonoBehaviour
                 if (wall.collider.tag == "Ground")
                 {
                     this.wallx = this.wallx == 0 ? this.transform.position.x : this.wallx;  //まだ壁を検出していなければ位置を保存
+                    //xの移動を0にする
                     x = 0;  //これ以上は前に進みません
                 }
             }
             else
             {
-
                 this.wallx = 0; //壁はなかった
             }
 
-        }
-
-        if (Mathf.Abs(z) > 0)
-        {   //手前もしくは奥
-            if (Physics.Raycast(this.transform.position, z > 0 ? Vector3.forward : Vector3.back, RAY_LENGTH))
-            {
-                this.wallz = this.wallz == 0 ? transform.position.z : this.wallz;
-                z = 0;
-            }
-            else
-            {
-                this.wallz = 0;
-            }
         }
 
         //ユニティちゃんを移動
@@ -239,22 +233,22 @@ public class heromove : MonoBehaviour
 
             }
 
-            if (Physics.Raycast(ray, out hit, 8.0f, mask))
+            if (Physics.Raycast(ray, out hit, 9.0f, mask))
             {         
                 if (hit.collider.tag == "Enemy")
                 {
-                    sanText.minus_san((float)attacked_power / 6 * Time.deltaTime);
+                    sanText.minus_san((float)attacked_power  * Time.deltaTime);
 
           
                 }
             
             }
 
-            if (Physics.Raycast(ray, out hit, 12.0f, mask))
+            if (Physics.Raycast(ray, out hit, 14.0f, mask))
             {
                 if (hit.collider.tag == "Enemy")
                 {
-                    sanText.minus_san((float)attacked_power / 6  * Time.deltaTime);
+                    sanText.minus_san((float)attacked_power   * Time.deltaTime);
 
                     break;
                 }
@@ -381,7 +375,7 @@ public class heromove : MonoBehaviour
         //敵と接触時
         if (other.CompareTag("Enemy") && this.state != State.Invincible)
         {
-            sanText.minus_san(attacked_power * Time.deltaTime);
+            sanText.minus_san(attacked_power * Time.deltaTime/3*2);
             if (other.gameObject.GetComponent<enemyBase>().lockplayer == true && Lockcount == 0 && unlockcount == 0)
                 Lockcount++;
         }

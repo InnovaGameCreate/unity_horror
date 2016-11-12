@@ -126,7 +126,6 @@ public class groundEnemy : enemyBase
         Vector3 p = this.transform.position;
         int dir = (player.transform.position.x > this.transform.position.x + 0.3f) ? 1 : (player.transform.position.x < this.transform.position.x - 0.3f) ? -1 : 0;
         p = this.transform.position = new Vector3(p.x + dir * this.runspeed * Time.deltaTime, p.y, p.z);
-
         set_face(dir);
         if (anime != null)
             switch ((int)dir)

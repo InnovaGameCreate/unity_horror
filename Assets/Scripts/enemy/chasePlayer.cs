@@ -3,7 +3,8 @@ using System.Collections;
 
 public class chasePlayer : MonoBehaviour
 {
-
+    private bool find;
+    private Collider samp;
     // Use this for initialization
     void Start()
     {
@@ -14,7 +15,8 @@ public class chasePlayer : MonoBehaviour
     // Update is called once per frame
         void Update()
     {
-
+        if(find == true)
+            transform.parent.gameObject.GetComponent<enemyBase>().chasePlayer(samp);
     }
 
 
@@ -24,8 +26,15 @@ public class chasePlayer : MonoBehaviour
 
         if (other.CompareTag("Player"))
         {
-          if (transform.parent.gameObject.GetComponent<enemyBase>().get_findPlayer() == true)
-                transform.parent.gameObject.GetComponent<enemyBase>().chasePlayer(other);
+            if (transform.parent.gameObject.GetComponent<enemyBase>().get_findPlayer() == true)
+            {
+                find = true;
+                if(samp==null)
+                samp = other;
+            }
+            else
+                find = false;
+
         }
 
     }
@@ -37,6 +46,7 @@ public class chasePlayer : MonoBehaviour
         {
 
                 transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);
+            find = false;
         }
     }
 

@@ -14,7 +14,7 @@ public class findPlayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float rayn = transform.parent.GetComponent<enemyBase>().raynum;
+        int rayn = (transform.parent.GetComponent<enemyBase>().raynum == 1) ? 2: transform.parent.GetComponent<enemyBase>().raynum;
         float range = transform.parent.GetComponent<enemyBase>().rayangle / 2;
         float length = transform.parent.GetComponent<enemyBase>().raylength;
         for (int i = 0; i < rayn ; i++)
@@ -54,7 +54,6 @@ public class findPlayer : MonoBehaviour
             //着地面にheromoveはアタッチされていないため
            // if (other.gameObject.GetComponent<heromove>() != null)
                 state_info = other.gameObject.GetComponent<heromove>();
-
             transform.parent.GetComponent<enemyBase>().set_targetplayer(other.gameObject);
         }
     }

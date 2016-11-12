@@ -5,10 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class playerLife : MonoBehaviour {
 
-   static private int lifevalue=3;
-
+    static private int lifevalue = 3;
+    static private bool  flag;
+    public void set_flag(bool num) {
+        flag = num;
+        }
     // Use this for initialization
     void Start () {
+        if(flag==false)
+        lifevalue = 3;
     }
 	
 	// Update is called once per frame
@@ -28,10 +33,17 @@ public void minus_life()
     {
 
         if (--lifevalue < 1)
-            lifevalue = 3;//ゲームオーバーシーンへ
-        else       
+        {
+            flag = false;
+            SceneManager.LoadScene("gameover");           //ゲームオーバーシーンへ
+
+        }
+        else
+        {
+            flag = true;
             SceneManager.LoadScene("main"); //リスタート
 
+        }
         Resources.UnloadUnusedAssets();
 
     }
