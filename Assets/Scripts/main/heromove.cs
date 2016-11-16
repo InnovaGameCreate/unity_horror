@@ -41,6 +41,7 @@ public class heromove : MonoBehaviour
     public float zoomin_z = -10;            //ズームの大きさ
     public float zoomout_z = -20;           //ズームアウトの大きさ
 
+    private bool goal = false;
     RaycastHit hit;
     private float Lockcount = 0;               //動けない間のカウント
     private float unlockcount = 0;          //麻痺解除から次の麻痺を食らうまでのカウント
@@ -108,6 +109,7 @@ public class heromove : MonoBehaviour
                 this.Move(0, 0, false);
                 this.runMove(0);
             }
+            if(goal==false)
             ray_To_Enemy();
 
             if (unlockcount > 0)
@@ -428,6 +430,12 @@ public class heromove : MonoBehaviour
         eventstop = next;
     }
 
+    
+    public void set_exlock ()
+    {
+        Lockcount = 0.1f;
+        goal = true;
+    }
 
 }
 
