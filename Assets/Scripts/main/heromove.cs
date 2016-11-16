@@ -113,7 +113,7 @@ public class heromove : MonoBehaviour
             if (unlockcount > 0)
             {
                 unlockcount += Time.deltaTime;
-                //5秒後にプレイヤーの固定が解ける
+                //3秒後にプレイヤーの固定が解ける
                 if (unlockcount > 3)
                 {
                     unlockcount = 0;
@@ -122,8 +122,8 @@ public class heromove : MonoBehaviour
             else if (Lockcount > 0)
             {
                 Lockcount += Time.deltaTime;
-                //5秒後にプレイヤーの固定が解ける
-                if (Lockcount > 5)
+                //2秒後にプレイヤーの固定が解ける
+                if (Lockcount > 2)
                 {
                     Lockcount = 0;
                     unlockcount++;
@@ -384,8 +384,8 @@ public class heromove : MonoBehaviour
 
     void OnTriggerExit(Collider other)
     {
-        //はしご系から離れた時の物理処理の初期化
-        GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ);
+        ////はしご系から離れた時の物理処理の初期化
+        //GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ);
 
     }
 

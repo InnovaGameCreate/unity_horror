@@ -1,0 +1,232 @@
+fileFormatVersion: 2
+guid: 68f1574a5cace094298c2d8a81a41f24
+timeCreated: 1479277811
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: arm2_L
+    100002: arm2_L 1
+    100004: arm2_L.001
+    100006: arm2_L.001 1
+    100008: arm2_R
+    100010: arm2_R 1
+    100012: arm2_R.001
+    100014: arm2_R.001 1
+    100016: arm_L
+    100018: arm_L 1
+    100020: arm_L.001
+    100022: arm_L.001 1
+    100024: arm_R
+    100026: arm_R 1
+    100028: arm_R.001
+    100030: arm_R.001 1
+    100032: Armature
+    100034: body
+    100036: body 1
+    100038: body2
+    100040: body2 1
+    100042: foot_L
+    100044: foot_L 1
+    100046: foot_L_ctrl
+    100048: foot_L_ctrl_end
+    100050: foot_L_end
+    100052: foot_R
+    100054: foot_R 1
+    100056: foot_R_ctrl
+    100058: foot_R_ctrl_end
+    100060: foot_R_end
+    100062: hand_L
+    100064: hand_L 1
+    100066: hand_L.001
+    100068: hand_L.001 1
+    100070: hand_L.002
+    100072: hand_L.002_end
+    100074: hand_L_ctrl
+    100076: hand_L_ctrl.001
+    100078: hand_L_ctrl.001_end
+    100080: hand_L_ctrl_end
+    100082: hand_L_end
+    100084: hand_R
+    100086: hand_R 1
+    100088: hand_R.001
+    100090: hand_R.001 1
+    100092: hand_R.001_end
+    100094: hand_R_ctrl
+    100096: hand_R_ctrl.001
+    100098: hand_R_ctrl.001_end
+    100100: hand_R_ctrl_end
+    100102: hand_R_end
+    100104: Head
+    100106: head
+    100108: Head_end
+    100110: leg_L
+    100112: leg_L 1
+    100114: leg_R
+    100116: leg_R 1
+    100118: main
+    100120: //RootNode
+    400000: arm2_L
+    400002: arm2_L 1
+    400004: arm2_L.001
+    400006: arm2_L.001 1
+    400008: arm2_R
+    400010: arm2_R 1
+    400012: arm2_R.001
+    400014: arm2_R.001 1
+    400016: arm_L
+    400018: arm_L 1
+    400020: arm_L.001
+    400022: arm_L.001 1
+    400024: arm_R
+    400026: arm_R 1
+    400028: arm_R.001
+    400030: arm_R.001 1
+    400032: Armature
+    400034: body
+    400036: body 1
+    400038: body2
+    400040: body2 1
+    400042: foot_L
+    400044: foot_L 1
+    400046: foot_L_ctrl
+    400048: foot_L_ctrl_end
+    400050: foot_L_end
+    400052: foot_R
+    400054: foot_R 1
+    400056: foot_R_ctrl
+    400058: foot_R_ctrl_end
+    400060: foot_R_end
+    400062: hand_L
+    400064: hand_L 1
+    400066: hand_L.001
+    400068: hand_L.001 1
+    400070: hand_L.002
+    400072: hand_L.002_end
+    400074: hand_L_ctrl
+    400076: hand_L_ctrl.001
+    400078: hand_L_ctrl.001_end
+    400080: hand_L_ctrl_end
+    400082: hand_L_end
+    400084: hand_R
+    400086: hand_R 1
+    400088: hand_R.001
+    400090: hand_R.001 1
+    400092: hand_R.001_end
+    400094: hand_R_ctrl
+    400096: hand_R_ctrl.001
+    400098: hand_R_ctrl.001_end
+    400100: hand_R_ctrl_end
+    400102: hand_R_end
+    400104: Head
+    400106: head
+    400108: Head_end
+    400110: leg_L
+    400112: leg_L 1
+    400114: leg_R
+    400116: leg_R 1
+    400118: main
+    400120: //RootNode
+    4300000: arm_R.001
+    4300002: arm2_R.001
+    4300004: hand_L.001
+    4300006: arm_L.001
+    4300008: arm2_L.001
+    4300010: hand_R.001
+    4300012: foot_R
+    4300014: foot_L
+    4300016: hand_R
+    4300018: hand_L
+    4300020: leg_R
+    4300022: leg_L
+    4300024: body2
+    4300026: arm2_L
+    4300028: arm_L
+    4300030: arm2_R
+    4300032: arm_R
+    4300034: body
+    4300036: head
+    9500000: //RootNode
+    13700000: arm2_L
+    13700002: arm2_L.001
+    13700004: arm2_R
+    13700006: arm2_R.001
+    13700008: arm_L
+    13700010: arm_L.001
+    13700012: arm_R
+    13700014: arm_R.001
+    13700016: body
+    13700018: body2
+    13700020: foot_L
+    13700022: foot_R
+    13700024: hand_L
+    13700026: hand_L.001
+    13700028: hand_R
+    13700030: hand_R.001
+    13700032: head
+    13700034: leg_L
+    13700036: leg_R
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

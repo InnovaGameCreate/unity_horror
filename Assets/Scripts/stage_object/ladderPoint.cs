@@ -4,13 +4,13 @@ using System.Collections;
 public class ladderPoint : MonoBehaviour
 {
 
-    public GameObject player;
+    GameObject player;
 
     private heromove move_info;
     // Use this for initialization
     void Start()
     {
-        move_info = player.GetComponent<heromove>();
+
     }
 
     // Update is called once per frame
@@ -27,24 +27,35 @@ public class ladderPoint : MonoBehaviour
 
 
         Vector3 p = player.transform.position;
-        p =  new Vector3(p.x, p.y + y * move_info.normalspeed * Time.deltaTime, p.z);
-        p.y = p.y < under ? under : (p.y >upper)?upper:p.y;
+        p = new Vector3(p.x, p.y + y * move_info.normalspeed * Time.deltaTime, p.z);
+        p.y = p.y < under ? under : (p.y > upper) ? upper : p.y;
         player.transform.position = p;
 
     }
-
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (player == null)
+            {
+                player = other.gameObject;
+                move_info = player.GetComponent<heromove>();
+            }
+        }
+    }
     void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            
+
             if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.DownArrow))
             {
-                upMove(Input.GetAxis("Vertical"), this.transform.position.y + (float)this.transform.localScale.y, this.transform.position.y - (float)this.transform.localScale.y+1.5f );
+                upMove(Input.GetAxis("Vertical"), this.transform.position.y + (float)this.transform.localScale.y, this.transform.position.y - (float)this.transform.localScale.y + 1.5f);
                 //  はしごに接触してる間物理処理に制限をかける
                 player.GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezePositionY);
                 //はしごから離れたらプレイヤーの状態を上る状態に
                 move_info.set_state(heromove.State.Upping);
+                player.GetComponent<Animator>().SetBool("islad", true);
             }
         }
     }
@@ -53,6 +64,12 @@ public class ladderPoint : MonoBehaviour
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
+        {
             move_info.set_state(heromove.State.Normal);
+            player.GetComponent<Animator>().SetBool("islad", false);
+            //はしご系から離れた時の物理処理の初期化
+            player.GetComponent<Rigidbody>().constraints = (RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ);
+
+        }
     }
 }
