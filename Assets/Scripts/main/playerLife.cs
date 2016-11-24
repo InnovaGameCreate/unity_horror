@@ -7,6 +7,8 @@ public class playerLife : MonoBehaviour {
 
     static private int lifevalue = 3;
     static private bool  flag;
+
+    //どのタイミングでLIFEを初期化するか
     public void set_flag(bool num) {
         flag = num;
         }
