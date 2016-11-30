@@ -53,7 +53,7 @@ public class sanValueText : MonoBehaviour
             nextbigminuscount -= Time.deltaTime;
       
 
-        this.GetComponent<Text>().text = "SAN値：" + ((int)san).ToString();
+     //   this.GetComponent<Text>().text = "SAN値：" + ((int)san).ToString();
 
    
         //煙を焚く

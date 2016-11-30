@@ -20,7 +20,7 @@ public class playerLife : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        this.GetComponent<Text>().text = "LIFE：" + lifevalue.ToString();
+        this.GetComponent<Text>().text =  lifevalue.ToString();
         
     }
 
