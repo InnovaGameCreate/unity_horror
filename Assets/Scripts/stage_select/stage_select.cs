@@ -82,19 +82,27 @@ public class stage_select : MonoBehaviour
             switch (stage_is)
             {
                 case Stage.tutorial:
+                    SceneManager.LoadScene("チュートリアル ");
                     break;
                 case Stage.stage1:
+                    SceneManager.LoadScene("ステージ1");
                     break;
                 case Stage.stage2:
+                    SceneManager.LoadScene("ステージ2");
                     break;
                 case Stage.stage3:
+                    SceneManager.LoadScene("ステージ3");
                     break;
                 case Stage.stage4:
+                    SceneManager.LoadScene("ステージ4");
                     break;
                 case Stage.stage5:
+                    SceneManager.LoadScene("ステージ5");
+                    break;
+                default:
                     break;
             }
-            SceneManager.LoadScene("main");
+    
         }
         Vector2 samp = stage[(int)stage_is].GetComponent<RectTransform>().anchoredPosition;
         samp.y += 20;
@@ -137,6 +145,7 @@ public class stage_select : MonoBehaviour
                     arrow[0].SetActive(true);
                     if (Input.GetKeyDown(KeyCode.RightArrow))
                     {
+                        //アニメーション
                         stage[6].GetComponent<Animator>().SetInteger("New Int", 1);
                         stage_is++;
                     }
@@ -170,6 +179,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", -1);
                         stage_is--;
+                    
                     }
 
                     if (SaveData.GetInt("stage2") == 0)

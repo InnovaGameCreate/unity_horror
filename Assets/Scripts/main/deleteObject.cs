@@ -13,11 +13,16 @@ public class deleteObject : MonoBehaviour {
 	void Update () {
 	
 	}
-    void OnTriggerStay(Collider other)
+
+    void OnTriggerEnter(Collider other)
     {
         //プレイヤーならライフ減少
         if (other.CompareTag("Player"))
             sanText.kill_san();
+    }
+        void OnTriggerStay(Collider other)
+    {
+
         //敵なら消滅
         if (other.CompareTag("Enemy"))
             Destroy(other.gameObject);

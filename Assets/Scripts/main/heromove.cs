@@ -210,12 +210,14 @@ public class heromove : MonoBehaviour
             if (hitwall.collider.tag == "Ground")
                 if (j && this.is_ground == false && sety + 2 < GetComponent<Transform>().position.y && !jumpjumpflag)
                 {
+                    this.anime.SetBool("doubleup", true);
                     jumpjumpflag = true;
                     this.body.velocity = new Vector3(0, 0, 0);
-                    this.body.AddForce(Vector3.up * this.jump);
+                    this.body.AddForce(Vector3.up * this.jump*1.3f);
 
                 }
-        }
+        }else
+            this.anime.SetBool("doubleup", false);
 
     }
 

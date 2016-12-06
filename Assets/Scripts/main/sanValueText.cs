@@ -114,8 +114,8 @@ public class sanValueText : MonoBehaviour
     //即死
     public void kill_san()
     {
-        //collisionStayのダブり誤差のため-1
-        minus_san(sanmax - 1);
+        //collisionStayのダブり誤差のため-10
+        minus_san(sanmax);
     }
 
 
