@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class goalPoint : MonoBehaviour
 {
     public playerLife goal;     //lifevaluetextを指定すること
-    public int stageno;
+    private int stageno;
     private GameObject _child;
     private float count = 0;
     private GameObject player;
@@ -17,7 +17,7 @@ public class goalPoint : MonoBehaviour
     void Start()
     {
         _child = transform.FindChild("Child").gameObject;
-     
+        stageno = heromove.nowstage;
     }
 
     // Update is called once per frame

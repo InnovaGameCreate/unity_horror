@@ -37,11 +37,11 @@ public class play_exitmenu : MonoBehaviour {
                     break;
                 case 1:
                     SceneManager.UnloadScene("main_escmenu");
-                    SceneManager.LoadScene("main"); 
+                    SceneManager.LoadScene(playerLife.scenename[heromove.nowstage]);
                     Resources.UnloadUnusedAssets();
                     break;
                 case 2:
-                    Application.Quit();
+                    SceneManager.LoadScene("stage_select");
                     break;
             }
 

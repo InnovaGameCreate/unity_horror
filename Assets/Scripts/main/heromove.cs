@@ -9,6 +9,8 @@ public class heromove : MonoBehaviour
     public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
     public staminaGauge staminaText; //外部のstaminaオブジェクトを見えるよう定義
 
+    static public int nowstage;         //現在のステージ
+
     private float speed;
     public int attacked_power = 15;     //プレイヤーのSAN値減少量           
     public float jump = 100;            //ジャンプ力
@@ -85,6 +87,15 @@ public class heromove : MonoBehaviour
         Physics.gravity = new Vector3(0, this.gravity, 0);
 
         this.face = -1;
+
+        for (int i = 0; i < playerLife.scenename.Length; i++)
+        {
+            if (SceneManager.GetSceneByName(playerLife.scenename[i]).isLoaded == true)
+            {
+                nowstage = i;
+                break;
+            }
+        }
     }
 
     void FixedUpdate()
@@ -96,7 +107,7 @@ public class heromove : MonoBehaviour
 
     void Update()
     {
-     
+
         if (this.state != State.Damaged && this.state != State.Invincible)
         {
             if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false && Lockcount == 0 && eventstop == false)
@@ -109,8 +120,8 @@ public class heromove : MonoBehaviour
                 this.Move(0, 0, false);
                 this.runMove(0);
             }
-            if(goal==false)
-            ray_To_Enemy();
+            if (goal == false)
+                ray_To_Enemy();
 
             if (unlockcount > 0)
             {
@@ -213,10 +224,11 @@ public class heromove : MonoBehaviour
                     this.anime.SetBool("doubleup", true);
                     jumpjumpflag = true;
                     this.body.velocity = new Vector3(0, 0, 0);
-                    this.body.AddForce(Vector3.up * this.jump*1.3f);
+                    this.body.AddForce(Vector3.up * this.jump * 1.3f);
 
                 }
-        }else
+        }
+        else
             this.anime.SetBool("doubleup", false);
 
     }
@@ -226,8 +238,8 @@ public class heromove : MonoBehaviour
     {
         for (int i = 0; i < 5; i++)
         {
-           Debug.DrawRay(this.transform.position, 15 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -20f + i * 10.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f + i * 10.0f) * Vector3.right), Color.red, 0, false);
-          Ray ray = new Ray(transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.right);
+            Debug.DrawRay(this.transform.position, 15 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -20f + i * 10.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f + i * 10.0f) * Vector3.right), Color.red, 0, false);
+            Ray ray = new Ray(transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.right);
             if (Physics.Raycast(ray, out hit, 4.0f, mask))
             {
                 if (hit.collider.tag == "Enemy")
@@ -238,21 +250,21 @@ public class heromove : MonoBehaviour
             }
 
             if (Physics.Raycast(ray, out hit, 9.0f, mask))
-            {         
+            {
                 if (hit.collider.tag == "Enemy")
                 {
-                    sanText.minus_san((float)attacked_power  * Time.deltaTime);
+                    sanText.minus_san((float)attacked_power * Time.deltaTime);
 
-          
+
                 }
-            
+
             }
 
             if (Physics.Raycast(ray, out hit, 14.0f, mask))
             {
                 if (hit.collider.tag == "Enemy")
                 {
-                    sanText.minus_san((float)attacked_power   * Time.deltaTime);
+                    sanText.minus_san((float)attacked_power * Time.deltaTime);
 
                     break;
                 }
@@ -261,7 +273,7 @@ public class heromove : MonoBehaviour
 
 
         }
-       
+
     }
 
     //地面の接地関連
@@ -379,7 +391,7 @@ public class heromove : MonoBehaviour
         //敵と接触時
         if (other.CompareTag("Enemy") && this.state != State.Invincible)
         {
-            sanText.minus_san(attacked_power * Time.deltaTime/3*2);
+            sanText.minus_san(attacked_power * Time.deltaTime / 3 * 2);
             if (other.gameObject.GetComponent<enemyBase>().lockplayer == true && Lockcount == 0 && unlockcount == 0)
                 Lockcount++;
         }
@@ -432,8 +444,8 @@ public class heromove : MonoBehaviour
         eventstop = next;
     }
 
-    
-    public void set_exlock ()
+
+    public void set_exlock()
     {
         Lockcount = 0.1f;
         goal = true;

@@ -8,15 +8,7 @@ public class clearselect : MonoBehaviour {
     private int selecting = 0;
     private int maxselect = 3;
 
-    static private string[] scenename = {
-        "チュートリアル",
-            "ステージ1",
-              "ステージ2",
-              "ステージ3",
-              "ステージ4",
-              "ステージ5"
 
-        };
     // Use this for initialization
     void Start()
     {
@@ -47,11 +39,12 @@ public class clearselect : MonoBehaviour {
             switch (selecting)
             {
                 case 0:
-                    
-                    SceneManager.LoadScene("main");
+                    SceneManager.LoadScene(playerLife.scenename[heromove.nowstage]);
                     break;
                 case 1:
-                    SceneManager.LoadScene("main");
+                    if (heromove.nowstage < 5)
+                        SceneManager.LoadScene(playerLife.scenename[heromove.nowstage + 1]);
+               
                     break;
                 case 2:
                     SceneManager.LoadScene("stage_select");

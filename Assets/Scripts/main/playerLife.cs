@@ -9,9 +9,9 @@ public class playerLife : MonoBehaviour
     static private int lifevalue = 3;
     static private bool flag;
 
-    static private string[] scenename = {
-        "チュートリアル",
-            "ステージ1",
+    public static string[] scenename = {
+         "チュートリアル",
+              "ステージ1",
               "ステージ2",
               "ステージ3",
               "ステージ4",

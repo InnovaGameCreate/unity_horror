@@ -22,14 +22,14 @@ public class gameoverselect : MonoBehaviour {
         {
 
             Vector2 pos = GetComponent<RectTransform>().anchoredPosition;
-            pos.y -= (82+95);
+            pos.y -= (34+49);
             GetComponent<RectTransform>().anchoredPosition = pos;
             selecting++;
         }
         else if (selecting > 0 && Input.GetKeyDown(KeyCode.UpArrow))
         {
             Vector2 pos = GetComponent<RectTransform>().anchoredPosition;
-            pos.y += (82 + 95);
+            pos.y += (34 + 49);
             GetComponent<RectTransform>().anchoredPosition = pos;
             selecting--;
         }
@@ -37,7 +37,7 @@ public class gameoverselect : MonoBehaviour {
             switch (selecting)
             {
                 case 0:
-                    SceneManager.LoadScene("main");
+                    SceneManager.LoadScene(playerLife.scenename[heromove.nowstage]);
                     break;
                 case 1:
                     SceneManager.LoadScene("stage_select");
