@@ -34,7 +34,7 @@ public class stage_select : MonoBehaviour
         none
     }
 
-    private Dir nowdir = Dir.none;
+
     static private Stage stage_is = 0;
     static Vector2 charaposi;
 

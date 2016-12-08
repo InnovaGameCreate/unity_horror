@@ -126,7 +126,7 @@ public class heromove : MonoBehaviour
             if (unlockcount > 0)
             {
                 unlockcount += Time.deltaTime;
-                //3秒後にプレイヤーの固定が解ける
+                //3秒後にプレイヤーが固定可能になる
                 if (unlockcount > 3)
                 {
                     unlockcount = 0;
@@ -138,6 +138,7 @@ public class heromove : MonoBehaviour
                 //2秒後にプレイヤーの固定が解ける
                 if (Lockcount > 2)
                 {
+                    this.anime.SetBool("refuze", false);
                     Lockcount = 0;
                     unlockcount++;
                 }
@@ -393,7 +394,10 @@ public class heromove : MonoBehaviour
         {
             sanText.minus_san(attacked_power * Time.deltaTime / 3 * 2);
             if (other.gameObject.GetComponent<enemyBase>().lockplayer == true && Lockcount == 0 && unlockcount == 0)
+            {
                 Lockcount++;
+                this.anime.SetBool("refuze", true);
+            }
         }
 
     }

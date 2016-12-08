@@ -7,6 +7,11 @@ public class Slide_elevator : MonoBehaviour {
 
     private float iniposix;
     private float dir = 1;
+
+    private bool onplayer;
+    private GameObject player;
+    private bool outrange;
+
     // Use this for initialization
     void Start () {
         iniposix = GetComponent<Transform>().position.x;
@@ -14,22 +19,35 @@ public class Slide_elevator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        GetComponent<Transform>().Translate(speed * dir * Time.deltaTime, 0 , 0);
-        if (GetComponent<Transform>().position.x > iniposix + range || GetComponent<Transform>().position.x < iniposix)
+            Vector3 posi = GetComponent<Transform>().position;
+        if (outrange == false && (GetComponent<Transform>().position.x > iniposix + range || GetComponent<Transform>().position.x < iniposix))
         {
             dir *= -1;
-            Vector3 samp = transform.position;
-            samp.x = Mathf.Clamp(samp.x, iniposix, iniposix + range);
-            transform.position = samp;
+            outrange = true;
         }
+        else
+            outrange = false;
+
+        posi.x += speed * dir * Time.deltaTime;
+        GetComponent<Transform>().position = posi;
+
+        if (onplayer)
+            player.GetComponent<Transform>().Translate((player.GetComponent<heromove>().get_face()> 0 ? -1 : 1) * dir * speed * Time.deltaTime, 0, 0);
     }
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-            if(other.gameObject.GetComponent<heromove>()!=null)
         {
-            float face = other.gameObject.GetComponent<heromove>().get_face();
-                other.gameObject.GetComponent<Transform>().Translate((face > 0?-1:1)*dir * speed*Time.deltaTime,0, 0);
+            if (player == null)
+                    player = other.gameObject;
+            onplayer = true;
         }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+
+            onplayer = false;
+        
     }
 }
