@@ -3,7 +3,7 @@ using System.Collections;
 
 public class findPlayer : MonoBehaviour
 {
-    private heromove state_info;    
+  
 
     // Use this for initialization
     void Start()
@@ -28,9 +28,9 @@ public class findPlayer : MonoBehaviour
                 if (hit.collider.CompareTag("Player"))
                 {
 
-                    if (state_info == null)
+                    if (transform.parent.GetComponent<enemyBase>().get_state_info() == null)
                     {
-                        state_info = hit.collider.gameObject.GetComponent<heromove>();
+                        transform.parent.GetComponent<enemyBase>().set_state_info( hit.collider.gameObject.GetComponent<heromove>());
                         transform.parent.GetComponent<enemyBase>().set_targetplayer(hit.collider.gameObject);
                     }
 
@@ -49,11 +49,11 @@ public class findPlayer : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && state_info == null)
+        if (other.CompareTag("Player") && transform.parent.GetComponent<enemyBase>().get_state_info() == null)
         {
             //着地面にheromoveはアタッチされていないため
-           // if (other.gameObject.GetComponent<heromove>() != null)
-                state_info = other.gameObject.GetComponent<heromove>();
+            // if (other.gameObject.GetComponent<heromove>() != null)
+            transform.parent.GetComponent<enemyBase>().set_state_info(other.gameObject.GetComponent<heromove>());
             transform.parent.GetComponent<enemyBase>().set_targetplayer(other.gameObject);
         }
     }
@@ -67,7 +67,7 @@ public class findPlayer : MonoBehaviour
             {
 
 
-                if (state_info.get_state() == heromove.State.Invincible|| state_info.get_state() == heromove.State.InvincibleMove)
+                if (transform.parent.GetComponent<enemyBase>().get_state_info().get_state() == heromove.State.Invincible|| transform.parent.GetComponent<enemyBase>().get_state_info().get_state() == heromove.State.InvincibleMove)
                 {
                     transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);
                 }

@@ -45,7 +45,7 @@ public class chasePlayer : MonoBehaviour
         if (other.CompareTag("Player"))
         {
 
-                transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);
+            transform.parent.gameObject.GetComponent<enemyBase>().set_findPlayer(false);
             find = false;
         }
     }

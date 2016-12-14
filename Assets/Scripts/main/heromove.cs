@@ -9,6 +9,7 @@ public class heromove : MonoBehaviour
     public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
     public staminaGauge staminaText; //外部のstaminaオブジェクトを見えるよう定義
     public lookenemycount lookText;  //外部のlookenemycountオブジェクトを見えるよう定義
+    public lookedenemy lookedImg;  //外部のlookedenemyオブジェクトを見えるよう定義
     private bool lookenemy;      //敵からいったん視線を外した状態で敵を見たかどうか
 
     static public int nowstage;         //現在のステージ

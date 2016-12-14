@@ -2,8 +2,8 @@
 using System.Collections;
 
 public class enemyBase : MonoBehaviour {
+    private heromove state_info;
 
-   
     public float normalspeed = 7;            //追跡中移動速度
     public float runspeed = 10;            //追跡中移動速度
    
@@ -37,6 +37,14 @@ public class enemyBase : MonoBehaviour {
     public float rayangle;        //水平方向を中心とした視認範囲の角度
     public float raylength;       //視認の長さ
 
+    public void set_state_info(heromove set)
+    {
+        state_info = set;
+    }
+    public heromove get_state_info()
+    {
+        return state_info;
+    }
 
     public float get_face()
     {
@@ -65,6 +73,14 @@ public class enemyBase : MonoBehaviour {
 
     public void set_findPlayer(bool next)
     {
+        if (state_info != null)
+        {
+            if (get_findPlayer() == true && next == false)
+                state_info.lookedImg.GetComponent<lookedenemy>().set_lookedbyenemyadd(-1);
+            if (get_findPlayer() == false && next == true)
+                state_info.lookedImg.GetComponent<lookedenemy>().set_lookedbyenemyadd(1);
+        }
+
         findPlayer = next;
     }
 
