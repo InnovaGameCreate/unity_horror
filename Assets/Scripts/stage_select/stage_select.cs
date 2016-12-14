@@ -52,7 +52,6 @@ public class stage_select : MonoBehaviour
         // 子要素を全て取得する
         for (int i = 0; i < transform.childCount; i++)
         {
-
             stage[i] = transform.GetChild(i);
         }
         // stage[(int)stage_is].gameObject.SetActive(true);
