@@ -134,6 +134,13 @@ public class stage_select : MonoBehaviour
 
                     arrow[1].SetActive(true);
 
+                    if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    {
+                        stage[6].GetComponent<Animator>().SetInteger("New Int", -1);
+                        stage_is--;
+                    }
+
+
                     if (SaveData.GetInt("stage1") == 0)
                         break;
                     arrow[0].SetActive(true);
@@ -144,11 +151,7 @@ public class stage_select : MonoBehaviour
                         stage[6].GetComponent<Animator>().SetInteger("New Int", 1);
                         stage_is++;
                     }
-                    else if (Input.GetKeyDown(KeyCode.LeftArrow))
-                    {
-                        stage[6].GetComponent<Animator>().SetInteger("New Int", -1);
-                        stage_is--;
-                    }
+               
                     break;
                 case Stage.stage2:
    

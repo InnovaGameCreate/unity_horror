@@ -17,7 +17,8 @@ public class appearfoot : MonoBehaviour {
             {
                 foots[i].gameObject.SetActive(true);
                  nextpoing.SetActive(true);
-            }
+            }else
+                nextpoing.SetActive(false);
         }
 
 
