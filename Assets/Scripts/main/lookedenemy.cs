@@ -21,12 +21,14 @@ public class lookedenemy : MonoBehaviour
             gameObject.SetActive(false);
 
         }
-        if(lookedbyenemy>0)
+        else if(lookedbyenemy>0)
             gameObject.SetActive(true);
+
+        Debug.Log(lookedbyenemy);
     }
 
     public void set_lookedbyenemyadd(int set)
     {
-        lookedbyenemy += set;
+        lookedbyenemy ++;
     }
 }

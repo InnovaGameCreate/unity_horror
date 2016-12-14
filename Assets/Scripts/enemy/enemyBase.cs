@@ -75,9 +75,9 @@ public class enemyBase : MonoBehaviour {
     {
         if (state_info != null)
         {
-            if (get_findPlayer() == true && next == false)
+            if (next == false)
                 state_info.lookedImg.GetComponent<lookedenemy>().set_lookedbyenemyadd(-1);
-            if (get_findPlayer() == false && next == true)
+            if (next == true)
                 state_info.lookedImg.GetComponent<lookedenemy>().set_lookedbyenemyadd(1);
         }
 
