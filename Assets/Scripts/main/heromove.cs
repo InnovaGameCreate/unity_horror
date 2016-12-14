@@ -239,10 +239,12 @@ public class heromove : MonoBehaviour
     //プレイヤーの敵への目線
     public void ray_To_Enemy()
     {
-        for (int i = 0; i < 5; i++)
+        Vector3 rawposi = transform.position;
+        rawposi.x += 0.5f;
+        for (int i = 0; i < 9; i++)
         {
-            Debug.DrawRay(this.transform.position, 15 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -20f + i * 10.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f + i * 10.0f) * Vector3.right), Color.red, 0, false);
-            Ray ray = new Ray(transform.position, this.face > 0 ? Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -40f + i * 20.0f) * Vector3.right);
+            Debug.DrawRay(rawposi, 15 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -20f + i * 5.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f + i * 5.0f) * Vector3.right), Color.red, 0, false);
+            Ray ray = new Ray(rawposi, this.face > 0 ? Quaternion.Euler(0f, 0f, -20f + i * 5.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f + i * 5.0f) * Vector3.right);
             if (Physics.Raycast(ray, out hit, 4.0f, mask))
             {
                 if (hit.collider.tag == "Enemy")
@@ -277,7 +279,7 @@ public class heromove : MonoBehaviour
                 }
 
             }
-            if (hit.collider == null)
+            if (i==8&&hit.collider == null)
                 lookenemy = false;
 
 

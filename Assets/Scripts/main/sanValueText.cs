@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class sanValueText : MonoBehaviour
 {
     private float san = 100;     //san値
+    private float sanrealmax = 100; //補正がかかった状態のsan最大値
     private float sanmax = 100;  //san最大値
 
     public float san_plustime = 0.07f;   //san値増加時間間隔
@@ -23,7 +24,7 @@ public class sanValueText : MonoBehaviour
     void Start()
     {
 
-        san = sanmax;
+        san = sanrealmax=sanmax;
     }
 
     // Update is called once per frame
@@ -42,7 +43,8 @@ public class sanValueText : MonoBehaviour
             if (timeElapsed >= san_plustime)
             {
 
-                san = san < sanmax ? san + 1 : sanmax;
+                if(san<sanrealmax)
+                san = san < sanrealmax ? san + 1 : sanrealmax;
                 timeElapsed = 0.0f;
 
             }
@@ -57,7 +59,7 @@ public class sanValueText : MonoBehaviour
 
    
         //煙を焚く
-        if (san<sanmax/2)
+        if (san<sanrealmax/2)
         {
             if (SceneManager.GetSceneByName("danger").isLoaded == false)
             {
@@ -84,6 +86,8 @@ public class sanValueText : MonoBehaviour
 
         sanautocount = sanautocountmax;
         san = san > 0 ? san - minus : 0;
+
+        //死んだ
         if (san < 1)
         {
             life_info.minus_life();
@@ -91,7 +95,7 @@ public class sanValueText : MonoBehaviour
         }
 
     }
-
+    
     //san値が大きく減少
     public void minusbig_san(float minus)
     {
@@ -115,7 +119,7 @@ public class sanValueText : MonoBehaviour
     public void kill_san()
     {
         //collisionStayのダブり誤差のため-10
-        minus_san(sanmax);
+        minus_san(sanrealmax);
     }
 
 
@@ -129,4 +133,12 @@ public class sanValueText : MonoBehaviour
         return sanmax;
     }
 
+    public void set_sanrealmax(float next)
+    {
+        sanrealmax = next;
+    }
+    public float get_sanrealmax()
+    {
+        return sanrealmax;
+    }
 }

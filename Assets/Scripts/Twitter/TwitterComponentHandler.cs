@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-//using SimpleJSON;
+using SimpleJSON;
 
 public class TwitterComponentHandler : MonoBehaviour
 {
@@ -111,13 +111,15 @@ public class TwitterComponentHandler : MonoBehaviour
     {
         print("OnPostTweet - " + (success ? "succedded." : "failed."));
 
-        //if (success)
-        //{
-        //    var json = JSON.Parse(response);
+        if (success)
+        {
 
-        //    print(json["id"]);
-        //}
+            var json = JSON.Parse(response);
+
+            print(json["id"]);
+        }
     }
+
 
 
 }
