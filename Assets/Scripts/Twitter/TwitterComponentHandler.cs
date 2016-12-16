@@ -9,6 +9,8 @@ public class TwitterComponentHandler : MonoBehaviour
     public GameObject inputPINField;
     public GameObject inputTweetField;
 
+    public changetweet cha;
+
     private const string CONSUMER_KEY = "Ln1nWOhuqw4pnVy9YHFj1g8ui";
     private const string CONSUMER_SECRET = "Ug9JhS8IqIhpWiuOdhzFroSI7LjfcfRvi2mIp05ZfPu5ovF5Li";
 
@@ -86,6 +88,7 @@ public class TwitterComponentHandler : MonoBehaviour
     {
         if (success)
         {
+            cha.finishOneStep();
             string log = "OnAccessTokenCallback - succeeded";
             log += "\n    UserId : " + response.UserId;
             log += "\n    ScreenName : " + response.ScreenName;
@@ -113,7 +116,7 @@ public class TwitterComponentHandler : MonoBehaviour
 
         if (success)
         {
-
+            cha.finishTwoStep();
             var json = JSON.Parse(response);
 
             print(json["id"]);

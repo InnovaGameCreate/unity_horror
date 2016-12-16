@@ -6,7 +6,7 @@ public class clearselect : MonoBehaviour {
 
 
     private int selecting = 0;
-    private int maxselect = 3;
+    private int maxselect = 4;
 
 
     // Use this for initialization
@@ -19,19 +19,22 @@ public class clearselect : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (SceneManager.GetSceneByName("tweet").isLoaded == true)
+            return;
+
         //escメニューの選択
         if (selecting < maxselect - 1 && Input.GetKeyDown(KeyCode.DownArrow))
         {
 
             Vector2 pos = GetComponent<RectTransform>().anchoredPosition;
-            pos.y -= 120;
+            pos.y -= 90;
             GetComponent<RectTransform>().anchoredPosition = pos;
             selecting++;
         }
         else if (selecting > 0 && Input.GetKeyDown(KeyCode.UpArrow))
         {
             Vector2 pos = GetComponent<RectTransform>().anchoredPosition;
-            pos.y += 120;
+            pos.y += 90;
             GetComponent<RectTransform>().anchoredPosition = pos;
             selecting--;
         }
@@ -48,6 +51,9 @@ public class clearselect : MonoBehaviour {
                     break;
                 case 2:
                     SceneManager.LoadScene("stage_select");
+                    break;
+                case 3:
+                    SceneManager.LoadScene("tweet", LoadSceneMode.Additive);
                     break;
             }
 
