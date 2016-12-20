@@ -40,6 +40,7 @@ public class TwitterComponentHandler : MonoBehaviour
 
     public void OnClickGetPINButon()
     {
+        cha.firsterrornone();
         StartCoroutine(Twitter.API.GetRequestToken(CONSUMER_KEY, CONSUMER_SECRET,
             new Twitter.RequestTokenCallback(this.OnRequestTokenCallback)));
     }
@@ -106,6 +107,7 @@ public class TwitterComponentHandler : MonoBehaviour
         }
         else
         {
+            cha.firsterror();
             print("OnAccessTokenCallback - failed.");
         }
     }

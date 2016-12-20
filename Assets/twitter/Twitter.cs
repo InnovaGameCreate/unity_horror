@@ -88,10 +88,11 @@ namespace Twitter
 
         public static IEnumerator GetAccessToken(string consumerKey, string consumerSecret, string requestToken, string pin, AccessTokenCallback callback)
         {
+
             WWW web = WWWAccessToken(consumerKey, consumerSecret, requestToken, pin);
 
             yield return web;
-
+       
             if (!string.IsNullOrEmpty(web.error))
             {
                 Debug.Log(string.Format("GetAccessToken - failed. error : {0}", web.error));

@@ -1,26 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class changetweet : MonoBehaviour {
-   public GameObject[]setting;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-    
-   public void finishOneStep()
+public class changetweet : MonoBehaviour
+{
+    public GameObject[] setting;
+    public GameObject error;
+    // Use this for initialization
+    void Start()
     {
-        for (int i = 0; i < 3; i++)
-            setting[i].SetActive(false);
 
-        for (int i = 3; i < 5; i++)
-            setting[i].SetActive(true);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+    public void firsterror()
+    {
+        error.GetComponent<Text>().enabled = true;
+    }
+    public void firsterrornone()
+    {
+        error.GetComponent<Text>().enabled = false;
+    }
+    public void finishOneStep()
+    {
+        error.GetComponent<Text>().enabled = false;
+       
+            setting[0].SetActive(false);
+
+   
+            setting[1].SetActive(true);
     }
     public void finishTwoStep()
     {
