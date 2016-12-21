@@ -6,7 +6,7 @@ public class clearselect : MonoBehaviour {
 
 
     private int selecting = 0;
-    private int maxselect = 4;
+    private int maxselect = 5;
 
 
     // Use this for initialization
@@ -54,6 +54,9 @@ public class clearselect : MonoBehaviour {
                     break;
                 case 3:
                     SceneManager.LoadScene("tweet", LoadSceneMode.Additive);
+                    break;
+                case 4:
+                    SceneManager.LoadScene("LeaderBoard");
                     break;
             }
 
