@@ -5,14 +5,16 @@ namespace NCMB
 {
     public class HighScore
     {
+        public int time { get; set; }
         public int score { get; set; }
         public string name { get; private set; }
 
         // コンストラクタ -----------------------------------
-        public HighScore(int _score, string _name)
+        public HighScore(int _score,int _time, string _name)
         {
             score = _score;
             name = _name;
+            time = _time;
         }
 
         // サーバーにハイスコアを保存 -------------------------
@@ -27,6 +29,7 @@ namespace NCMB
                 if (e == null)
                 {
                     objList[0]["Score"] = score;
+                    objList[0]["Time"] = time;
                     objList[0].SaveAsync();
                 }
             });
@@ -48,14 +51,17 @@ namespace NCMB
                     {
                         NCMBObject obj = new NCMBObject("HighScore");
                         obj["Name"] = name;
-                        obj["Score"] = 0;
+                        obj["Score"] = 100;                //許容目視回数100回以上のマップは作らないこと
+                        obj["Time"] =60*10;        //残り時間10分以上のマップは作らないこと
                         obj.SaveAsync();
-                        score = 0;
+                        score = 100;
+                        time= 60 * 10;
                     }
                     // ハイスコアが登録済みだったら
                     else
                     {
                         score = System.Convert.ToInt32(objList[0]["Score"]);
+                        time = System.Convert.ToInt32(objList[0]["Time"]);
                     }
                 }
             });
@@ -64,7 +70,7 @@ namespace NCMB
         // ランキングで表示するために文字列を整形 -----------
         public string print()
         {
-            return name + ' ' + score;
+            return name + ' ' + score+' '+time;
         }
     }
 

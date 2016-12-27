@@ -42,7 +42,7 @@ public class LeaderBoardManager : MonoBehaviour
 
         // 現在のハイスコアを取得
         string name = FindObjectOfType<UserAuth>().currentPlayer();
-        currentHighScore = new NCMB.HighScore(-1, name);
+        currentHighScore = new NCMB.HighScore(-1,-1, name);
         currentHighScore.fetch();
     }
 
@@ -72,7 +72,7 @@ public class LeaderBoardManager : MonoBehaviour
             int offset = 2;
             if (lBoard.currentRank == 1) offset = 0;
             if (lBoard.currentRank == 2) offset = 1;
-
+            Debug.Log(lBoard.currentRank);
             // 取得したトップ5ランキングを表示
             for (int i = 0; i < lBoard.topRankers.Count; ++i)
             {
@@ -87,7 +87,7 @@ public class LeaderBoardManager : MonoBehaviour
             isLeaderBoardFetched = true;
         }
 
-        if ((count > 1) && (top[0].GetComponent<GUIText>().text == "" || nei[0].GetComponent<GUIText>().text == ""))
+        if ((count > 2) && (top[0].GetComponent<GUIText>().text == "" || nei[0].GetComponent<GUIText>().text == ""))
         {
 
             initialize();

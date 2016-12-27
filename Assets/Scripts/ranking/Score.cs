@@ -2,21 +2,24 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class Score : MonoBehaviour {
+public class Score : MonoBehaviour
+{
     private NCMB.HighScore highScore;
     private bool isNewRecord;
-    private int score=0;
+    private int score, time;
     private bool flag = false;
     public Text scoreGUIText;
     public Text highScoreGUIText;
-
+    public Text highTimeGUIText;
+    private float count;
     void Start()
     {
         Initialize();
         score = lookenemycount.get_lookcount();
+        time = (int)timercount.usedtime;
         // ハイスコアを取得する。保存されてなければ0点。
         string name = FindObjectOfType<UserAuth>().currentPlayer();
-        highScore = new NCMB.HighScore(0, name);
+        highScore = new NCMB.HighScore(-1,-1, name);
         highScore.fetch();
     }
 
@@ -31,13 +34,20 @@ public class Score : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
-        // スコアがハイスコアより大きければ
-        if (highScore.score < score)
+        count += Time.deltaTime;
+        // スコアがハイスコアより小さければ
+        if (highScore.score > score)
         {
             isNewRecord = true; // フラグを立てる
             flag = true;
             highScore.score = score;
+            highScore.time = time;
+        }
+        else if (highScore.score == score && highScore.time > time)
+        {
+            isNewRecord = true; // フラグを立てる
+            flag = true;
+            highScore.time = time;
         }
         if (flag == true)
         {
@@ -46,8 +56,10 @@ public class Score : MonoBehaviour {
         }
         // スコア・ハイスコアを表示する
         scoreGUIText.text = score.ToString();
-        highScoreGUIText.text = "HighScore : " + highScore.score.ToString();
-
+        if (highScore.score != 100 && count > 1)
+            highScoreGUIText.text = "HighScore : " + highScore.score.ToString();
+        if (highScore.time != 60*10 && count > 1)
+            highTimeGUIText.text = "HighTime  : " + highScore.time.ToString();
 
     }
     // ハイスコアの保存
@@ -58,6 +70,6 @@ public class Score : MonoBehaviour {
             highScore.save();
 
         // ゲーム開始前の状態に戻す
-      //  Initialize();
+        //  Initialize();
     }
 }

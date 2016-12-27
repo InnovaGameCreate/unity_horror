@@ -13,7 +13,7 @@ public class rankingname : MonoBehaviour {
     }
     void Update()
     {
-        if (FindObjectOfType<UserAuth>().currentPlayer() != null)
+        if (FindObjectOfType<UserAuth>().currentPlayer() != "")
             SceneManager.LoadScene("stage_select");
     }            
    public void deciderankname()

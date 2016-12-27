@@ -5,13 +5,13 @@ using NCMB;
 
 public class UserAuth : SingletonMonoBehaviour<UserAuth>
 {
-   private string currentPlayerName;
+   public string currentPlayerName;
     // パスワードは適当に設定
     static string PASSWORD = "zwDyWpnKZx74xdayyhs34s";
 
     public void AnonymousLogin()
     {
-        string id = currentPlayerName;// UUIDManager.Instance.uuid;
+        string id = SaveData.GetString("rankname");// UUIDManager.Instance.uuid;
         string pw = PASSWORD;
         NCMBUser.LogInAsync(id, pw, (NCMBException e) => {
             if (e == null)

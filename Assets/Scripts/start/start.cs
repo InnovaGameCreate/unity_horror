@@ -18,7 +18,10 @@ public class start : MonoBehaviour
             if (SaveData.GetString("rankname") == "")
                 SceneManager.LoadScene("rankingname");
             else
+            {
                 SceneManager.LoadScene("stage_select");
+                UserAuth.Instance.AnonymousLogin();
+            }
         }
     }
 }

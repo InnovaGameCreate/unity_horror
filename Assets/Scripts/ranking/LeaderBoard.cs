@@ -1,5 +1,6 @@
 ﻿using NCMB;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class LeaderBoard
 {
@@ -13,7 +14,10 @@ public class LeaderBoard
     {
         // データスコアの「HighScore」から検索
         NCMBQuery<NCMBObject> rankQuery = new NCMBQuery<NCMBObject>("HighScore");
-        rankQuery.WhereGreaterThan("Score", currentScore);
+        rankQuery.OrderByAscending("Score");
+        rankQuery.AddAscendingOrder("Time");
+   
+        rankQuery.WhereLessThanOrEqualTo("Score", currentScore);
         rankQuery.CountAsync((int count, NCMBException e) => {
 
             if (e != null)
@@ -22,10 +26,14 @@ public class LeaderBoard
             }
             else
             {
+                //WhereLessThanOrEqualToのときは1から数えてくれるので count
+                //WhereGreaterThanOrEqualToのときは0から数えるのでcount+1
                 //件数取得成功
-                currentRank = count + 1; // 自分よりスコアが上の人がn人いたら自分はn+1位
+                currentRank = count; // 自分よりスコアが上の人がn人いたら自分はn+1位
+                Debug.Log("count"+count);
             }
         });
+
     }
 
     // サーバーからトップ5を取得 ---------------    
@@ -33,7 +41,11 @@ public class LeaderBoard
     {
         // データストアの「HighScore」クラスから検索
         NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore");
-        query.OrderByDescending("Score");
+       
+        query.OrderByAscending("Score");
+        query.AddAscendingOrder("Time");
+
+        // query.OrderByDescending("Score");
         query.Limit = 5;
         query.FindAsync((List<NCMBObject> objList, NCMBException e) => {
 
@@ -50,7 +62,8 @@ public class LeaderBoard
                 {
                     int s = System.Convert.ToInt32(obj["Score"]);
                     string n = System.Convert.ToString(obj["Name"]);
-                    list.Add(new HighScore(s, n));
+                    int t = System.Convert.ToInt32(obj["Time"]);
+                    list.Add(new HighScore(s,t, n));
                 }
                 topRankers = list;
             }
@@ -68,7 +81,10 @@ public class LeaderBoard
 
         // データストアの「HighScore」クラスから検索
         NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore");
-        query.OrderByDescending("Score");
+      
+        query.OrderByAscending("Score");
+        query.AddAscendingOrder("Time");
+        // query.OrderByDescending("Score");
         query.Skip = numSkip;
         query.Limit = 5;
         query.FindAsync((List<NCMBObject> objList, NCMBException e) => {
@@ -86,7 +102,8 @@ public class LeaderBoard
                 {
                     int s = System.Convert.ToInt32(obj["Score"]);
                     string n = System.Convert.ToString(obj["Name"]);
-                    list.Add(new HighScore(s, n));
+                    int t = System.Convert.ToInt32(obj["Time"]);
+                    list.Add(new HighScore(s,t, n));
                 }
                 neighbors = list;
             }
