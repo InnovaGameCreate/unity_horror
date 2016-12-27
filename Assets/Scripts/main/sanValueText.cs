@@ -20,10 +20,11 @@ public class sanValueText : MonoBehaviour
 
     private float nextbigminuscount=0;
     private const float nextbigminussan = 2;    //大きくSAN値削れてから次に大きく削れるまでの時間
+    private GameObject player;
     // Use this for initialization
     void Start()
     {
-
+        
         san = sanrealmax=sanmax;
     }
 

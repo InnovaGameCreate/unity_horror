@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Score : MonoBehaviour {
     private NCMB.HighScore highScore;
     private bool isNewRecord;
-    private int score;
+    private int score=0;
     private bool flag = false;
     public Text scoreGUIText;
     public Text highScoreGUIText;
@@ -13,7 +13,7 @@ public class Score : MonoBehaviour {
     void Start()
     {
         Initialize();
-        score = lookenemycount.get_restcount();
+        score = lookenemycount.get_lookcount();
         // ハイスコアを取得する。保存されてなければ0点。
         string name = FindObjectOfType<UserAuth>().currentPlayer();
         highScore = new NCMB.HighScore(0, name);
@@ -58,6 +58,6 @@ public class Score : MonoBehaviour {
             highScore.save();
 
         // ゲーム開始前の状態に戻す
-       // Initialize();
+      //  Initialize();
     }
 }

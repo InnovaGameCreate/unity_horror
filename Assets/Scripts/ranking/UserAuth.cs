@@ -1,58 +1,61 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using NCMB;
-using System.Collections.Generic;
 
-public class UserAuth : MonoBehaviour
+public class UserAuth : SingletonMonoBehaviour<UserAuth>
 {
+   private string currentPlayerName;
+    // パスワードは適当に設定
+    static string PASSWORD = "zwDyWpnKZx74xdayyhs34s";
 
-    private string currentPlayerName;
-
-    // mobile backendに接続してログイン ------------------------
-
-    public void logIn(string id, string pw)
+    public void AnonymousLogin()
     {
-
+        string id = currentPlayerName;// UUIDManager.Instance.uuid;
+        string pw = PASSWORD;
         NCMBUser.LogInAsync(id, pw, (NCMBException e) => {
-            // 接続成功したら
             if (e == null)
             {
                 currentPlayerName = id;
+                Debug.Log("anonymous login");
+            }
+            else if (e.ErrorCode == NCMBException.INCORRECT_PASSWORD)
+            {
+                // ユーザーがDBに登録されていない場合は登録する
+                AnonymousSignup();
             }
         });
     }
 
-    // mobile backendに接続して新規会員登録 ------------------------
-
-    public void signUp(string id, string mail, string pw)
+    public void AnonymousSignup()
     {
-
         NCMBUser user = new NCMBUser();
-        user.UserName = id;
-        user.Email = mail;
-        user.Password = pw;
+        user.UserName = SaveData.GetString("rankname"); ;//UUIDManager.Instance.uuid;
+        user.Password = PASSWORD;
+        NCMBACL acl = new NCMBACL();
+        acl.SetWriteAccess("*", true);
+        acl.SetReadAccess("*", true);
+        user.ACL = acl;
         user.SignUpAsync((NCMBException e) => {
-
             if (e == null)
             {
-                currentPlayerName = id;
+                Debug.Log("anonymous signup");
+                currentPlayerName= user.UserName;
             }
+  
         });
     }
 
-    // mobile backendに接続してログアウト ------------------------
-
-    public void logOut()
+    public void Logout()
     {
-
         NCMBUser.LogOutAsync((NCMBException e) => {
             if (e == null)
             {
                 currentPlayerName = null;
+                Debug.Log("logout");
             }
         });
     }
-
     // 現在のプレイヤー名を返す --------------------
     public string currentPlayer()
     {

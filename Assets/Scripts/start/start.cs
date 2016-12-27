@@ -7,7 +7,7 @@ public class start : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-      
+
     }
 
     // Update is called once per frame
@@ -15,7 +15,10 @@ public class start : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            SceneManager.LoadScene("stage_select");
+            if (SaveData.GetString("rankname") == "")
+                SceneManager.LoadScene("rankingname");
+            else
+                SceneManager.LoadScene("stage_select");
         }
     }
 }

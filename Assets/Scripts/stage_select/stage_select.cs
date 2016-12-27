@@ -66,8 +66,10 @@ public class stage_select : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (SceneManager.GetSceneByName("configmenu").isLoaded == true)
+            return;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.Escape))
             SaveData.Clear();
    
             arrow[0].SetActive(false);

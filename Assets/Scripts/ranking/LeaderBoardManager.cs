@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LeaderBoardManager : MonoBehaviour
 {
@@ -17,10 +18,10 @@ public class LeaderBoardManager : MonoBehaviour
 
     // ボタンが押されると対応する変数がtrueになる
     private bool backButton;
-
+    private float count;
     void Start()
     {
-        lBoard = new LeaderBoard();
+     
 
         // テキストを表示するゲームオブジェクトを取得
         for (int i = 0; i < 5; ++i)
@@ -29,6 +30,11 @@ public class LeaderBoardManager : MonoBehaviour
             nei[i] = GameObject.Find("Neighbor" + i);
         }
 
+        initialize();
+    }
+    void initialize()
+    {
+        lBoard = new LeaderBoard();
         // フラグ初期化
         isScoreFetched = false;
         isRankFetched = false;
@@ -42,6 +48,8 @@ public class LeaderBoardManager : MonoBehaviour
 
     void Update()
     {
+        count += Time.deltaTime;
+   
         // 現在のハイスコアの取得が完了したら1度だけ実行
         if (currentHighScore.score != -1 && !isScoreFetched)
         {
@@ -78,6 +86,13 @@ public class LeaderBoardManager : MonoBehaviour
             }
             isLeaderBoardFetched = true;
         }
+
+        if ((count > 1) && (top[0].GetComponent<GUIText>().text == "" || nei[0].GetComponent<GUIText>().text == ""))
+        {
+
+            initialize();
+            count = 0;
+        }
     }
 
     void OnGUI()
@@ -85,7 +100,11 @@ public class LeaderBoardManager : MonoBehaviour
         drawMenu();
         // 戻るボタンが押されたら
         if (backButton)
-            Application.LoadLevel("gameclear");
+        {
+
+                Application.LoadLevel("gameclear");
+
+        }
     }
 
     private void drawMenu()

@@ -26,12 +26,13 @@ public class Manager : MonoBehaviour
 
             // ログアウトボタンが押されたら
             if (logOutButton)
-                FindObjectOfType<UserAuth>().logOut();
+            //  FindObjectOfType<UserAuth>().logOut();
+            UserAuth.Instance.Logout();
 
-            //// 画面タップでゲームスタート
-            //if (Event.current.type == EventType.MouseDown)
-            //    GameStart();
-        
+        //// 画面タップでゲームスタート
+        //if (Event.current.type == EventType.MouseDown)
+        //    GameStart();
+
 
         // ログアウト完了してたらログインメニューに戻る
         if (FindObjectOfType<UserAuth>().currentPlayer() == null)

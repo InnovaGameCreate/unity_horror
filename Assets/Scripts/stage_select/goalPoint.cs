@@ -30,6 +30,7 @@ public class goalPoint : MonoBehaviour
             if (SaveData.GetInt("stage" + stageno.ToString()) == 0)
             {
                 SaveData.SetInt("stage" + stageno.ToString(), 1);
+                //ステージ選択画面で外部ファイルからフラグを読み取るためここでセーブ
                 SaveData.Save();
                 newclear = stageno;
             }

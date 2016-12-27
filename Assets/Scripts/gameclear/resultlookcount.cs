@@ -6,7 +6,7 @@ public class resultlookcount : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        this.GetComponent<Text>().text ="名状しがたきものを見た回数："+ lookenemycount.get_restcount().ToString()+"回";
+        this.GetComponent<Text>().text ="名状しがたきものを見た回数："+ lookenemycount.get_lookcount().ToString()+"回";
     }
 	
 	// Update is called once per frame
