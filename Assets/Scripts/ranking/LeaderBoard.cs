@@ -10,14 +10,14 @@ public class LeaderBoard
     public List<NCMB.HighScore> neighbors = null;
 
     // 現プレイヤーのハイスコアを受けとってランクを取得 ---------------
-    public void fetchRank(int currentScore)
+    public void fetchRank(int currentScore, int currentTime)
     {
         // データスコアの「HighScore」から検索
-        NCMBQuery<NCMBObject> rankQuery = new NCMBQuery<NCMBObject>("HighScore");
-        rankQuery.OrderByAscending("Score");
-        rankQuery.AddAscendingOrder("Time");
+        NCMBQuery<NCMBObject> rankQuery = new NCMBQuery<NCMBObject>("HighScore" + (int)stage_select.stage_is);
+        rankQuery.OrderByAscending("Total");
    
-        rankQuery.WhereLessThanOrEqualTo("Score", currentScore);
+        rankQuery.WhereLessThanOrEqualTo("Total", currentScore*1000+ currentTime);
+     
         rankQuery.CountAsync((int count, NCMBException e) => {
 
             if (e != null)
@@ -40,10 +40,9 @@ public class LeaderBoard
     public void fetchTopRankers()
     {
         // データストアの「HighScore」クラスから検索
-        NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore");
-       
-        query.OrderByAscending("Score");
-        query.AddAscendingOrder("Time");
+        NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore" + (int)stage_select.stage_is);
+
+        query.OrderByAscending("Total");
 
         // query.OrderByDescending("Score");
         query.Limit = 5;
@@ -80,10 +79,9 @@ public class LeaderBoard
         if (numSkip < 0) numSkip = 0;
 
         // データストアの「HighScore」クラスから検索
-        NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore");
-      
-        query.OrderByAscending("Score");
-        query.AddAscendingOrder("Time");
+        NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore" + (int)stage_select.stage_is);
+
+        query.OrderByAscending("Total");
         // query.OrderByDescending("Score");
         query.Skip = numSkip;
         query.Limit = 5;

@@ -8,7 +8,7 @@ public class stage_select : MonoBehaviour
     public GameObject[] arrow;
     //ステージ
     //以下の順に入れ子構造にすること
-    private enum Stage
+   public enum Stage
     {
         tutorial,
         stage1,
@@ -35,7 +35,7 @@ public class stage_select : MonoBehaviour
     }
 
 
-    static private Stage stage_is = 0;
+    static public Stage stage_is = 0;
     static Vector2 charaposi;
 
     private bool moving;

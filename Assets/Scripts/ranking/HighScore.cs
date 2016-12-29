@@ -21,7 +21,7 @@ namespace NCMB
         public void save()
         {
             // データストアの「HighScore」クラスから、Nameをキーにして検索
-            NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore");
+            NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore"+ (int)stage_select.stage_is);
             query.WhereEqualTo("Name", name);
             query.FindAsync((List<NCMBObject> objList, NCMBException e) => {
 
@@ -30,6 +30,7 @@ namespace NCMB
                 {
                     objList[0]["Score"] = score;
                     objList[0]["Time"] = time;
+                    objList[0]["Total"] = score*1000+time;
                     objList[0].SaveAsync();
                 }
             });
@@ -39,7 +40,7 @@ namespace NCMB
         public void fetch()
         {
             // データストアの「HighScore」クラスから、Nameをキーにして検索
-            NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore");
+            NCMBQuery<NCMBObject> query = new NCMBQuery<NCMBObject>("HighScore"+ (int)stage_select.stage_is);
             query.WhereEqualTo("Name", name);
             query.FindAsync((List<NCMBObject> objList, NCMBException e) => {
 
@@ -49,10 +50,11 @@ namespace NCMB
                     // ハイスコアが未登録だったら
                     if (objList.Count == 0)
                     {
-                        NCMBObject obj = new NCMBObject("HighScore");
+                        NCMBObject obj = new NCMBObject("HighScore"+ (int)stage_select.stage_is);
                         obj["Name"] = name;
                         obj["Score"] = 100;                //許容目視回数100回以上のマップは作らないこと
                         obj["Time"] =60*10;        //残り時間10分以上のマップは作らないこと
+                        obj["Total"] = 100*1000+60 * 10;
                         obj.SaveAsync();
                         score = 100;
                         time= 60 * 10;
@@ -70,8 +72,18 @@ namespace NCMB
         // ランキングで表示するために文字列を整形 -----------
         public string print()
         {
-            return name + ' ' + score+' '+time;
+            return name ;
         }
+        public string print_count()
+        {
+            return score + "回" ;
+        }
+        public string print_time()
+        {
+            return  time + "秒";
+        }
+
+
     }
 
 }

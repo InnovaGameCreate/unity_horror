@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-public class start : MonoBehaviour
+
+public class rankingmanager : MonoBehaviour
 {
-    
+    //どのシーンからやってきたか
+    public static int fromscene;
     // Use this for initialization
     void Start()
     {
@@ -15,13 +17,10 @@ public class start : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            if (SaveData.GetString("rankname") == ""/*|| SaveData.GetString("pass")==""*/)
-                SceneManager.LoadScene("rankingname");
-            else
-            {
+            if (fromscene == 0)
                 SceneManager.LoadScene("stage_select");
-                UserAuth.Instance.AnonymousLogin();
-            }
+            else
+                SceneManager.LoadScene("gameclear");
         }
     }
 }

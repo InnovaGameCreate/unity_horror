@@ -54,15 +54,16 @@ public class clearselect : MonoBehaviour
                     SceneManager.LoadScene("stage_select");
                     break;
                 case 3:
-                    if( UserAuth.Instance.currentPlayer() == null)
+                    if (UserAuth.Instance.currentPlayer() == null)
                     {
                         SceneManager.LoadScene("LogIn");
-               
+
                     }
                     else
+                    {
                         SceneManager.LoadScene("LeaderBoard");
-
-
+                        rankingmanager.fromscene = 1;
+                    }
                     break;
                 case 4:
                     SceneManager.LoadScene("tweet", LoadSceneMode.Additive);

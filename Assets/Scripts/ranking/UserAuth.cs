@@ -30,7 +30,7 @@ public class UserAuth : SingletonMonoBehaviour<UserAuth>
     public void AnonymousSignup()
     {
         NCMBUser user = new NCMBUser();
-        user.UserName = SaveData.GetString("rankname"); ;//UUIDManager.Instance.uuid;
+        user.UserName = rankingname.resistname; ;//UUIDManager.Instance.uuid;
         user.Password = PASSWORD;
         NCMBACL acl = new NCMBACL();
         acl.SetWriteAccess("*", true);

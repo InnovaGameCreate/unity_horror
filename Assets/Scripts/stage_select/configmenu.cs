@@ -46,6 +46,7 @@ public class configmenu : MonoBehaviour {
                     }
                     else
                         SceneManager.LoadScene("LeaderBoard");
+                    rankingmanager.fromscene = 0;
                     break;
                 case 2:
                     Application.Quit();

@@ -8,7 +8,9 @@ public class Score : MonoBehaviour
     private bool isNewRecord;
     private int score, time;
     private bool flag = false;
+    public Text stage;
     public Text scoreGUIText;
+    public Text timeGUIText;
     public Text highScoreGUIText;
     public Text highTimeGUIText;
     private float count;
@@ -21,6 +23,8 @@ public class Score : MonoBehaviour
         string name = FindObjectOfType<UserAuth>().currentPlayer();
         highScore = new NCMB.HighScore(-1,-1, name);
         highScore.fetch();
+        stage.text = "ステージ" + (int)heromove.nowstage;
+
     }
 
     private void Initialize()
@@ -55,12 +59,12 @@ public class Score : MonoBehaviour
             flag = false;
         }
         // スコア・ハイスコアを表示する
-        scoreGUIText.text = score.ToString();
+        scoreGUIText.text = "名状しがたきものを見た回数　" + score.ToString() + "回";
+        timeGUIText.text = "経過時間　" + ((int)(time / 60)).ToString() + "分" + ((int)time % 60).ToString() + "秒";
         if (highScore.score != 100 && count > 1)
-            highScoreGUIText.text = "HighScore : " + highScore.score.ToString();
+            highScoreGUIText.text = "名状しがたきものを見た回数　" + highScore.score.ToString() + "回";
         if (highScore.time != 60*10 && count > 1)
-            highTimeGUIText.text = "HighTime  : " + highScore.time.ToString();
-
+            highTimeGUIText.text = "経過時間　" + ((int)(highScore.time / 60)).ToString() + "分" + ((int)highScore.time % 60).ToString() + "秒";
     }
     // ハイスコアの保存
     public void Save()
