@@ -91,8 +91,8 @@ public class sanValueText : MonoBehaviour
         //死んだ
         if (san < 1)
         {
-            life_info.minus_life();
-            san = sanmax;
+           life_info.minus_life();
+            //san = sanmax;
         }
 
     }
@@ -110,7 +110,7 @@ public class sanValueText : MonoBehaviour
             if (san < 1)
             {
                 life_info.minus_life();
-                san = sanmax;
+               // san = sanmax;
             }
         }
 

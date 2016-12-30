@@ -7,8 +7,10 @@ public class playerLife : MonoBehaviour
 {
 
     static private int lifevalue = 3;
+    private float count;
     static private bool flag;
-
+    private bool deadflag;
+    private GameObject hero;
     public static string[] scenename = {
          "チュートリアル",
               "ステージ1",
@@ -26,6 +28,7 @@ public class playerLife : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        hero = GameObject.Find("プレイヤー");
         if (flag == false)
             lifevalue = 3;
     }
@@ -34,34 +37,53 @@ public class playerLife : MonoBehaviour
     void Update()
     {
         this.GetComponent<Text>().text = lifevalue.ToString();
+        if (deadflag == true)
+        {
+            count += Time.deltaTime;
+            hero.GetComponent<heromove>().set_exlock();
+            if (count > 2)
+            {
+                for (int i = 0; i < scenename.Length; i++)
+                {
+                    if (lifevalue == 1)
+                    {
+                        flag = false;
+                        SceneManager.LoadScene("gameover");           //ゲームオーバーシーンへ
+                    }
+                    else if (SceneManager.GetSceneByName(scenename[i]).isLoaded == true)
+                        SceneManager.LoadScene(scenename[i]); //リスタート
 
+                }
+                count = 0;
+                deadflag = false;
+                lifevalue--;
+            }
+        }
     }
 
-    void Awake()
-    {
-
-
-    }
 
     //ライフの減少とそれに伴うシーン処理
-    public void minus_life()
+    public bool minus_life()
     {
+        
+        if (lifevalue > 0)
+        {
+            flag = true;
+            deadflag = true;
+            hero.GetComponent<Animator>().SetTrigger("dead");
+            hero.GetComponent<heromove>().set_exlock();
+  
 
-        if (--lifevalue < 1)
+        }
+        else 
         {
             flag = false;
             SceneManager.LoadScene("gameover");           //ゲームオーバーシーンへ
 
         }
-        else
-        {
-            flag = true;
-            for (int i = 0; i < scenename.Length; i++)
-                if (SceneManager.GetSceneByName(scenename[i]).isLoaded == true)
-                    SceneManager.LoadScene(scenename[i]); //リスタート
-
-        }
+     
         Resources.UnloadUnusedAssets();
 
+        return false;
     }
 }

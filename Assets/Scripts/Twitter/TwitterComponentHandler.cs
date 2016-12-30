@@ -85,11 +85,42 @@ public class TwitterComponentHandler : MonoBehaviour
         }
     }
 
+   
+    public void LoadTwitterUserInfo()
+    {
+        m_AccessTokenResponse = new Twitter.AccessTokenResponse();
+
+        m_AccessTokenResponse.UserId = SaveData.GetString(PLAYER_PREFS_TWITTER_USER_ID);
+        m_AccessTokenResponse.ScreenName = SaveData.GetString(PLAYER_PREFS_TWITTER_USER_SCREEN_NAME);
+        m_AccessTokenResponse.Token = SaveData.GetString(PLAYER_PREFS_TWITTER_USER_TOKEN);
+        m_AccessTokenResponse.TokenSecret = SaveData.GetString(PLAYER_PREFS_TWITTER_USER_TOKEN_SECRET);
+
+        if (!string.IsNullOrEmpty(m_AccessTokenResponse.Token) &&
+            !string.IsNullOrEmpty(m_AccessTokenResponse.ScreenName) &&
+            !string.IsNullOrEmpty(m_AccessTokenResponse.Token) &&
+            !string.IsNullOrEmpty(m_AccessTokenResponse.TokenSecret))
+        {
+            string log = "LoadTwitterUserInfo - succeeded";
+            log += "\n    UserId : " + m_AccessTokenResponse.UserId;
+            log += "\n    ScreenName : " + m_AccessTokenResponse.ScreenName;
+            log += "\n    Token : " + m_AccessTokenResponse.Token;
+            log += "\n    TokenSecret : " + m_AccessTokenResponse.TokenSecret;
+            print(log);
+        }
+    }
+
+    public void resetdata()
+    {
+        SaveData.SetString(PLAYER_PREFS_TWITTER_USER_ID, "");
+        SaveData.SetString(PLAYER_PREFS_TWITTER_USER_SCREEN_NAME, "");
+        SaveData.SetString(PLAYER_PREFS_TWITTER_USER_TOKEN, "");
+        SaveData.SetString(PLAYER_PREFS_TWITTER_USER_TOKEN_SECRET, "");
+    }
     void OnAccessTokenCallback(bool success, Twitter.AccessTokenResponse response)
     {
         if (success)
         {
-            cha.finishOneStep();
+           
             string log = "OnAccessTokenCallback - succeeded";
             log += "\n    UserId : " + response.UserId;
             log += "\n    ScreenName : " + response.ScreenName;
@@ -98,12 +129,12 @@ public class TwitterComponentHandler : MonoBehaviour
             print(log);
 
             m_AccessTokenResponse = response;
-
-            PlayerPrefs.SetString(PLAYER_PREFS_TWITTER_USER_ID, response.UserId);
-            PlayerPrefs.SetString(PLAYER_PREFS_TWITTER_USER_SCREEN_NAME, response.ScreenName);
-            PlayerPrefs.SetString(PLAYER_PREFS_TWITTER_USER_TOKEN, response.Token);
-            PlayerPrefs.SetString(PLAYER_PREFS_TWITTER_USER_TOKEN_SECRET, response.TokenSecret);
-
+    
+            SaveData.SetString(PLAYER_PREFS_TWITTER_USER_ID, response.UserId);
+            SaveData.SetString(PLAYER_PREFS_TWITTER_USER_SCREEN_NAME, response.ScreenName);
+            SaveData.SetString(PLAYER_PREFS_TWITTER_USER_TOKEN, response.Token);
+            SaveData.SetString(PLAYER_PREFS_TWITTER_USER_TOKEN_SECRET, response.TokenSecret);
+            cha.finishOneStep();
         }
         else
         {

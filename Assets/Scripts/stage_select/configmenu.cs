@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class configmenu : MonoBehaviour {
     private int selecting = 0;
     private int maxselect = 3;
+    public Text rankingtext;
     // Use this for initialization
     void Start()
     {
-
+        if (stage_select.stage_is == stage_select.Stage.tutorial)
+            rankingtext.color = Color.gray;
 
     }
 
@@ -39,14 +42,20 @@ public class configmenu : MonoBehaviour {
                     Resources.UnloadUnusedAssets();
                     break;
                 case 1:
-                    if (FindObjectOfType<UserAuth>().currentPlayer() == null)
+                
+
+                    if (stage_select.stage_is == stage_select.Stage.tutorial)
                     {
-                        SceneManager.LoadScene("LogIn");
+
+                    }else if (FindObjectOfType<UserAuth>().currentPlayer() == "")
+                    {
 
                     }
                     else
+                    {
                         SceneManager.LoadScene("LeaderBoard");
-                    rankingmanager.fromscene = 0;
+                        rankingmanager.fromscene = 0;
+                    }
                     break;
                 case 2:
                     Application.Quit();

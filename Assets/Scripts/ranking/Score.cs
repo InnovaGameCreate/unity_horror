@@ -60,11 +60,11 @@ public class Score : MonoBehaviour
         }
         // スコア・ハイスコアを表示する
         scoreGUIText.text = "名状しがたきものを見た回数　" + score.ToString() + "回";
-        timeGUIText.text = "経過時間　" + ((int)(time / 60)).ToString() + "分" + ((int)time % 60).ToString() + "秒";
+        timeGUIText.text = "タイム　" + ((int)(time / 60)).ToString() + "分" + ((int)time % 60).ToString() + "秒";
         if (highScore.score != 100 && count > 1)
-            highScoreGUIText.text = "名状しがたきものを見た回数　" + highScore.score.ToString() + "回";
+            highScoreGUIText.text = highScore.score!=-1?"名状しがたきものを見た回数　" + highScore.score.ToString() + "回":"オフライン";
         if (highScore.time != 60*10 && count > 1)
-            highTimeGUIText.text = "経過時間　" + ((int)(highScore.time / 60)).ToString() + "分" + ((int)highScore.time % 60).ToString() + "秒";
+            highTimeGUIText.text = highScore.time!=-1?"タイム　" + ((int)(highScore.time / 60)).ToString() + "分" + ((int)highScore.time % 60).ToString() + "秒":"";
     }
     // ハイスコアの保存
     public void Save()

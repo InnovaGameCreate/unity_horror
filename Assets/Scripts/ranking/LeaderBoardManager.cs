@@ -90,16 +90,16 @@ public class LeaderBoardManager : MonoBehaviour
             for (int i = 0; i < lBoard.topRankers.Count; ++i)
             {
                 top[i].GetComponent<Text>().text = i + 1 + "位  " + lBoard.topRankers[i].print();
-                topc[i].GetComponent<Text>().text = lBoard.topRankers[i].print_count();
-                topt[i].GetComponent<Text>().text = lBoard.topRankers[i].print_time();
+                topc[i].GetComponent<Text>().text = lBoard.topRankers[i].score != 100 ? lBoard.topRankers[i].print_count() : "";
+                topt[i].GetComponent<Text>().text = lBoard.topRankers[i].time != 60 * 10 ? lBoard.topRankers[i].print_time() : "未登録";
             }
 
             // 取得したライバルランキングを表示
             for (int i = 0; i < lBoard.neighbors.Count; ++i)
             {
                 nei[i].GetComponent<Text>().text = lBoard.currentRank - offset + i + "位  " + lBoard.neighbors[i].print();
-                neic[i].GetComponent<Text>().text =  lBoard.neighbors[i].print_count();
-                neit[i].GetComponent<Text>().text =  lBoard.neighbors[i].print_time();
+                neic[i].GetComponent<Text>().text =  lBoard.neighbors[i].score!=100? lBoard.neighbors[i].print_count():"";
+                neit[i].GetComponent<Text>().text = lBoard.neighbors[i].time != 60*10 ? lBoard.neighbors[i].print_time():"未登録";
             }
             Debug.Log("lBoard.neighbors.Count" + lBoard.neighbors.Count);
             isLeaderBoardFetched = true;

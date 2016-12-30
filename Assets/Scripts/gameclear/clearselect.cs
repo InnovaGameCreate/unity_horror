@@ -54,9 +54,9 @@ public class clearselect : MonoBehaviour
                     SceneManager.LoadScene("stage_select");
                     break;
                 case 3:
-                    if (UserAuth.Instance.currentPlayer() == null)
+                    if (UserAuth.Instance.currentPlayer() == "")
                     {
-                        SceneManager.LoadScene("LogIn");
+            
 
                     }
                     else

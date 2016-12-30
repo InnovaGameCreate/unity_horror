@@ -55,7 +55,8 @@ public class goalPoint : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             player = other.gameObject;
-            count += Time.deltaTime;
+            player.GetComponent<Animator>().SetTrigger("goal");
+           count += Time.deltaTime;
             _child.SetActive(true);
         }
 
