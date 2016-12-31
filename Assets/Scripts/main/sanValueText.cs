@@ -59,23 +59,23 @@ public class sanValueText : MonoBehaviour
      //   this.GetComponent<Text>().text = "SAN値：" + ((int)san).ToString();
 
    
-        //煙を焚く
-        if (san<sanrealmax/2)
-        {
-            if (SceneManager.GetSceneByName("danger").isLoaded == false)
-            {
-                SceneManager.LoadScene("danger", LoadSceneMode.Additive);
-            }
+        ////煙を焚く
+        //if (san<sanrealmax/2)
+        //{
+        //    if (SceneManager.GetSceneByName("danger").isLoaded == false)
+        //    {
+        //        SceneManager.LoadScene("danger", LoadSceneMode.Additive);
+        //    }
 
-        }
-        else
-        {
-            if (SceneManager.GetSceneByName("danger").isLoaded == true)
-            {
-                SceneManager.UnloadScene("danger");
-                Resources.UnloadUnusedAssets();
-            }
-        }
+        //}
+        //else
+        //{
+        //    if (SceneManager.GetSceneByName("danger").isLoaded == true)
+        //    {
+        //        SceneManager.UnloadScene("danger");
+        //        Resources.UnloadUnusedAssets();
+        //    }
+        //}
 
     }
 

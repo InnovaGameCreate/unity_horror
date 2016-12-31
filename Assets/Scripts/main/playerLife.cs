@@ -11,6 +11,7 @@ public class playerLife : MonoBehaviour
     static private bool flag;
     private bool deadflag;
     private GameObject hero;
+    public GameObject backfont;
     public static string[] scenename = {
          "チュートリアル",
               "ステージ1",
@@ -36,7 +37,7 @@ public class playerLife : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.GetComponent<Text>().text = lifevalue.ToString();
+        this.GetComponent<Text>().text =backfont.GetComponent<Text>().text= lifevalue.ToString();
         if (deadflag == true)
         {
             count += Time.deltaTime;

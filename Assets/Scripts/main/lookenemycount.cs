@@ -6,6 +6,7 @@ public class lookenemycount : MonoBehaviour {
     public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
     private int restcount;
     public int lookcountmaxgameover = 20;
+    public GameObject backtext;
     static private int lookcount;
     // Use this for initialization
     void Start () {
@@ -17,7 +18,7 @@ public class lookenemycount : MonoBehaviour {
     }
 	// Update is called once per frame
 	void Update () {
-        this.GetComponent<Text>().text = restcount.ToString();
+        this.GetComponent<Text>().text = backtext.GetComponent<Text>().text= restcount.ToString();
         float alookminus = (float)(lookcountmaxgameover- restcount) /(float)lookcountmaxgameover;
         float setreal = sanText.get_sanmax() - sanText.get_sanmax() * alookminus;
         if (setreal <= 0)
