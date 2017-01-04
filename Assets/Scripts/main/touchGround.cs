@@ -10,9 +10,6 @@ public class touchGround : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
-    
-    }
 
     //// オブジェクトと接触した時に呼ばれるコールバック
     //void OnTriggerEnter(Collider other)

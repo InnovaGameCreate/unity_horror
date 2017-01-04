@@ -5,12 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class goalPoint : MonoBehaviour
 {
-    public playerLife goal;     //lifevaluetextを指定すること
+    private playerLife goal;     //lifevaluetextを指定すること
     private int stageno;
     private GameObject _child;
     private float count = 0;
     private GameObject player;
-
+    private bool se;
     static public int newclear;
  
     // Use this for initialization
@@ -18,6 +18,7 @@ public class goalPoint : MonoBehaviour
     {
         _child = transform.FindChild("Child").gameObject;
         stageno = heromove.nowstage;
+        goal = GameObject.Find("LifeValueText").GetComponent<playerLife>();
     }
 
     // Update is called once per frame
@@ -39,7 +40,11 @@ public class goalPoint : MonoBehaviour
         }
         else if (count > 0)
         {
-           
+            if (se == false)
+            {
+                GetComponent<AudioSource>().Play();
+                se = true;
+            }
             count += Time.deltaTime;
             player.GetComponent<heromove>().set_exlock();
         }

@@ -43,8 +43,8 @@ public class stage_select : MonoBehaviour
     public bool []clearflag=new bool[(int)Stage.None];
 
     private Transform[] stage;
-
-
+    private AudioSource[] sound = new AudioSource[2];
+    private float count;
     // Use this for initialization
     void Start()
     {
@@ -61,6 +61,9 @@ public class stage_select : MonoBehaviour
         if(charaposi.x!=0)
     stage[6].GetComponent<RectTransform>().anchoredPosition = charaposi ;
 
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        for (int i = 0; i < 2; i++)
+            sound[i] = audioSources[i];
     }
 
     // Update is called once per frame
@@ -69,21 +72,25 @@ public class stage_select : MonoBehaviour
         if (SceneManager.GetSceneByName("configmenu").isLoaded == true)
             return;
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            SaveData.Clear();
+            //if (Input.GetKeyDown(KeyCode.Escape))
+            //SaveData.Clear();
    
             arrow[0].SetActive(false);
         arrow[1].SetActive(false);
         arrow[2].SetActive(false);
 
 
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (count==0&&Input.GetKeyDown(KeyCode.Return))
         {
-            charaposi=stage[6].GetComponent<RectTransform>().anchoredPosition;
-            SceneManager.LoadScene(playerLife.scenename[(int)stage_is]);
-      
-    
+            count++;
+            charaposi =stage[6].GetComponent<RectTransform>().anchoredPosition;
+            sound[0].Play();
+          
         }
+        if (count > 0)
+            count += Time.deltaTime;
+        if(count>3)
+        SceneManager.LoadScene(playerLife.scenename[(int)stage_is]);
         Vector2 samp = stage[(int)stage_is].GetComponent<RectTransform>().anchoredPosition;
         samp.y += 20;
         if (stage[6].GetComponent<RectTransform>().anchoredPosition.x < samp.x - 15 ||
@@ -128,6 +135,7 @@ public class stage_select : MonoBehaviour
                         //アニメーション
                         stage[6].GetComponent<Animator>().SetInteger("New Int", 1);
                         stage_is++;
+                        sound[1].Play();
                     }
                     break;
                 case Stage.stage1:
@@ -139,6 +147,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", -1);
                         stage_is--;
+                        sound[1].Play();
                     }
 
 
@@ -151,6 +160,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", 1);
                         stage_is++;
+                        sound[1].Play();
                     }
                
                     break;
@@ -162,7 +172,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", -1);
                         stage_is--;
-                    
+                        sound[1].Play();
                     }
 
                     if (SaveData.GetInt("stage2") == 0)
@@ -172,6 +182,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", 1);
                         stage_is++;
+                        sound[1].Play();
                     }
             
                     break;
@@ -181,6 +192,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", -1);
                         stage_is--;
+                        sound[1].Play();
                     }
                     if (SaveData.GetInt("stage3") == 0)
                         break;
@@ -192,6 +204,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", -1);
                         stage_is++;
+                        sound[1].Play();
                     }
                  
                     break;
@@ -204,6 +217,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", 1);
                         stage_is--;
+                        sound[1].Play();
                     }
                     if (SaveData.GetInt("stage4") == 0)
                         break;
@@ -213,6 +227,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", -1);
                         stage_is++;
+                        sound[1].Play();
                     }
                     break;
                 case Stage.stage5:
@@ -222,6 +237,7 @@ public class stage_select : MonoBehaviour
                     {
                         stage[6].GetComponent<Animator>().SetInteger("New Int", 1);
                         stage_is--;
+                        sound[1].Play();
                     }
                     break;
             }

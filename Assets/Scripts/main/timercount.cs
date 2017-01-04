@@ -10,8 +10,9 @@ public class timercount : MonoBehaviour {
     public GameObject shadow;
     public playerLife life;
     private float count;
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         count = min * 60 + sec;
         usedtime = 0;
 

@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class heromove : MonoBehaviour
 {
-    public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
-    public staminaGauge staminaText; //外部のstaminaオブジェクトを見えるよう定義
-    public lookenemycount lookText;  //外部のlookenemycountオブジェクトを見えるよう定義
+    private sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
+    private staminaGauge staminaText; //外部のstaminaオブジェクトを見えるよう定義
+    private lookenemycount lookText;  //外部のlookenemycountオブジェクトを見えるよう定義
     public lookedenemy lookedImg;  //外部のlookedenemyオブジェクトを見えるよう定義
     private bool lookenemy;      //敵からいったん視線を外した状態で敵を見たかどうか
 
@@ -27,7 +27,7 @@ public class heromove : MonoBehaviour
 
     private Animator anime;
     private Rigidbody body;
-    private bool is_ground = true;
+    private bool is_ground = false;
     private float wallx = 0;
     private float wallz = 0;
     private float face = 1;
@@ -51,6 +51,17 @@ public class heromove : MonoBehaviour
     private float Lockcount = 0;               //動けない間のカウント
     private float unlockcount = 0;          //麻痺解除から次の麻痺を食らうまでのカウント
     private bool eventstop;        //イベント発生時の移動不可
+
+
+    private AudioSource[] sound = new AudioSource[(int)KindOfSound.NoneSound];
+
+    private enum KindOfSound
+    {
+       Jump,
+ 
+    DoubleJump,
+    NoneSound
+    }
     //走るボタン　2連打したかの状態分岐
     private enum RunButton
     {
@@ -85,6 +96,11 @@ public class heromove : MonoBehaviour
 
     void Start()
     {
+      
+           sanText = GameObject.Find("SANValueText").GetComponent<sanValueText>();
+        staminaText = GameObject.Find("スタミナ").GetComponent<staminaGauge>();
+        lookText = GameObject.Find("見た回数").GetComponent<lookenemycount>();
+        lookedImg = GameObject.Find("敵に見つかった時のアイコン").GetComponent<lookedenemy>();
         this.anime = this.GetComponent<Animator>();
         this.body = this.GetComponent<Rigidbody>();
         Physics.gravity = new Vector3(0, this.gravity, 0);
@@ -99,6 +115,12 @@ public class heromove : MonoBehaviour
                 break;
             }
         }
+
+
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        for (int i = 0; i < (int)KindOfSound.NoneSound; i++)
+            sound[i] = audioSources[i];
+     
     }
 
     void FixedUpdate()
@@ -209,10 +231,13 @@ public class heromove : MonoBehaviour
         //ジャンプ判定
         if (j && this.is_ground && this.state != State.Upping)
         {
+
+
             this.anime.SetTrigger("Jump");
             this.body.velocity = new Vector3(0, 0, 0);
             this.body.AddForce(Vector3.up * this.jump);
             this.is_ground = false;
+          sound[(int)KindOfSound.Jump].Play();
             sety = GetComponent<Transform>().position.y;
             jumpjumpflag = false;
         }
@@ -225,6 +250,7 @@ public class heromove : MonoBehaviour
             if (hitwall.collider.tag == "Ground")
                 if (j && this.is_ground == false && sety + 2 < GetComponent<Transform>().position.y && !jumpjumpflag)
                 {
+                    sound[(int)KindOfSound.DoubleJump].Play();
                     this.anime.SetBool("doubleup", true);
                     jumpjumpflag = true;
                     this.body.velocity = new Vector3(0, 0, 0);
@@ -250,6 +276,7 @@ public class heromove : MonoBehaviour
             {
                 if (hit.collider.tag == "Enemy")
                 {
+         
                     sanText.minusbig_san(10);
                 }
 

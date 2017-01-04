@@ -4,10 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class buttoned_config : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
+
 
     // Update is called once per frame
     void Update()
@@ -15,6 +12,7 @@ public class buttoned_config : MonoBehaviour {
         //プレイ画面中のescボタンからのメニュー表示
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            GetComponent<AudioSource>().Play();
             if (SceneManager.GetSceneByName("configmenu").isLoaded == false)
             {
                 SceneManager.LoadScene("configmenu", LoadSceneMode.Additive);

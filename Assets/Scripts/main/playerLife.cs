@@ -12,6 +12,8 @@ public class playerLife : MonoBehaviour
     private bool deadflag;
     private GameObject hero;
     public GameObject backfont;
+    private AudioSource sound;
+    private bool se;
     public static string[] scenename = {
          "チュートリアル",
               "ステージ1",
@@ -32,6 +34,7 @@ public class playerLife : MonoBehaviour
         hero = GameObject.Find("プレイヤー");
         if (flag == false)
             lifevalue = 3;
+        sound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -66,11 +69,16 @@ public class playerLife : MonoBehaviour
     //ライフの減少とそれに伴うシーン処理
     public bool minus_life()
     {
-        
+
         if (lifevalue > 0)
         {
             flag = true;
             deadflag = true;
+            if (se == false)
+            {
+                sound.Play();
+                se = true;
+            }
             hero.GetComponent<Animator>().SetTrigger("dead");
             hero.GetComponent<heromove>().set_exlock();
   
