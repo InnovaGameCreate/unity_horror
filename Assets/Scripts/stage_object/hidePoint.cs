@@ -29,7 +29,7 @@ public class hidePoint : MonoBehaviour
                 //隠れる
                 if (is_hiding == false && Input.GetKeyUp(KeyCode.UpArrow))
                 {
-
+                    GetComponent<AudioSource>().Play();
                     is_hiding = true;
                     samp.gameObject.GetComponent<heromove>().InvincibleMode();
                     Vector3 p = samp.gameObject.transform.position;
@@ -40,6 +40,7 @@ public class hidePoint : MonoBehaviour
                 //表に出る
                 else if (is_hiding == true && Input.GetKeyUp(KeyCode.UpArrow))
                 {
+                    GetComponent<AudioSource>().Play();
                     is_hiding = false;
                     samp.gameObject.GetComponent<heromove>().OnFinishedInvincibleMode();
                     Vector3 q = samp.gameObject.transform.position;

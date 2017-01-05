@@ -7,6 +7,7 @@ public class gameover : MonoBehaviour {
     private int appeartime = 3;
     public GameObject image;
     public GameObject select;
+    private bool se;
 	// Use this for initialization
 	void Start () {
 	
@@ -16,6 +17,11 @@ public class gameover : MonoBehaviour {
 	void Update () {
 
         count += Time.deltaTime;
+        if (se == false && count > 0.5f)
+        {
+            se = true;
+            GetComponent<AudioSource>().Play();
+        }
         if (count < 5 || image.GetComponent<Image>().color.a > 0.01)
         {
             var color = image.GetComponent<Image>().color;

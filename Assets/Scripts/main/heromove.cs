@@ -18,7 +18,7 @@ public class heromove : MonoBehaviour
     public int attacked_power = 15;     //プレイヤーのSAN値減少量           
     public float jump = 100;            //ジャンプ力
     public float gravity = -50;         //重力
-    public Camera my_camera;
+    private Camera my_camera;
     public float runbuttondelay = 30;   //走る操作を認識する間隔
     public float normalspeed = 7;   //歩くスピード
     public float runspeed = 14;      //走るスピード
@@ -96,8 +96,8 @@ public class heromove : MonoBehaviour
 
     void Start()
     {
-      
-           sanText = GameObject.Find("SANValueText").GetComponent<sanValueText>();
+        my_camera = GameObject.Find("Main Camera").GetComponent<Camera>();
+             sanText = GameObject.Find("SANValueText").GetComponent<sanValueText>();
         staminaText = GameObject.Find("スタミナ").GetComponent<staminaGauge>();
         lookText = GameObject.Find("見た回数").GetComponent<lookenemycount>();
         lookedImg = GameObject.Find("敵に見つかった時のアイコン").GetComponent<lookedenemy>();
@@ -137,7 +137,7 @@ public class heromove : MonoBehaviour
         {
             if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false && Lockcount == 0 && eventstop == false)
             {
-                this.Move(Input.GetAxis("Horizontal"), 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
+                this.Move(Input.GetKey(KeyCode.LeftArrow)==true?-1: Input.GetKey(KeyCode.RightArrow) == true ? 1:0 , 0/*Input.GetAxis("Vertical")*/, Input.GetButtonDown("Jump"));
                 this.runMove(Input.GetAxis("Horizontal"));
             }
             else

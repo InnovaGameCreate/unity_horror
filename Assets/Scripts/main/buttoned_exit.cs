@@ -15,6 +15,7 @@ public class buttoned_exit : MonoBehaviour {
         //プレイ画面中のescボタンからのメニュー表示
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            GetComponent<AudioSource>().Play();
             if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false)          
            {
                 goal.set_flag(false);

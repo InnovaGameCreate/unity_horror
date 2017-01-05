@@ -21,13 +21,17 @@ public class TextController : MonoBehaviour
     private bool hitflag;              //接触フラグ
     private heromove heroinfo;
 
-    public GameObject textUIset;       //2次元UIのCanvasのテキストイベント用UIを指定
+    private Image textUIset;       //2次元UIのCanvasのテキストイベント用UIを指定
     // 文字の表示が完了しているかどうか
     public bool IsCompleteDisplayText
     {
         get { return Time.time > timeElapsed + timeUntilDisplay; }
     }
-
+    void Start()
+    {
+        uiText = GameObject.Find("テキストイベン用").GetComponent<Text>();
+        textUIset = GameObject.Find("テキストイベントimg").GetComponent<Image>();
+    }
 
     void Update()
     {
@@ -44,7 +48,8 @@ public class TextController : MonoBehaviour
             else if (currentLine == scenarios.Length && Input.GetKeyDown(KeyCode.Return))
             {
                 heroinfo.set_eventstop(false);
-                textUIset.SetActive(false);
+                textUIset.enabled=false;
+                uiText.enabled = false;
                 Destroy(this.gameObject);
             }
         }
@@ -84,7 +89,8 @@ public class TextController : MonoBehaviour
             heroinfo.set_eventstop(true);
             hitflag = true;
             SetNextLine();
-            textUIset.SetActive(true);
+            textUIset.enabled = true;
+            uiText.enabled = true;
         }
     }
 }

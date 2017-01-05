@@ -12,13 +12,17 @@ public class goalPoint : MonoBehaviour
     private GameObject player;
     private bool se;
     static public int newclear;
- 
+    AudioSource[] sound = new AudioSource[2];
     // Use this for initialization
     void Start()
     {
         _child = transform.FindChild("Child").gameObject;
         stageno = heromove.nowstage;
         goal = GameObject.Find("LifeValueText").GetComponent<playerLife>();
+
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        for (int i = 0; i <2; i++)
+            sound[i] = audioSources[i];
     }
 
     // Update is called once per frame
@@ -42,7 +46,8 @@ public class goalPoint : MonoBehaviour
         {
             if (se == false)
             {
-                GetComponent<AudioSource>().Play();
+               sound[0].Play();
+                sound[1].Play();
                 se = true;
             }
             count += Time.deltaTime;
