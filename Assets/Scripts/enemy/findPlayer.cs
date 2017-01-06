@@ -21,7 +21,7 @@ public class findPlayer : MonoBehaviour
         {
             
             RaycastHit hit;
-            Debug.DrawRay(this.transform.position,  length* (transform.parent.GetComponent<enemyBase>().get_face() < 0 ? Quaternion.Euler(0f, 0f, -range + i * range *2 / (rayn - 1)) * Vector3.left : (transform.parent.GetComponent<enemyBase>().get_face() > 0 ? Quaternion.Euler(0f, 0f, -range + i * range * 2 / (rayn - 1)) * Vector3.right : Vector3.zero)), Color.red, 0, false);
+          //  Debug.DrawRay(this.transform.position,  length* (transform.parent.GetComponent<enemyBase>().get_face() < 0 ? Quaternion.Euler(0f, 0f, -range + i * range *2 / (rayn - 1)) * Vector3.left : (transform.parent.GetComponent<enemyBase>().get_face() > 0 ? Quaternion.Euler(0f, 0f, -range + i * range * 2 / (rayn - 1)) * Vector3.right : Vector3.zero)), Color.red, 0, false);
             Ray ray = new Ray(transform.position, transform.parent.GetComponent<enemyBase>().get_face() > 0 ? Quaternion.Euler(0f, 0f, -range + i * range*2/(rayn-1)) * Vector3.left : Quaternion.Euler(0f, 0f, -range + i * range *2/ (rayn - 1)) * Vector3.right);
             if (Physics.Raycast(ray, out hit, length, transform.parent.GetComponent<enemyBase>().mask))
             {

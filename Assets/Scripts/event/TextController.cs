@@ -20,7 +20,7 @@ public class TextController : MonoBehaviour
     private int lastUpdateCharacter = -1;
     private bool hitflag;              //接触フラグ
     private heromove heroinfo;
-
+    private float autocount;
     private Image textUIset;       //2次元UIのCanvasのテキストイベント用UIを指定
     // 文字の表示が完了しているかどうか
     public bool IsCompleteDisplayText
@@ -41,15 +41,18 @@ public class TextController : MonoBehaviour
         // 文字の表示が完了してるならエンター時に次の行を表示する
         if (IsCompleteDisplayText)
         {
-            if (currentLine < scenarios.Length && Input.GetKeyDown(KeyCode.Return))
+            autocount += Time.deltaTime;
+            if (currentLine < scenarios.Length && (Input.GetKeyDown(KeyCode.Return) || autocount > 1))
             {
                 SetNextLine();
+                autocount = 0;
             }
-            else if (currentLine == scenarios.Length && Input.GetKeyDown(KeyCode.Return))
+            else if (currentLine == scenarios.Length && (Input.GetKeyDown(KeyCode.Return) || autocount > 1))
             {
                 heroinfo.set_eventstop(false);
-                textUIset.enabled=false;
+                textUIset.enabled = false;
                 uiText.enabled = false;
+                autocount = 0;
                 Destroy(this.gameObject);
             }
         }
@@ -73,8 +76,7 @@ public class TextController : MonoBehaviour
 
     void SetNextLine()
     {
-        for (int i = 0; i < scenarios[currentLine].Length; i++)
-            currentText = scenarios[currentLine];
+        currentText = scenarios[currentLine];
         timeUntilDisplay = currentText.Length * intervalForCharacterDisplay;
         timeElapsed = Time.time;
         currentLine++;
@@ -83,10 +85,10 @@ public class TextController : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && !hitflag)
+        if (other.CompareTag("Player") && !hitflag&& textUIset.enabled==false)
         {
             heroinfo = other.GetComponent<heromove>();
-            heroinfo.set_eventstop(true);
+          //  heroinfo.set_eventstop(true);
             hitflag = true;
             SetNextLine();
             textUIset.enabled = true;

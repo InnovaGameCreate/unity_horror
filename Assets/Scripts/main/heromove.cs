@@ -263,6 +263,7 @@ public class heromove : MonoBehaviour
 
     }
 
+
     //プレイヤーの敵への目線
     public void ray_To_Enemy()
     {

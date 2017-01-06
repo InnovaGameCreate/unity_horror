@@ -5,6 +5,8 @@ public class chasePlayer : MonoBehaviour
 {
     private bool find;
     private Collider samp;
+    private RaycastHit wall;
+    private const float RAY_LENGTH = 1.0f;
     // Use this for initialization
     void Start()
     {
@@ -13,10 +15,20 @@ public class chasePlayer : MonoBehaviour
 
     }
     // Update is called once per frame
-        void Update()
+    void Update()
     {
-        if(find == true)
+        ////前方
+        //if (transform.parent.gameObject.GetComponent<enemyBase>().get_face() != 0)
+        //    if (Physics.Raycast(this.transform.position, transform.parent.gameObject.GetComponent<enemyBase>().get_face() > 0 ? Vector3.left : Vector3.right, out wall, RAY_LENGTH) )
+
+        //    {
+        //        if (wall.collider.tag != "Ground")
+        //        {
+        if (find == true)
             transform.parent.gameObject.GetComponent<enemyBase>().chasePlayer(samp);
+        //    }
+        //}
+
     }
 
 
@@ -29,8 +41,8 @@ public class chasePlayer : MonoBehaviour
             if (transform.parent.gameObject.GetComponent<enemyBase>().get_findPlayer() == true)
             {
                 find = true;
-                if(samp==null)
-                samp = other;
+                if (samp == null)
+                    samp = other;
             }
             else
                 find = false;

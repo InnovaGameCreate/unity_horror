@@ -3,10 +3,14 @@ using System.Collections;
 
 public class groundEnemy : enemyBase
 {
+    private float RAY_LENGTH = 1.0f;
     private Animator anime;
+    private int dir;
+    private GameObject _child;
     void Start()
     {
-
+        _child = transform.FindChild("敵実態").gameObject;
+        RAY_LENGTH =_child.GetComponent<BoxCollider>().size.x;
 
         //オート移動の中心点の初期化
         base.wide_rangemiddle.x = transform.position.x;
@@ -14,12 +18,12 @@ public class groundEnemy : enemyBase
 
         base.autodir = Random.Range(-1, 2);
         set_face(base.autodir);
-      
+
         set_spRenderer(GetComponent<SpriteRenderer>());
 
         anime = GetComponent<Animator>();
 
-        if(anime==null)
+        if (anime == null)
             set_face(0);
 
 
@@ -44,10 +48,16 @@ public class groundEnemy : enemyBase
         disappear_Chara();
         automovecount += Time.deltaTime;
 
-  
+
         if (get_findPlayer() == false && !get_disappear_flag())
             autoMove();
 
+        if (dir != 0)
+        {
+            Debug.DrawRay(this.transform.position, dir < 0 ? RAY_LENGTH * Vector3.left : RAY_LENGTH * Vector3.right, Color.red, 0, false);
+            //Debug.DrawRay(this.transform.position, RAY_LENGTH * (dir < 0 ? Quaternion.Euler(0f, 0f, 20f) * Vector3.left : Quaternion.Euler(0f, 0f, 20f) * Vector3.right), Color.red, 0, false);
+            //Debug.DrawRay(this.transform.position, RAY_LENGTH * (dir < 0 ? Quaternion.Euler(0f, 0f, -20f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f) * Vector3.right), Color.red, 0, false);
+        }
     }
 
     public override void autoMove()
@@ -81,9 +91,9 @@ public class groundEnemy : enemyBase
             {
                 base.autodir = Random.Range(-1, 2);
                 base.automovecount = 0;
-                if(anime!=null)
-                set_face(base.autodir);
-   
+                if (anime != null)
+                    set_face(base.autodir);
+
             }
 
             p = new Vector3(p.x + base.autodir * this.normalspeed * Time.deltaTime, p.y, p.z);
@@ -111,7 +121,8 @@ public class groundEnemy : enemyBase
                             this.anime.SetTrigger("right");
                             break;
                     }
-            }else
+            }
+            else
                 set_face(0);
 
             this.transform.position = p;
@@ -124,8 +135,24 @@ public class groundEnemy : enemyBase
     {
         //ユニティちゃんに向かって敵が移動
         Vector3 p = this.transform.position;
-        int dir = (player.transform.position.x > this.transform.position.x + 0.3f) ? 1 : (player.transform.position.x < this.transform.position.x - 0.3f) ? -1 : 0;
-        p = this.transform.position = new Vector3(p.x + dir * this.runspeed * Time.deltaTime, p.y, p.z);
+        dir = (player.transform.position.x > this.transform.position.x + 0.3f) ? 1 : (player.transform.position.x < this.transform.position.x - 0.3f) ? -1 : 0;
+
+        RaycastHit wall;
+
+
+        if (dir != 0)
+            if (Physics.Raycast(this.transform.position, dir < 0 ? Vector3.left : Vector3.right, out wall, RAY_LENGTH)/* ||
+                Physics.Raycast(this.transform.position, dir < 0 ? Quaternion.Euler(0f, 0f, 20f) * Vector3.left : Quaternion.Euler(0f, 0f, 20f) * Vector3.right, out wall, RAY_LENGTH) ||
+                Physics.Raycast(this.transform.position, dir < 0 ? Quaternion.Euler(0f, 0f, -20f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f) * Vector3.right, out wall, RAY_LENGTH)*/)
+            {
+                if (wall.collider.tag == "Ground")
+                {
+                    dir = 0;  //これ以上は前に進みません
+
+                }
+            }
+
+        p = new Vector3(p.x + dir * this.runspeed * Time.deltaTime, p.y, p.z);
         set_face(dir);
         if (anime != null)
             switch ((int)dir)
@@ -137,6 +164,10 @@ public class groundEnemy : enemyBase
                     this.anime.SetTrigger("right");
                     break;
             }
+
+
+
+
 
         this.transform.position = p;
 
