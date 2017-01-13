@@ -43,7 +43,7 @@ public class sanValueText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+      //  Debug.Log(san);
         //SAN値の自然回復
         if (sanautocount > 0)
         {

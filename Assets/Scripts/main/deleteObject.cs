@@ -3,11 +3,12 @@ using System.Collections;
 
 public class deleteObject : MonoBehaviour {
 
-    public sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
+    private sanValueText sanText; //外部のsanValueTexオブジェクトを見えるよう定義
                    
     void Start () {
-	
-	}
+        sanText = GameObject.Find("SANValueText").GetComponent<sanValueText>();
+
+    }
 	
 	// Update is called once per frame
 	void Update () {

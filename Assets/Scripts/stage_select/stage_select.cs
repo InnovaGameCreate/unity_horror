@@ -122,7 +122,7 @@ public class stage_select : MonoBehaviour
 
         //stage[6].GetComponent<RectTransform>().anchoredPosition = posi;
 
-
+        if(count==0)
         if (!moving)
         {
             stage[6].GetComponent<Animator>().SetInteger("New Int", 0);

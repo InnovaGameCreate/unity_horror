@@ -32,6 +32,8 @@ public class heromove : MonoBehaviour
     private float wallz = 0;
     private float face = 1;
 
+    private bool cameradead;
+
     private float runcount = 0;
     private int rundir = 0;
 
@@ -221,6 +223,9 @@ public class heromove : MonoBehaviour
         p = this.transform.position = new Vector3(p.x + x * this.speed * Time.deltaTime, p.y, p.z);
         //カメラの位置を設定
         this.transform.position = p;
+        if (sanText.get_san() <= 0)
+            cameradead = true;
+        if(cameradead==false)
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, this.my_camera.transform.position.z);
 
         //アニメーション設定
@@ -407,6 +412,8 @@ public class heromove : MonoBehaviour
     //カメラズーム(キャラ移動放置時)
     void cameraZoomOut()
     {
+        if (cameradead == true)
+            return;
         Vector3 p = this.transform.position;
         float z = (this.my_camera.transform.position.z <= zoomout_z) ? zoomout_z : this.my_camera.transform.position.z - zoomspeed;
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, z);
@@ -415,6 +422,8 @@ public class heromove : MonoBehaviour
     //カメラズームアウト(キャラ移動時)
     void cameraZoomIn()
     {
+        if (cameradead == true)
+            return;
         Vector3 p = this.transform.position;
         float z = (this.my_camera.transform.position.z >= zoomin_z) ? zoomin_z : this.my_camera.transform.position.z + zoomspeed;
         this.my_camera.transform.position = new Vector3(p.x, p.y + 2, z);

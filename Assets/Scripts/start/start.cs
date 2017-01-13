@@ -5,6 +5,20 @@ using UnityEngine.UI;
 
 public class start : MonoBehaviour
 {
+    [RuntimeInitializeOnLoadMethod]
+    static void OnRuntimeMethodLoad()
+    {
+       
+        float screenRate = (float)720 / Screen.height;
+        if (screenRate > 1) screenRate = 1;
+        int width = (int)(Screen.width * screenRate);
+        int height = (int)(Screen.height * screenRate);
+        Screen.SetResolution(width, height, true,60);
+      //  Screen.SetResolution(1280, 720, true, 60);
+
+    }
+
+
     private float count;
     public GameObject dark;
     // Update is called once per frame
