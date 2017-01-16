@@ -17,6 +17,7 @@ public class jump : MonoBehaviour
             collision.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
             collision.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.up * this.Player_JumpPower);
             collision.gameObject.GetComponent<heromove>().set_is_ground(false);
+            collision.gameObject.GetComponent<heromove>().set_jumpjumpflag(false);
         }
     }
 }

@@ -13,7 +13,7 @@ public class start : MonoBehaviour
         if (screenRate > 1) screenRate = 1;
         int width = (int)(Screen.width * screenRate);
         int height = (int)(Screen.height * screenRate);
-        Screen.SetResolution(width, height, true,60);
+        Screen.SetResolution(width, height, false,60);
       //  Screen.SetResolution(1280, 720, true, 60);
 
     }

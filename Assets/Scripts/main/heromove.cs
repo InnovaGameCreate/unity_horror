@@ -11,6 +11,7 @@ public class heromove : MonoBehaviour
     private lookenemycount lookText;  //外部のlookenemycountオブジェクトを見えるよう定義
     public lookedenemy lookedImg;  //外部のlookedenemyオブジェクトを見えるよう定義
     private bool lookenemy;      //敵からいったん視線を外した状態で敵を見たかどうか
+    private float predir=-9;
 
     static public int nowstage;         //現在のステージ
 
@@ -189,6 +190,16 @@ public class heromove : MonoBehaviour
         }
         //向きを設定
         this.face = x > 0 ? -1 : (x < 0 ? 1 : face);
+        if (this.face != 0)
+        {
+            if (predir == -9)
+                predir = this.face;
+            else if (predir != this.face)
+            {
+                lookenemy = false;
+                predir = this.face;
+            }
+        }
         this.transform.rotation = Quaternion.Euler(0, (this.face + 1) * 90, this.transform.rotation.z);
         this.anime.SetFloat("Horizontal", x != 0 ? x : (z != 0 ? this.face : 0));
 
@@ -268,17 +279,23 @@ public class heromove : MonoBehaviour
 
     }
 
+    public void set_jumpjumpflag(bool set)
+    {
+        jumpjumpflag = set;
+    }
 
     //プレイヤーの敵への目線
     public void ray_To_Enemy()
     {
-        Vector3 rawposi = transform.position;
+        Vector3 rawp = transform.position;
+        rawp.x -= 1;
+        Vector3 rawposi = (this.face==-1)?transform.position:rawp;
         rawposi.x += 0.5f;
-        for (int i = 0; i < 9; i++)
+        for (int i = 0; i < 7; i++)
         {
-            Debug.DrawRay(rawposi, 15 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -20f + i * 5.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f + i * 5.0f) * Vector3.right), Color.red, 0, false);
-            Ray ray = new Ray(rawposi, this.face > 0 ? Quaternion.Euler(0f, 0f, -20f + i * 5.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -20f + i * 5.0f) * Vector3.right);
-            if (Physics.Raycast(ray, out hit, 4.0f, mask))
+            Debug.DrawRay(rawposi, 10 * (this.face > 0 ? Quaternion.Euler(0f, 0f, -15f + i * 5.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -15f + i * 5.0f) * Vector3.right), Color.red, 0, false);
+            Ray ray = new Ray(rawposi, this.face > 0 ? Quaternion.Euler(0f, 0f, -15f + i * 5.0f) * Vector3.left : Quaternion.Euler(0f, 0f, -15f + i * 5.0f) * Vector3.right);
+            if (Physics.Raycast(ray, out hit, 3.0f, mask))
             {
                 if (hit.collider.tag == "Enemy")
                 {
@@ -288,7 +305,7 @@ public class heromove : MonoBehaviour
 
             }
 
-            if (Physics.Raycast(ray, out hit, 9.0f, mask))
+            if (Physics.Raycast(ray, out hit, 7.0f, mask))
             {
                 if (hit.collider.tag == "Enemy")
                 {
@@ -298,8 +315,8 @@ public class heromove : MonoBehaviour
                 }
 
             }
-
-            if (Physics.Raycast(ray, out hit, 14.0f, mask))
+           
+            if (Physics.Raycast(ray, out hit, 10.0f, mask))
             {
                 if (hit.collider.tag == "Enemy")
                 {
@@ -307,13 +324,14 @@ public class heromove : MonoBehaviour
                     if (lookenemy == false)
                     {
                         lookenemy = true;
+                      
                         lookText.addlookcount();
                     }
                     break;
                 }
 
             }
-            if (i==8&&hit.collider == null)
+            if (i==6&&hit.collider == null)
                 lookenemy = false;
 
 

@@ -48,6 +48,12 @@ public class stage_select : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        SaveData.SetInt("stage1",1);
+        SaveData.SetInt("stage2", 1);
+        SaveData.SetInt("stage3", 1);
+        SaveData.SetInt("stage4", 1);
+        SaveData.SetInt("stage5", 1);
+
         stage = new Transform[(int)Stage.None + 1];
         // 子要素を全て取得する
         for (int i = 0; i < transform.childCount; i++)
