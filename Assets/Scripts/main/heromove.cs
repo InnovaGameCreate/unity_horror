@@ -41,6 +41,7 @@ public class heromove : MonoBehaviour
     private RaycastHit wall;
     private RaycastHit hitwall;
     private float sety;            //着地時のy座標
+    private float nowy;            
     private bool jumpjumpflag;
 
     private float freeze = 0;               //どれくらい止まってるかのカウント
@@ -107,7 +108,7 @@ public class heromove : MonoBehaviour
         this.anime = this.GetComponent<Animator>();
         this.body = this.GetComponent<Rigidbody>();
         Physics.gravity = new Vector3(0, this.gravity, 0);
-
+        nowy = gameObject.transform.position.y;
         this.face = -1;
 
         for (int i = 0; i < playerLife.scenename.Length; i++)
@@ -135,7 +136,18 @@ public class heromove : MonoBehaviour
 
     void Update()
     {
-
+        if (nowy - gameObject.transform.position.y > 12)
+            sanText.minusbig_san(nowy - gameObject.transform.position.y*3); 
+        if(this.is_ground ==true)
+        nowy = gameObject.transform.position.y;
+        if(this.state == State.Invincible)
+        {
+            this.face = Input.GetKey(KeyCode.LeftArrow)==true ? 1 : (Input.GetKey(KeyCode.RightArrow) == true ? -1 : face);
+            this.transform.rotation = Quaternion.Euler(0, (this.face + 1) * 90, this.transform.rotation.z);
+            freeze += Time.deltaTime;
+            if (freeze > zoomouttime)
+                cameraZoomOut();
+        }
         if (this.state != State.Damaged && this.state != State.Invincible)
         {
             if (SceneManager.GetSceneByName("main_escmenu").isLoaded == false && Lockcount == 0 && eventstop == false)
@@ -283,7 +295,10 @@ public class heromove : MonoBehaviour
     {
         jumpjumpflag = set;
     }
-
+    public void set_sety(float set)
+    {
+        sety = set;
+    }
     //プレイヤーの敵への目線
     public void ray_To_Enemy()
     {
